@@ -2,20 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Authenticatable;
 
-class Admin extends Model implements AuthenticatableContract
+
+class Admin extends Model
 {
-    use HasFactory, Authenticatable;
+    protected $primaryKey = 'id_admin';
+    protected $fillable = ['username', 'password'];
 
-    protected $fillable = [
-        'userName', 'password',
-    ];
-
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    public function orders()
+    {
+        return $this->belongsTo(Order::class, 'id_order');
+    }
 }
