@@ -6,18 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kamar extends Model
 {
-    protected $primaryKey = 'idKamar';
+    protected $primaryKey = 'nomor_kamar';
+    protected $fillable = ['tipe', 'harga'];
 
-    protected $fillable = [
-        'noKamar',
-        'tipe',
-        'kapasitas',
-        'status',
-        'harga',
-    ];
-
-    public function paket()
-    {
-        return $this->hasOne(Paket::class, 'kamar_id');
+    public function fasilitas(){
+        return $this->belongsTo(Fasilitas::class,'id_fasilitas');
     }
 }

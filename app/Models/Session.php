@@ -6,20 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Session extends Model
 {
-    protected $primaryKey = 'idSession';
+    protected $primaryKey = 'id_session';
+    protected $fillable = ['waktu_mulai', 'waktu_selesai'];
 
-    protected $fillable = [
-        'waktuMulai',
-        'waktuSelesai',
-    ];
-
-    protected $dates = [
-        'waktuMulai',
-        'waktuSelesai',
-    ];
-
-    public function order()
-    {
-        return $this->hasOne(Order::class, 'session_id');
+    public function order(){
+        return $this->belongsTo(Order::class,'id_order');
     }
 }

@@ -6,28 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Paket extends Model
 {
-    protected $primaryKey = 'idPaket';
+    protected $primaryKey= 'id_paket';
+    protected $fillable = ['nama', 'harga_total', 'id_fasilitas'];
 
-    protected $fillable = [
-        'namaPaket',
-        'ruangan_id',
-        'kamar_id',
-        'harga',
-        'status',
-    ];
-
-    public function ruangan()
+    public function fasilitas()
     {
-        return $this->belongsTo(Ruangan::class, 'ruangan_id');
+        return $this->hasOne(Fasilitas::class, 'id_paket');
     }
 
-    public function kamar()
-    {
-        return $this->belongsTo(Kamar::class, 'kamar_id');
-    }
-
-    public function order()
-    {
-        return $this->hasOne(Order::class, 'paket_id');
+    public function order(){
+        return $this->belongsTo(Order::class,'id_order');
     }
 }

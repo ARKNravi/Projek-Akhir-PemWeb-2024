@@ -6,17 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ruangan extends Model
 {
-    protected $primaryKey = 'idRuangan';
+    protected $primaryKey = 'id_ruangan';
+    protected $fillable = ['nama_ruangan', 'luas_ruangan', 'harga', 'backdrop', 'id_layout'];
 
-    protected $fillable = [
-        'namaRuangan',
-        'kapasitas',
-        'harga',
-        'status',
-    ];
-
-    public function paket()
+    public function layout()
     {
-        return $this->hasOne(Paket::class, 'ruangan_id');
+        return $this->hasOne(layout::class, 'id_ruangan');
+    }
+
+    public function fasilitas()
+    {
+        return $this->belongsTo(Fasilitas::class, 'id_fasilitas');
     }
 }

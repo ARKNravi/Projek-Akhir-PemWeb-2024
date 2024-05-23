@@ -6,12 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Makanan extends Model
 {
-    protected $primaryKey = 'idMakanan';
+    protected $primaryKey = 'id_makanan';
+    protected $fillable = ['nama_makanan', 'harga_makanan'];
 
-    public $incrementing = false;
+    public function fasilitas(){
+        return $this->belongsTo(Fasilitas::class,'id_fasilitas');
+    }
+}
 
-    protected $fillable = [
-        'namaMakanan',
-        'hargaMakanan',
-    ];
-}   

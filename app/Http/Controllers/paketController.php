@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class dashboardController extends Controller
+class paketController extends Controller
 {
     public function index(){
-        return view('dashbord.index');
+        return view('packets.index');
     }
 }

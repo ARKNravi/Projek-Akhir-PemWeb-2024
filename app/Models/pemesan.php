@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Admin extends Model
+class Pemesan extends Model
 {
-    protected $primaryKey = 'id_admin';
-    protected $fillable = ['username', 'password'];
+    protected $primaryKey = 'nik';
+    protected $fillable = ['nama', 'nomor_telepon', 'tipe'];
 
     public function orders()
     {
