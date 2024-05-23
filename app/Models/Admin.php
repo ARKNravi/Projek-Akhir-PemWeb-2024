@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Admin extends Model
 {
-    protected $primaryKey = 'idAdmin';
+    protected $primaryKey = 'id_admin';
+    protected $fillable = ['username', 'password'];
 
-    protected $fillable = [
-        'userName',
-        'password',
-    ];
+    public function orders()
+    {
+        return $this->belongsTo(Order::class, 'id_order');
+    }
 }
