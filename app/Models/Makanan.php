@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Makanan extends Model
 {
     protected $primaryKey = 'id_makanan';
@@ -13,4 +14,3 @@ class Makanan extends Model
         return $this->belongsTo(Fasilitas::class,'id_fasilitas');
     }
 }
-

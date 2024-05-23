@@ -20,4 +20,4 @@ class CreateMakananTable extends Migration
     {
         Schema::dropIfExists('makanan');
     }
-}
+}//

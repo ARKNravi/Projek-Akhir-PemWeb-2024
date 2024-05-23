@@ -30,3 +30,4 @@ class CreateFasilitasTable extends Migration
         Schema::dropIfExists('fasilitas');
     }
 }
+//

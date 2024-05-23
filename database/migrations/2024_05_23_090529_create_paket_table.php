@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -22,4 +23,4 @@ class CreatePaketTable extends Migration
     {
         Schema::dropIfExists('paket');
     }
-}
+}//

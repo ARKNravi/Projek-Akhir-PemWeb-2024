@@ -30,4 +30,4 @@ class CreateOrderTable extends Migration
     {
         Schema::dropIfExists('order');
     }
-}
+}//

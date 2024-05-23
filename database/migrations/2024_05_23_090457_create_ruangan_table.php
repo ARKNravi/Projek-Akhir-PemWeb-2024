@@ -26,4 +26,4 @@ class CreateRuanganTable extends Migration
     {
         Schema::dropIfExists('ruangan');
     }
-}
+}//

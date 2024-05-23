@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\historyController;
 
 
 Route::get('/', [dashboardController::class,'index']);

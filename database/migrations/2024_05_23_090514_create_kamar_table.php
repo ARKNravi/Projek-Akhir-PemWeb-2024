@@ -21,3 +21,4 @@ class CreateKamarTable extends Migration
         Schema::dropIfExists('kamar');
     }
 }
+//

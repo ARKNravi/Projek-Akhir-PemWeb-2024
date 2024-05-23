@@ -20,4 +20,4 @@ class CreatePaymentTable extends Migration
     {
         Schema::dropIfExists('payment');
     }
-}
+}//

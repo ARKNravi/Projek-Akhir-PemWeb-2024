@@ -21,4 +21,4 @@ class CreatePemesanTable extends Migration
     {
         Schema::dropIfExists('pemesan');
     }
-}
+}//

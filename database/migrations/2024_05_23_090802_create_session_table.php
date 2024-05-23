@@ -20,4 +20,4 @@ class CreateSessionTable extends Migration
     {
         Schema::dropIfExists('session');
     }
-}
+}//

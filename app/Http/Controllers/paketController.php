@@ -9,4 +9,4 @@ class paketController extends Controller
     public function index(){
         return view('packets.index');
     }
-}
+}//
