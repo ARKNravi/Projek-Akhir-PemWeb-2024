@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Session extends Model
+class Sessions extends Model
 {
     protected $primaryKey = 'id_session';
     protected $fillable = ['waktu_mulai', 'waktu_selesai'];

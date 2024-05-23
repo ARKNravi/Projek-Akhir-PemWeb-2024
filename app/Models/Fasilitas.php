@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fasilitas extends Model
 {
+    protected $table = 'fasilitas';
     protected $primaryKey = "id_fasilitas";
     protected $fillable = ['fasilitas', 'kapasitas', 'lama_waktu_peminjaman', 'materials', 'id_ruangan', 'id_makanan', 'nomor_kamar'];
 
     public function ruangan()
     {
-        return $this->hasOne(Ruangan::class, 'id_fasilitas');
+        return $this->belongsTo(Ruangan::class, 'id_ruangan');
     }
+
 
     public function makanan()
     {

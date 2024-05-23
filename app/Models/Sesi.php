@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Session extends Model
+class Sesi extends Model
 {
-    protected $primaryKey = 'idSession';
+    protected $table = 'session';
+    protected $primaryKey = 'id_session';
 
     protected $fillable = [
         'waktuMulai',
