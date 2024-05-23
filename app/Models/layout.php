@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Layout extends Model
 {
+    protected $table = 'layout';
     protected $primaryKey = 'id_layout';
     protected $fillable = ['nama_layout', 'harga', 'jumlahOrang'];
 
