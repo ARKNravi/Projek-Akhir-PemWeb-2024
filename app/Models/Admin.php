@@ -9,8 +9,7 @@ class Admin extends Model
     protected $primaryKey = 'id_admin';
     protected $fillable = ['username', 'password'];
 
-    public function orders()
-    {
-        return $this->belongsTo(Order::class, 'id_order');
-    }
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 }
