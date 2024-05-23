@@ -6,15 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-    protected $primaryKey = 'idPayment';
+    protected $primaryKey = 'id_payment';
+    protected $fillable = ['nominal_pembayaran', 'metode_pembayaran'];
 
-    protected $fillable = [
-        'jumlah',
-        'metodePembayaran',
-    ];
-
-    public function order()
-    {
-        return $this->hasOne(Order::class, 'payment_id');
+    public function order(){
+        return $this->belongsTo(Order::class,'id_order');
     }
 }
