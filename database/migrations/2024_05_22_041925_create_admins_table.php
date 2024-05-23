@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->id('idSession');
-            $table->date('waktuMulai');
-            $table->date('waktuSelesai');
+        Schema::create('admins', function (Blueprint $table) {
+            $table->id('idAdmin');
+            $table->string('userName');
+            $table->string('password');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('admins');
     }
 };
