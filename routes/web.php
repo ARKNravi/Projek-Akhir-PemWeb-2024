@@ -1,6 +1,8 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\kamarController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\makananController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\dashboardController;
@@ -39,4 +41,17 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/orders/{id}/view/{image}', [OrderController::class, 'viewImage'])->name('admin.order.viewImage');
     Route::delete('/admin/orders/{id}/delete/{image}', [OrderController::class, 'deleteImage'])->name('admin.order.deleteImage');
     Route::get('/admin/orders/{id}/download/{image}', [OrderController::class, 'downloadImage'])->name('admin.order.downloadImage');
+
+    Route::post("/kamar/tambah",[kamarController::class,'store']);
+Route::get('/kamar/edit/{nomor_kamar}',[kamarController::class,'edit']);
+Route::post('/kamar/edit',[kamarController::class,'update']);
+Route::get('/kamar/hapus/{nomor_kamar}',[kamarController::class,'destroy']);
+
+//rute makanan
+Route::get("/makanan",[makananController::class,'index']);
+Route::get("/makanan/tambah",[makananController::class,'create']);
+Route::post("/makanan/tambah",[makananController::class,'store']);
+Route::get("/makanan/edit/{id_makanan}",[makananController::class,'edit']);
+Route::post("/makanan/edit",[makananController::class,'update']);
+Route::get("/makanan/hapus/{id_makanan}",[makananController::class,'destroy']);
 });
