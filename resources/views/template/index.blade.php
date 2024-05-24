@@ -28,12 +28,12 @@
      <main class="d-flex flex-row justify-content-start align-content-center mt-0">
         <aside>
             <ul class="d-flex flex-column justify-content-md-between list-unstyled p-3 gap-5" >
-                <li><a class="text-decoration-none text-white" href="">Profile</a></li>
-                <li><a class="text-decoration-none text-white" href="">dashboard</a></li>
-                <li><a class="text-decoration-none text-white" href="packets">packets</a></li>
-                <li><a class="text-decoration-none text-white" href="">order</a></li>
-                <li><a class="text-decoration-none text-white" href="">history</a></li>
-                <li><a class="text-decoration-none text-white" href="">income</a></li>
+                <li><a class="text-decoration-none text-white" href="/profile">Profile</a></li>
+                <li><a class="text-decoration-none text-white" href="/dashboard">dashboard</a></li>
+                <li><a class="text-decoration-none text-white" href="/packets">packets</a></li>
+                <li><a class="text-decoration-none text-white" href="/order">order</a></li>
+                <li><a class="text-decoration-none text-white" href="/history">history</a></li>
+                <li><a class="text-decoration-none text-white" href="/income">income</a></li>
             </ul>
          </aside>
          <div class="content">
