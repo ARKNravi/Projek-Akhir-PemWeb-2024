@@ -13,8 +13,7 @@ class DashboardController extends Controller
         $processingOrders = Order::where('status', 'Pending')->count();
         $completedOrders = Order::where('status', 'Confirmed')->count();
 
-        return view('admin.dashboard', compact('totalOrders', 'processingOrders', 'completedOrders'));
+        return view('dashboard.index', compact('totalOrders', 'processingOrders', 'completedOrders'));
     }
-
 
 }
