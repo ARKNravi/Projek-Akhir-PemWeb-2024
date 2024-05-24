@@ -30,7 +30,7 @@ class kamarController extends Controller
     }
 
     public function update(Request $request){
-        $kamar=Kamar::find($request);
+        $kamar=Kamar::find($request)->first();
         $kamar->nomor_kamar=$request->nomor_kamar;
         $kamar->tipe=$request->tipe;
         $kamar->harga=$request->harga;
@@ -39,8 +39,9 @@ class kamarController extends Controller
     }
 
     public function destroy($nomor_kamar){
-        $kamar = Kamar::where('nomor_kamar',$nomor_kamar)->get();
+        $kamar = Kamar::findOrFail($nomor_kamar);
         $kamar->delete();
         return redirect('/kamar');
+        
     }
 }
