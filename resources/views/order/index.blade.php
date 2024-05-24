@@ -5,6 +5,9 @@
 </head>
 <body>
     <h1>Daftar Pesanan</h1>
+    <a href="{{ route('admin.order.create') }}">
+        <button type="button">Tambah Pesanan</button>
+    </a>
     @if($message)
         <p>{{ $message }}</p>
     @else

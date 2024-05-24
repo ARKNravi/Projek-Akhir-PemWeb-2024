@@ -4,7 +4,7 @@
     <title>Create Order</title>
 </head>
 <body>
-    <form action="{{ route('admin.reservasi.store') }}" method="POST">
+    <form action="{{ route('admin.order.store') }}" method="POST">
         @csrf
 
         <!-- Fields for creating a Pemesan -->
