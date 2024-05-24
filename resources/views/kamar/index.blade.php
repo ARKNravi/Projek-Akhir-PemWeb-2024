@@ -30,7 +30,7 @@
                 </td>
             </tr>
         @endforeach
-    </table>  
+    </table>   
     @endif
     @endsection
 </body>
