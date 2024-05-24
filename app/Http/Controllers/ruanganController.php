@@ -17,11 +17,11 @@ class RuanganController extends Controller
             $message = "";
         }
 
-        return view('admin.ruangan.index', compact('ruangan', 'message'));
+        return view('ruangan.index', compact('ruangan', 'message'));
     }
     public function create()
 {
-    return view('admin.ruangan.create');
+    return view('ruangan.create');
 }
 
 public function store(Request $request)
@@ -33,7 +33,7 @@ public function store(Request $request)
 public function edit($id_ruangan)
 {
     $ruangan = Ruangan::findOrFail($id_ruangan);
-    return view('admin.ruangan.edit', compact('ruangan'));
+    return view('ruangan.edit', compact('ruangan'));
 }
 
 public function update(Request $request, $id_ruangan)

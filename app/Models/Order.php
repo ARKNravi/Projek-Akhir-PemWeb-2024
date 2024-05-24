@@ -35,5 +35,16 @@ class Order extends Model
     {
         return $this->hasOne(Admin::class, 'id_order');
     }
+// Order.php
+
+public function checkout()
+{
+    if ($this->status == 'Check In') {
+        $this->status = 'Check Out';
+        $this->save();
+        return true; // Checkout successful
+    }
+    return false; // Checkout failed
+}
 
 }

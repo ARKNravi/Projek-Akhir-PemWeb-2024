@@ -4,21 +4,14 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\dashboardController;
-use App\Http\Controllers\kamarController;
-use App\Http\Controllers\layoutController;
-use App\Http\Controllers\makananController;
-
 
 Route::get('/', [dashboardController::class,'index']);
-Route::get('/dashboard', [dashboardController::class,'index']);
 Route::get('/packets');
-Route::get('/order',[OrderController::class,'index']);
+Route::get('/orders');
 Route::get('/income');
 Route::get('/history');
 Route::get('/profile');
 Route::get('/docs');
-
-
 
 Route::get('admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('admin/login', [AdminAuthController::class, 'login']);
@@ -33,20 +26,13 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/ruangan/{id_ruangan}/edit', [RuanganController::class, 'edit'])->name('admin.ruangan.edit');
     Route::put('/admin/ruangan/{id_ruangan}', [RuanganController::class, 'update'])->name('admin.ruangan.update');
     Route::delete('/admin/ruangan/{id_ruangan}', [RuanganController::class, 'destroy'])->name('admin.ruangan.destroy');
+    Route::get('/admin/reservasi/create', [OrderController::class, 'create'])->name('admin.reservasi.create');
+    Route::post('/admin/reservasi', [OrderController::class, 'store'])->name('admin.reservasi.store');
+    Route::put('/admin/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('admin.order.cancel');
+    Route::delete('/admin/orders/{id}/delete', [OrderController::class, 'delete'])->name('admin.order.delete');
+    Route::get('/admin/orders/{id}/checkin', [OrderController::class, 'showCheckinForm'])->name('admin.order.checkin');
+    Route::post('/admin/orders/{id}/processCheckin', [OrderController::class, 'processCheckin'])->name('admin.order.processCheckin');// routes/web.php
+
+    Route::put('/admin/orders/{id}/checkout', [OrderController::class, 'checkout'])->name('admin.order.checkout');
+
 });
-
-//Rute kamar
-Route::get("/kamar",[kamarController::class,'index']);
-Route::get("/kamar/tambah",[kamarController::class,'create']);
-Route::post("/kamar/tambah",[kamarController::class,'store']);
-Route::get('/kamar/edit/{nomor_kamar}',[kamarController::class,'edit']);
-Route::post('/kamar/edit',[kamarController::class,'update']);
-Route::get('/kamar/hapus/{nomor_kamar}',[kamarController::class,'destroy']);
-
-//rute makanan
-Route::get("/makanan",[makananController::class,'index']);
-Route::get("/makanan/tambah",[makananController::class,'create']);
-Route::post("/makanan/tambah",[makananController::class,'store']);
-Route::get("/makanan/edit/{id_makanan}",[makananController::class,'edit']);
-Route::post("/makanan/edit",[makananController::class,'update']);
-Route::get("/makanan/hapus/{id_makanan}",[makananController::class,'destroy']);
