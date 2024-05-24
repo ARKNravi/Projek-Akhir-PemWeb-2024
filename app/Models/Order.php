@@ -8,32 +8,32 @@ class Order extends Model
 {
     protected $table = 'order';
     protected $primaryKey = 'id_order';
-    protected $fillable = ['tanggal', 'id_paket', 'id_session', 'id_payment', 'nik', 'id_admin', 'status'];
+    protected $fillable = ['tanggal', 'id_paket', 'id_session', 'id_payment', 'nik', 'id_admin', 'status', 'dokumentasi'];
 
     public function paket()
     {
-        return $this->hasOne(Paket::class, 'id_order');
+        return $this->belongsTo(Paket::class, 'id_paket');
     }
 
 
     public function session()
     {
-        return $this->hasMany(Sesi::class, 'id_order');
+        return $this->belongsTo(Sesi::class, 'id_session');
     }
 
     public function payment()
     {
-        return $this->hasOne(Payment::class, 'id_order');
+        return $this->belongsTo(Payment::class, 'id_payment');
     }
 
     public function pemesan()
     {
-        return $this->hasOne(Pemesan::class, 'id_order');
+        return $this->belongsTo(Pemesan::class, 'nik');
     }
 
     public function admin()
     {
-        return $this->hasOne(Admin::class, 'id_order');
+        return $this->belongsTo(Admin::class, 'id_admin');
     }
 // Order.php
 

@@ -34,5 +34,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('/admin/orders/{id}/processCheckin', [OrderController::class, 'processCheckin'])->name('admin.order.processCheckin');// routes/web.php
 
     Route::put('/admin/orders/{id}/checkout', [OrderController::class, 'checkout'])->name('admin.order.checkout');
-
+    Route::post('/admin/orders/{id}/upload', [OrderController::class, 'upload'])->name('admin.order.upload');
+    Route::get('/admin/orders/{id}/view', [OrderController::class, 'view'])->name('admin.order.view');
+    Route::get('/admin/orders/{id}/view/{image}', [OrderController::class, 'viewImage'])->name('admin.order.viewImage');
+    Route::delete('/admin/orders/{id}/delete/{image}', [OrderController::class, 'deleteImage'])->name('admin.order.deleteImage');
+    Route::get('/admin/orders/{id}/download/{image}', [OrderController::class, 'downloadImage'])->name('admin.order.downloadImage');
 });
