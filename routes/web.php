@@ -42,7 +42,10 @@ Route::middleware('auth:admin')->group(function () {
     Route::delete('/admin/orders/{id}/delete/{image}', [OrderController::class, 'deleteImage'])->name('admin.order.deleteImage');
     Route::get('/admin/orders/{id}/download/{image}', [OrderController::class, 'downloadImage'])->name('admin.order.downloadImage');
 
-    Route::post("/kamar/tambah",[kamarController::class,'store']);
+//Rute kamar
+Route::get("/kamar",[kamarController::class,'index']);
+Route::get("/kamar/tambah",[kamarController::class,'create']);
+Route::post("/kamar/tambah",[kamarController::class,'store']);
 Route::get('/kamar/edit/{nomor_kamar}',[kamarController::class,'edit']);
 Route::post('/kamar/edit',[kamarController::class,'update']);
 Route::get('/kamar/hapus/{nomor_kamar}',[kamarController::class,'destroy']);
