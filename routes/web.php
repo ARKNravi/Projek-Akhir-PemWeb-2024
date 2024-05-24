@@ -4,6 +4,9 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\kamarController;
+use App\Http\Controllers\layoutController;
+use App\Http\Controllers\makananController;
 
 
 Route::get('/', [dashboardController::class,'index']);
@@ -30,3 +33,11 @@ Route::middleware('auth:admin')->group(function () {
     Route::put('/admin/ruangan/{id_ruangan}', [RuanganController::class, 'update'])->name('admin.ruangan.update');
     Route::delete('/admin/ruangan/{id_ruangan}', [RuanganController::class, 'destroy'])->name('admin.ruangan.destroy');
 });
+
+//Rute kamar
+Route::get("/kamar",[kamarController::class,'index']);
+Route::get("/kamar/tambah",[kamarController::class,'create']);
+Route::post("/kamar/tambah",[kamarController::class,'store']);
+Route::get('/kamar/edit/{nomor_kamar}',[kamarController::class,'edit']);
+Route::post('/kamar/edit',[kamarController::class,'update']);
+Route::get('/kamar/hapus/{nomor_kamar}',[kamarController::class,'destroy']);
