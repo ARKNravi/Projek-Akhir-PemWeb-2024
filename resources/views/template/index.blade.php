@@ -35,6 +35,7 @@
                         <li><a class="text-decoration-none text-white" href="/fasilitas">Fasilitas</a></li>
                         <li><a class="text-decoration-none text-white" href="/ruangan">Ruangan</a></li>
                         <li><a class="text-decoration-none text-white" href="/kamar">Kamar</a></li>
+                        <li><a class="text-decoration-none text-white" href="/makanan">makanan</a></li>
                     </ul></li>
                 <li><a class="text-decoration-none text-white" href="/order">order</a></li>
                 <li><a class="text-decoration-none text-white" href="/history">history</a></li>

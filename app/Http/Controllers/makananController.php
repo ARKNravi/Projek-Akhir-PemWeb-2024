@@ -9,7 +9,8 @@ class makananController extends Controller
 {
     public function index(){
         $makanan = Makanan::all();
-        return view('fasilitas.index',['makanan'->$makanan]);
+        
+        return view('makanan.index',["makanan"=>$makanan]);
     }
 
     public function create(){
@@ -32,7 +33,7 @@ class makananController extends Controller
     }
 
     public function update(Request $request){
-        $makanan = Makanan::find($request);
+        $makanan = Makanan::find($request)->first();
         $makanan->id_makanan=$request->id_makanan;
         $makanan->nama_makanan=$request->nama_makanan;
         $makanan->harga_makanan=$request->harga_makanan;
@@ -41,8 +42,8 @@ class makananController extends Controller
         return redirect('/makanan');
     }
 
-    public function delete($id_makanan){
-        $makanan = Makanan::where('id_makanan',$id_makanan)->get();
+    public function destroy($id_makanan){
+        $makanan = Makanan::findOrFail($id_makanan);
         $makanan->delete();
         return redirect('/makanan');   
     }

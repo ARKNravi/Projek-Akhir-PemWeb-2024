@@ -10,6 +10,7 @@ use App\Http\Controllers\makananController;
 
 
 Route::get('/', [dashboardController::class,'index']);
+Route::get('/dashboard', [dashboardController::class,'index']);
 Route::get('/packets');
 Route::get('/order',[OrderController::class,'index']);
 Route::get('/income');
@@ -41,3 +42,11 @@ Route::post("/kamar/tambah",[kamarController::class,'store']);
 Route::get('/kamar/edit/{nomor_kamar}',[kamarController::class,'edit']);
 Route::post('/kamar/edit',[kamarController::class,'update']);
 Route::get('/kamar/hapus/{nomor_kamar}',[kamarController::class,'destroy']);
+
+//rute makanan
+Route::get("/makanan",[makananController::class,'index']);
+Route::get("/makanan/tambah",[makananController::class,'create']);
+Route::post("/makanan/tambah",[makananController::class,'store']);
+Route::get("/makanan/edit/{id_makanan}",[makananController::class,'edit']);
+Route::post("/makanan/edit",[makananController::class,'update']);
+Route::get("/makanan/hapus/{id_makanan}",[makananController::class,'destroy']);
