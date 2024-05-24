@@ -1,9 +1,11 @@
+@extends('template.index')
 <!DOCTYPE html>
 <html>
 <head>
     <title>Daftar Pesanan</title>
 </head>
 <body>
+    @section('content')
     <h1>Daftar Pesanan</h1>
     @if($message)
         <p>{{ $message }}</p>
@@ -67,5 +69,7 @@
         @csrf
         <button type="submit">Logout</button>
     </form>
+    @endsection
+    
 </body>
 </html>

@@ -12,7 +12,7 @@ class Paket extends Model
 
     public function fasilitas()
     {
-        return $this->belongsTo(Fasilitas::class, 'id_fasilitas');
+        return $this->hasOne(Fasilitas::class, 'id_paket');
     }
 
     public function order(){
