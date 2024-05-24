@@ -8,7 +8,7 @@ use App\Http\Controllers\dashboardController;
 
 Route::get('/', [dashboardController::class,'index']);
 Route::get('/packets');
-Route::get('/orders');
+Route::get('/order',[OrderController::class,'index']);
 Route::get('/income');
 Route::get('/history');
 Route::get('/profile');
