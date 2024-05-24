@@ -124,5 +124,101 @@ public function checkout($id)
 
     return redirect()->route('admin.order')->with('message', 'Gagal melakukan Check-Out');
 }
+public function upload(Request $request, $id)
+{
+    $order = Order::findOrFail($id);
 
+    if ($order->status == 'Check Out') {
+        $request->validate([
+            'dokumentasi.*' => 'required|file|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048',
+        ]);
+
+        foreach ($request->dokumentasi as $file) {
+            $fileName = time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('Dokumentasi/'.$order->id_order), $fileName);
+
+            // Store each file name into the database
+            $order->dokumentasi = json_encode(array_merge(json_decode($order->dokumentasi, true) ?? [], [$fileName]));
+        }
+
+        $order->save();
+
+        return back()->with('message', 'Dokumentasi berhasil diunggah');
+    }
+
+    return back()->with('message', 'Gagal mengunggah dokumentasi');
+}
+
+public function view($id)
+{
+    $order = Order::findOrFail($id);
+
+    if ($order->dokumentasi) {
+        $files = json_decode($order->dokumentasi, true);
+        $zip = new \ZipArchive();
+        $zipName = public_path('Dokumentasi/'.$order->id_order.'/dokumentasi.zip');
+
+        if ($zip->open($zipName, \ZipArchive::CREATE) === TRUE) {
+            foreach ($files as $file) {
+                $filePath = public_path('Dokumentasi/'.$order->id_order.'/'.$file);
+                $zip->addFile($filePath, $file);
+            }
+            $zip->close();
+        }
+
+        return response()->download($zipName);
+    }
+
+    return back()->with('message', 'Dokumentasi tidak ditemukan');
+}
+public function viewImage($id, $image)
+{
+    $order = Order::findOrFail($id);
+
+    if ($order->dokumentasi) {
+        $files = json_decode($order->dokumentasi, true);
+
+        if (in_array($image, $files)) {
+            return response()->file(public_path('Dokumentasi/'.$order->id_order.'/'.$image));
+        }
+    }
+
+    return back()->with('message', 'Dokumentasi tidak ditemukan');
+}
+
+public function deleteImage($id, $image)
+{
+    $order = Order::findOrFail($id);
+
+    if ($order->dokumentasi) {
+        $files = json_decode($order->dokumentasi, true);
+
+        if (($key = array_search($image, $files)) !== false) {
+            unset($files[$key]);
+            $order->dokumentasi = json_encode(array_values($files));
+            $order->save();
+
+            $imagePath = public_path('Dokumentasi/'.$order->id_order.'/'.$image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+    }
+
+    return back()->with('message', 'Dokumentasi berhasil dihapus');
+}
+public function downloadImage($id, $image)
+{
+    $order = Order::findOrFail($id);
+
+    if ($order->dokumentasi) {
+        $files = json_decode($order->dokumentasi, true);
+
+        if (in_array($image, $files)) {
+            return response()->download(public_path('Dokumentasi/'.$order->id_order.'/'.$image));
+        }
+    }
+
+    return back()->with('message', 'Dokumentasi tidak ditemukan');
+}
 }
