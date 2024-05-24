@@ -17,6 +17,6 @@ class OrderController extends Controller
             $message = "";
         }
 
-        return view('admin.order', compact('orders', 'message'));
+        return view('order.index', compact('orders', 'message'));
     }
 }
