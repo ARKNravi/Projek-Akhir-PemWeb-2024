@@ -12,28 +12,28 @@ class Order extends Model
 
     public function paket()
     {
-        return $this->belongsTo(Paket::class, 'id_paket');
+        return $this->hasOne(Paket::class, 'id_order');
     }
 
 
     public function session()
     {
-        return $this->belongsTo(Sesi::class, 'id_session');
+        return $this->hasMany(Sesi::class, 'id_order');
     }
 
     public function payment()
     {
-        return $this->belongsTo(Payment::class, 'id_payment');
+        return $this->hasOne(Payment::class, 'id_order');
     }
 
     public function pemesan()
     {
-        return $this->belongsTo(Pemesan::class, 'nik');
+        return $this->hasOne(Pemesan::class, 'id_order');
     }
 
     public function admin()
     {
-        return $this->belongsTo(Admin::class, 'id_admin');
+        return $this->hasOne(Admin::class, 'id_order');
     }
 
 }

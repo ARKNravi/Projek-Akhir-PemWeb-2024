@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dashboard</title>
+    <title>Admin Dashboard</title>
 </head>
 <body>
-    <h1>Ini adalah dashboard</h1>
+    <h1>Admin Dashboard</h1>
+    <p>Total Orders: {{ $totalOrders }}</p>
+    <p>Processing Orders: {{ $processingOrders }}</p>
+    <p>Completed Orders: {{ $completedOrders }}</p>
+    p
+    {{-- <form method="POST" action="{{ route('admin.logout') }}">
+        @csrf
+        <button type="submit">Logout</button>
+    </form> --}}
 </body>
 </html>
