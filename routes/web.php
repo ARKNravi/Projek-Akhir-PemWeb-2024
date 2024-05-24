@@ -24,5 +24,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/dashboard', [dashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/ruangan', [RuanganController::class, 'index'])->name('admin.ruangan');
     Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.order');
-
+    Route::get('/admin/ruangan/create', [RuanganController::class, 'create'])->name('admin.create');
+    Route::post('/admin/ruangan', [RuanganController::class, 'store'])->name('admin.ruangan.store');
+    Route::get('/admin/ruangan/{id_ruangan}/edit', [RuanganController::class, 'edit'])->name('admin.ruangan.edit');
+    Route::put('/admin/ruangan/{id_ruangan}', [RuanganController::class, 'update'])->name('admin.ruangan.update');
+    Route::delete('/admin/ruangan/{id_ruangan}', [RuanganController::class, 'destroy'])->name('admin.ruangan.destroy');
 });
