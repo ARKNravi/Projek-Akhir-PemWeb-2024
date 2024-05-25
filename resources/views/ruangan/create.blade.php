@@ -27,20 +27,11 @@
                 <div class="alert alert-danger" role="alert">{{ $message }}</div>
                 <a href="/layout" class="btn btn-primary">Halaman layout</a>
             @else
-<<<<<<< HEAD
-            <select name="id_layout" id="id_layout">
-            @foreach ($layout as $lyt)
-            <option value="{{$lyt->id_layout}}">{{$lyt->nama_layout}}</option>
-            @endforeach
-            </select><br><br>
-            <input type="submit" value="Tambah">
-=======
                 <select name="id_layout" id="id_layout" class="form-select">
                     @foreach ($layout as $lyt)
                         <option value="{{ $lyt->id_layout }}">{{ $lyt->nama_layout }}</option>
                     @endforeach
                 </select>
->>>>>>> origin/main
             @endif
         </div>
         <button type="submit" class="btn btn-primary">Tambah</button>

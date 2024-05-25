@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\fasilitasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\kamarController;
 use App\Http\Controllers\OrderController;
@@ -64,8 +65,12 @@ Route::get("/makanan/hapus/{id_makanan}",[makananController::class,'destroy']);
 });
 
 //rute fasilitas
-Route::get("/fasilitas");
-
+Route::get("/fasilitas",[fasilitasController::class,'index']);
+Route::get("/fasilitas/tambah",[fasilitasController::class,'create']);
+Route::post("/fasilitas/tambah",[fasilitasController::class,'store']);
+Route::get("/fasilitas/edit/{id_fasilitas}",[fasilitasController::class,'edit']);
+Route::post("/fasilitas/edit",[fasilitasController::class,'update']);
+Route::get("/fasilitas/hapus/{id_fasilitas}",[fasilitasController::class,'destroy']);
 //rute paket
 
 

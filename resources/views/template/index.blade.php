@@ -41,7 +41,7 @@
          </div>
 
      </main>
-     <footer>
+     <footer class="p-4">
         <p>Copyright of banquet.com</p>
      </footer>
     

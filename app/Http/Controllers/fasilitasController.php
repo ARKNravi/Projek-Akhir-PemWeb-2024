@@ -13,10 +13,15 @@ class fasilitasController extends Controller
 {
     public function index(){
         $fasilitas = Fasilitas::all();
-        return view('fasilitas.index',compact('fasilitas'));
+        if($fasilitas->isEmpty()){
+            $message="belum ada fasilitas";
+        }else{
+            $message="";
+        }
+        return view('fasilitas.index',compact('fasilitas','message'));
     }
 
-    public function add(){
+    public function create(){
         $ruangan = Ruangan::all();
         $makanan = Makanan::all();
         $kamar = Kamar::all();
@@ -40,7 +45,10 @@ class fasilitasController extends Controller
 
     public function edit($id_fasilitas){
         $fasilitas = Fasilitas::where('id_fasilitas',$id_fasilitas)->get();
-        return view('fasilitas.edit',compact('fasilitas'));
+        $ruangan = Ruangan::all();
+        $makanan = Makanan::all();
+        $kamar = Kamar::all();
+        return view('fasilitas.edit',compact('fasilitas','ruangan','makanan','kamar'));
     }
 
     public function update(Request $request){
