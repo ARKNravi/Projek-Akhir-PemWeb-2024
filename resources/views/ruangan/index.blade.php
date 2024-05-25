@@ -1,9 +1,11 @@
+@extends('template.index')
 <!DOCTYPE html>
 <html>
 <head>
     <title>Daftar Ruangan</title>
 </head>
 <body>
+    @section('content')
     <h1>Daftar Ruangan</h1>
     <a href="{{ route('admin.dashboard') }}">Kembali ke Dashboard</a>
     <a href="{{ route('admin.create') }}">Tambah Ruangan</a>
@@ -40,5 +42,7 @@
         @csrf
         <button type="submit">Logout</button>
     </form>
+    @endsection
+    
 </body>
 </html>
