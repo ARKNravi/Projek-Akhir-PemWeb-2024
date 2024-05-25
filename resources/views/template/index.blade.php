@@ -39,14 +39,14 @@
                         <li><a class="text-decoration-none text-white" href="/makanan">makanan</a></li>
                     </ul></li>
                 <li><a class="text-decoration-none text-white" href="/admin/orders">order</a></li>
-                <li><a class="text-decoration-none text-white" href="/history">history</a></li>
-                <li><a class="text-decoration-none text-white" href="/income">income</a></li>
+                <li><a class="text-decoration-none text-white" href="/admin/history">history</a></li>
+                <li><a class="text-decoration-none text-white" href="/admin/income">income</a></li>
             </ul>
          </aside>
          <div class="content p-3 m-2">
             @yield('content')
          </div>
-         
+
      </main>
      <footer>
 
