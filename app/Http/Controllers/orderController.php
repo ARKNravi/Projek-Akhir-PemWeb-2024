@@ -112,7 +112,6 @@ class OrderController extends Controller
 
         return redirect()->route('admin.order')->with('message', 'Gagal melakukan Check-In');
     }
-// OrderController.php
 
 public function checkout($id)
 {
