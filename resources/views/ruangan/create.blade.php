@@ -1,37 +1,49 @@
 @extends('template.index')
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Tambah Ruangan</title>
-</head>
-<body>
-    @section('content')
-    <h1>Tambah Ruangan</h1>
-    <form method="POST" action="{{ route('admin.ruangan.store') }}">
+
+@section('content')
+<div class="container mt-4">
+    <h1 class="mb-4">Tambah Ruangan</h1>
+    <form method="POST" action="{{ route('admin.ruangan.store') }}" class="needs-validation" novalidate>
         @csrf
-        <label for="nama_ruangan">Nama Ruangan:</label><br>
-        <input type="text" id="nama_ruangan" name="nama_ruangan"><br>
-        <label for="luas_ruangan">Luas Ruangan:</label><br>
-        <input type="number" id="luas_ruangan" name="luas_ruangan"><br>
-        <label for="harga">Harga:</label><br>
-        <input type="number" id="harga" name="harga"><br>
-        <label for="backdrop">Backdrop:</label><br>
-        <input type="text" id="backdrop" name="backdrop"><br>
-        <label for="id_layout">ID Layout:</label><br>
-        
+        <div class="mb-3">
+            <label for="nama_ruangan" class="form-label">Nama Ruangan:</label>
+            <input type="text" id="nama_ruangan" name="nama_ruangan" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="luas_ruangan" class="form-label">Luas Ruangan:</label>
+            <input type="number" id="luas_ruangan" name="luas_ruangan" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="harga" class="form-label">Harga:</label>
+            <input type="number" id="harga" name="harga" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="backdrop" class="form-label">Backdrop:</label>
+            <input type="text" id="backdrop" name="backdrop" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_layout" class="form-label">ID Layout:</label>
             @if($message)
-                <p>{{$message}}</p>
-                <a href="/layout">Halaman layout</a>
+                <div class="alert alert-danger" role="alert">{{ $message }}</div>
+                <a href="/layout" class="btn btn-primary">Halaman layout</a>
             @else
+<<<<<<< HEAD
             <select name="id_layout" id="id_layout">
             @foreach ($layout as $lyt)
             <option value="{{$lyt->id_layout}}">{{$lyt->nama_layout}}</option>
             @endforeach
             </select><br><br>
             <input type="submit" value="Tambah">
+=======
+                <select name="id_layout" id="id_layout" class="form-select">
+                    @foreach ($layout as $lyt)
+                        <option value="{{ $lyt->id_layout }}">{{ $lyt->nama_layout }}</option>
+                    @endforeach
+                </select>
+>>>>>>> origin/main
             @endif
+        </div>
+        <button type="submit" class="btn btn-primary">Tambah</button>
     </form>
-    @endsection
-   
-</body>
-</html>
+</div>
+@endsection

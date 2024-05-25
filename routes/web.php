@@ -2,11 +2,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\kamarController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\incomeController;
+use App\Http\Controllers\layoutController;
+use App\Http\Controllers\historyController;
 use App\Http\Controllers\makananController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\dashboardController;
-use App\Http\Controllers\layoutController;
 
 Route::get('/', [dashboardController::class,'index']);
 Route::get('/packets');
@@ -43,14 +45,6 @@ Route::middleware('auth:admin')->group(function () {
     Route::delete('/admin/orders/{id}/delete/{image}', [OrderController::class, 'deleteImage'])->name('admin.order.deleteImage');
     Route::get('/admin/orders/{id}/download/{image}', [OrderController::class, 'downloadImage'])->name('admin.order.downloadImage');
 
-
-//Rute layout
-Route::get("/layout",[layoutController::class,'index']);
-Route::get("/layout/tambah",[layoutController::class,'create']);
-Route::post("/layout/tambah",[layoutController::class,'store']);
-Route::get("/layout/edit/{id_layout}",[layoutController::class,'edit']);
-Route::post("/layout/edit",[layoutController::class,'update']);
-Route::get("/layout/hapus/{id_layout}",[layoutController::class,'destroy']);
 //Rute kamar
 Route::get("/kamar",[kamarController::class,'index']);
 Route::get("/kamar/tambah",[kamarController::class,'create']);
@@ -66,9 +60,25 @@ Route::post("/makanan/tambah",[makananController::class,'store']);
 Route::get("/makanan/edit/{id_makanan}",[makananController::class,'edit']);
 Route::post("/makanan/edit",[makananController::class,'update']);
 Route::get("/makanan/hapus/{id_makanan}",[makananController::class,'destroy']);
+
 });
 
 //rute fasilitas
 Route::get("/fasilitas");
 
 //rute paket
+
+
+//Rute layout
+Route::get("/layout",[layoutController::class,'index']);
+Route::get("/layout/tambah",[layoutController::class,'create']);
+Route::post("/layout/tambah",[layoutController::class,'store']);
+Route::get("/layout/edit/{id_layout}",[layoutController::class,'edit']);
+Route::post("/layout/edit",[layoutController::class,'update']);
+Route::get("/layout/hapus/{id_layout}",[layoutController::class,'destroy']);
+
+
+Route::get('/admin/laporan-pemasukan', [incomeController::class, 'index'])->name('admin.laporan-pemasukan');
+Route::get('/admin/history', [historyController::class, 'index'])->name('admin.history');
+
+

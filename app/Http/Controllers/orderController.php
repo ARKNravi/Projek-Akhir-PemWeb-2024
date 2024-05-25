@@ -99,11 +99,14 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
 
         if ($order->status == 'Reservasi') {
-            // Assuming id_payment is provided in the form data
-            $paymentId = $validated['id_payment'];
+            // Create a new payment record
+            $newPayment = Payment::create([
+                'nominal_pembayaran' => $validated['nominal_pembayaran'],
+                'metode_pembayaran' => $validated['metode_pembayaran'],
+            ]);
 
-            // Update the order with the provided id_payment and status
-            $order->id_payment = $paymentId;
+            // Update the order with the new payment id and change the status
+            $order->id_payment = $newPayment->id_payment;
             $order->status = 'Check In';
             $order->save();
 
@@ -112,7 +115,6 @@ class OrderController extends Controller
 
         return redirect()->route('admin.order')->with('message', 'Gagal melakukan Check-In');
     }
-// OrderController.php
 
 public function checkout($id)
 {

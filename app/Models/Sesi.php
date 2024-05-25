@@ -21,6 +21,6 @@ class Sesi extends Model
 
     public function order()
     {
-        return $this->hasOne(Order::class, 'session_id');
+        return $this->belongsTo(Order::class, 'id_order');
     }
 }
