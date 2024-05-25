@@ -1,9 +1,11 @@
+@extends('template.index')
 <!DOCTYPE html>
 <html>
 <head>
     <title>Tambah Ruangan</title>
 </head>
 <body>
+    @section('content')
     <h1>Tambah Ruangan</h1>
     <form method="POST" action="{{ route('admin.ruangan.store') }}">
         @csrf
@@ -16,8 +18,20 @@
         <label for="backdrop">Backdrop:</label><br>
         <input type="text" id="backdrop" name="backdrop"><br>
         <label for="id_layout">ID Layout:</label><br>
-        <input type="number" id="id_layout" name="id_layout"><br>
-        <input type="submit" value="Tambah">
+        
+            @if($message)
+                <p>{{$message}}</p>
+                <a href="/layout">Halaman layout</a>
+            @else
+            <select name="id_layout" id="id_layout">  
+            @foreach ($layout as $lyt)
+            <option value="{{$lyt->id_layout}}">{{$lyt->nama_layout}}</option>
+            @endforeach
+            </select><br><br>
+            <input type="submit" value="Tambah">
+            @endif
     </form>
+    @endsection
+   
 </body>
 </html>
