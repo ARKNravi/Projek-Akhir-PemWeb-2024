@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Daftar Pesanan</title>
+    <title>Create Order</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         nav, aside {
@@ -59,94 +59,55 @@
             </ul>
         </aside>
         <div class="content p-3">
-            <h1>Daftar Pesanan</h1>
-            <a href="{{ route('admin.order.create') }}" class="btn btn-primary mb-3">Tambah Pesanan</a>
-            @if($message)
-                <div class="alert alert-info">{{ $message }}</div>
-            @else
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Tanggal Pesanan</th>
-                                <th>Jenis Paket</th>
-                                <th>Sesi</th>
-                                <th>Ruangan</th>
-                                <th>Nama Pemesan</th>
-                                <th>Nomor HP Pemesan</th>
-                                <th>Metode Pembayaran</th>
-                                <th>Status</th>
-                                <th>Dokumentasi</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($orders as $order)
-                                <tr>
-                                    <td>{{ $order->tanggal }}</td>
-                                    <td>{{ $order->paket ? $order->paket->nama : '' }}</td>
-                                    <td>{{ $order->session->waktu_mulai }} - {{ $order->session->waktu_selesai }}</td>
-                                    <td>{{ $order->paket && $order->paket->fasilitas && $order->paket->fasilitas->ruangan ? $order->paket->fasilitas->ruangan->nama_ruangan : 'N/A' }}</td>
-                                    <td>{{ $order->pemesan->nama }}</td>
-                                    <td>{{ $order->pemesan->nomor_telepon }}</td>
-                                    <td>{{ $order->payment->metode_pembayaran }}</td>
-                                    <td>{{ $order->status }}</td>
-                                    <td>
-                                        @if($order->status == 'Check Out')
-                                            <form method="POST" action="{{ route('admin.order.upload', ['id' => $order->id_order]) }}" enctype="multipart/form-data" class="mb-2">
-                                                @csrf
-                                                <input type="file" name="dokumentasi[]" multiple required class="form-control mb-2">
-                                                <button type="submit" class="btn btn-success btn-sm">Unggah Dokumentasi</button>
-                                            </form>
-                                        @endif
-                                        @if($order->dokumentasi)
-                                            @php
-                                                $images = json_decode($order->dokumentasi, true);
-                                            @endphp
-                                            @if($images)
-                                                @foreach($images as $image)
-                                                    <div class="d-flex mb-2">
-                                                        <a href="{{ route('admin.order.viewImage', ['id' => $order->id_order, 'image' => $image]) }}" class="btn btn-info btn-sm me-2">Lihat {{ $image }}</a>
-                                                        <a href="{{ route('admin.order.downloadImage', ['id' => $order->id_order, 'image' => $image]) }}" class="btn btn-warning btn-sm me-2">Unduh {{ $image }}</a>
-                                                        <form method="POST" action="{{ route('admin.order.deleteImage', ['id' => $order->id_order, 'image' => $image]) }}">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm">Hapus {{ $image }}</button>
-                                                        </form>
-                                                    </div>
-                                                @endforeach
-                                            @endif
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if($order->status == 'Check In')
-                                            <form method="POST" action="{{ route('admin.order.checkout', ['id' => $order->id_order]) }}" class="mb-2">
-                                                @csrf
-                                                @method('PUT')
-                                                <button type="submit" class="btn btn-secondary btn-sm">Check Out</button>
-                                            </form>
-                                        @endif
-                                        @if($order->status == 'Reservasi')
-                                            <form method="POST" action="{{ route('admin.order.cancel', ['id' => $order->id_order]) }}" class="mb-2">
-                                                @csrf
-                                                @method('PUT')
-                                                <button type="submit" class="btn btn-danger btn-sm">Batal</button>
-                                            </form>
-                                            <a href="{{ route('admin.order.checkin', ['id' => $order->id_order]) }}" class="btn btn-primary btn-sm">Check In</a>
-                                        @elseif($order->status == 'Dibatalkan')
-                                            <form method="POST" action="{{ route('admin.order.delete', ['id' => $order->id_order]) }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                            </form>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+            <h1>Create Order</h1>
+            <form action="{{ route('admin.order.store') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <h2>Pemesan Details</h2>
                 </div>
-            @endif
+                <div class="mb-3">
+                    <label for="nik" class="form-label">NIK:</label>
+                    <input type="text" id="nik" name="nik" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nama" class="form-label">Nama:</label>
+                    <input type="text" id="nama" name="nama" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nomor_telepon" class="form-label">Nomor Telepon:</label>
+                    <input type="text" id="nomor_telepon" name="nomor_telepon" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="tipe" class="form-label">Tipe:</label>
+                    <input type="text" id="tipe" name="tipe" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <h2>Order Details</h2>
+                </div>
+                <div class="mb-3">
+                    <label for="tanggal" class="form-label">Tanggal:</label>
+                    <input type="date" id="tanggal" name="tanggal" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="id_paket" class="form-label">Paket:</label>
+                    <select id="id_paket" name="id_paket" class="form-select" required>
+                        @foreach ($pakets as $paket)
+                            <option value="{{ $paket->id_paket }}">{{ $paket->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="id_session" class="form-label">Session:</label>
+                    <select id="id_session" name="id_session" class="form-select" required>
+                        @foreach ($sessions as $session)
+                            <option value="{{ $session->id_session }}">{{ $session->waktu_mulai }} - {{ $session->waktu_selesai }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <input type="hidden" id="id_payment" name="id_payment" value="1">
+                <input type="hidden" id="status" name="status" value="Reservasi">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
         </div>
     </div>
     <footer class="mt-auto bg-dark text-white text-center py-3">
