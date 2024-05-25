@@ -11,7 +11,8 @@ class Kamar extends Model
     protected $primaryKey = 'nomor_kamar';
     protected $fillable = ['tipe', 'harga'];
 
-    public function fasilitas(){
-        return $this->belongsTo(Fasilitas::class,'id_fasilitas');
+    public function fasilitas()
+    {
+        return $this->belongsTo(Fasilitas::class, 'nomor_kamar');
     }
 }
