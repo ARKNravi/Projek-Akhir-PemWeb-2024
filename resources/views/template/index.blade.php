@@ -34,6 +34,7 @@
                     <ul class="d-flex flex-column justify-content-md-between list-unstyled p-2 gap-2">
                         <li><a class="text-decoration-none text-white" href="/fasilitas">Fasilitas</a></li>
                         <li><a class="text-decoration-none text-white" href="/admin/ruangan">Ruangan</a></li>
+                        <li><a class="text-decoration-none text-white" href="/layout">Layout</a></li>
                         <li><a class="text-decoration-none text-white" href="/kamar">Kamar</a></li>
                         <li><a class="text-decoration-none text-white" href="/makanan">makanan</a></li>
                     </ul></li>
