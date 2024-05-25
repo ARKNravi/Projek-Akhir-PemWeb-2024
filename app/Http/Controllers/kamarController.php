@@ -42,6 +42,5 @@ class kamarController extends Controller
         $kamar = Kamar::findOrFail($nomor_kamar);
         $kamar->delete();
         return redirect('/kamar');
-        
     }
 }

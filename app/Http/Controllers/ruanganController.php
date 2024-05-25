@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ruangan;
+use App\Models\Layout;
 
 class RuanganController extends Controller
 {
     public function index()
     {
+        
         $ruangan = Ruangan::all();
 
         if ($ruangan->isEmpty()) {
@@ -21,7 +23,13 @@ class RuanganController extends Controller
     }
     public function create()
 {
-    return view('ruangan.create');
+    $layout = Layout::all();
+    if($layout->isEmpty()){
+        $message="Belum ada layout untuk dipilih. Buat layout terlebih dahulu";
+    }else{
+        $message="";
+    }
+    return view('ruangan.create',compact('layout','message'));
 }
 
 public function store(Request $request)

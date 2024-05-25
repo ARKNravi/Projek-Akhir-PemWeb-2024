@@ -14,7 +14,7 @@
     </style>
 </head>
 <body class="">
-     <nav class=>
+     <nav class="p-1">
         <ul class="d-flex flex-row justify-content-md-between list-unstyled p-3">
             <div>
                 <li>Home</li>
@@ -29,20 +29,21 @@
         <aside>
             <ul class="d-flex flex-column justify-content-md-between list-unstyled p-3 gap-5" >
                 <li><a class="text-decoration-none text-white" href="/profile">Profile</a></li>
-                <li><a class="text-decoration-none text-white" href="/dashboard">dashboard</a></li>
+                <li><a class="text-decoration-none text-white" href="/admin/dashboard">dashboard</a></li>
                 <li><a class="text-decoration-none text-white" href="/packets">packets</a>
                     <ul class="d-flex flex-column justify-content-md-between list-unstyled p-2 gap-2">
                         <li><a class="text-decoration-none text-white" href="/fasilitas">Fasilitas</a></li>
-                        <li><a class="text-decoration-none text-white" href="/ruangan">Ruangan</a></li>
+                        <li><a class="text-decoration-none text-white" href="/admin/ruangan">Ruangan</a></li>
+                        <li><a class="text-decoration-none text-white" href="/layout">Layout</a></li>
                         <li><a class="text-decoration-none text-white" href="/kamar">Kamar</a></li>
                         <li><a class="text-decoration-none text-white" href="/makanan">makanan</a></li>
                     </ul></li>
-                <li><a class="text-decoration-none text-white" href="/order">order</a></li>
+                <li><a class="text-decoration-none text-white" href="/admin/orders">order</a></li>
                 <li><a class="text-decoration-none text-white" href="/history">history</a></li>
                 <li><a class="text-decoration-none text-white" href="/income">income</a></li>
             </ul>
          </aside>
-         <div class="content">
+         <div class="content p-3 m-2">
             @yield('content')
          </div>
          
