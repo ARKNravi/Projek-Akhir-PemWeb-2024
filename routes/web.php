@@ -78,7 +78,7 @@ Route::post("/layout/edit",[layoutController::class,'update']);
 Route::get("/layout/hapus/{id_layout}",[layoutController::class,'destroy']);
 
 
-Route::get('/admin/laporan-pemasukan', [incomeController::class, 'index'])->name('admin.laporan-pemasukan');
+Route::get('/admin/income', [incomeController::class, 'index'])->name('admin.laporan-pemasukan');
 Route::get('/admin/history', [historyController::class, 'index'])->name('admin.history');
 
 

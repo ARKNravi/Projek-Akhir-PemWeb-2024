@@ -32,12 +32,14 @@
                 <li><a class="text-decoration-none text-white" href="/income">income</a></li>
                 <li><a class="text-decoration-none text-white" href="/income">Docs</a></li>
                 <li><a class="text-decoration-none text-white" href="/income">Logout</a></li>
+                <li><a class="text-decoration-none text-white" href="/admin/history">history</a></li>
+                <li><a class="text-decoration-none text-white" href="/admin/income">income</a></li>
             </ul>
          </aside>
          <div class="content p-3 m-2">
             @yield('content')
          </div>
-         
+
      </main>
      <footer>
         <p>Copyright of banquet.com</p>
