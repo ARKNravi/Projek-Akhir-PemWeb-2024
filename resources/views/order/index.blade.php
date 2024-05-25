@@ -54,8 +54,8 @@
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link text-white" href="/admin/orders">Order</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="/history">History</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="/income">Income</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="/admin/history">History</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="/admin/income">Income</a></li>
             </ul>
         </aside>
         <div class="content p-3">
