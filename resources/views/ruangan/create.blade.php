@@ -23,7 +23,7 @@
                 <p>{{$message}}</p>
                 <a href="/layout">Halaman layout</a>
             @else
-            <select name="id_layout" id="id_layout">  
+            <select name="id_layout" id="id_layout">
             @foreach ($layout as $lyt)
             <option value="{{$lyt->id_layout}}">{{$lyt->nama_layout}}</option>
             @endforeach

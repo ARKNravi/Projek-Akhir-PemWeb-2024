@@ -67,3 +67,8 @@ Route::get("/makanan/edit/{id_makanan}",[makananController::class,'edit']);
 Route::post("/makanan/edit",[makananController::class,'update']);
 Route::get("/makanan/hapus/{id_makanan}",[makananController::class,'destroy']);
 });
+
+//rute fasilitas
+Route::get("/fasilitas");
+
+//rute paket

@@ -18,6 +18,7 @@
                 <th>Kapasitas Ruangan</th>
                 <th>Harga</th>
                 <th>Backdrop</th>
+                <th>Layout</th>
                 <th>Aksi</th>
             </tr>
             @foreach($ruangan as $r)
@@ -26,6 +27,7 @@
                     <td>{{ $r->luas_ruangan }}</td>
                     <td>{{ $r->harga }}</td>
                     <td>{{ $r->backdrop }}</td>
+                    <td>{{$r->id_layout}}</td>
                     <td>
                         <a href="{{ route('admin.ruangan.edit', $r->id_ruangan) }}">Edit</a>
                         <form method="POST" action="{{ route('admin.ruangan.destroy', $r->id_ruangan) }}">
