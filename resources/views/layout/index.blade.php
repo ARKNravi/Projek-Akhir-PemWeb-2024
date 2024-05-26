@@ -14,16 +14,32 @@
     @if (empty($layout))
     <p>Tidak ada layout dalam data</p>
     @else
-    <form action="/layout" method="GET" class="mb-4">
-        <label for="sort">Sort by : </label>
-        <select name="sort" id="sort">
-            <option value="id_layout">Id layout</option>
-            <option value="nama_layout">Nama layout</option>
-            <option value="harga">Harga</option>
-            <option value="jumlahOrang">Kapasitas</option>
-        </select><br>
-        <input type="submit" value="sort"class="btn btn-secondary btn-sm px-4 mt-2">
-    </form>
+    <div class="forms d-flex flex-row gap-3 justify-content-start align-items-start">
+        <form action="/layout" method="GET" class="mb-3 d-flex flex-row gap-1 justify-content-center align-items-start">
+            <div class="input">
+                <label for="search">Search</label>
+                <input type="text" name="search" id="search">
+            </div>
+            <div class="submitButton">
+                <input type="submit" value="search" class="btn btn-secondary btn-sm px-4">
+            </div>
+        </form>
+        <form action="/layout" method="GET" class="mb-3 d-flex flex-row gap-1 justify-content-start align-items-stretch">
+            <div class="input">
+                <label for="sort">Sort by : </label>
+                <select name="sort" id="sort">
+                    <option value="id_layout">Id layout</option>
+                    <option value="nama_layout">Nama layout</option>
+                    <option value="harga">Harga</option>
+                    <option value="jumlahOrang">Kapasitas</option>
+                </select>
+            </div>
+            <div class="submitButton">
+                <input type="submit" value="sort"class="btn btn-secondary btn-sm px-4">
+            </div>
+        </form>
+    </div>
+    
     <table class="table table-striped">
         <tr>
             <th>id layout</th>

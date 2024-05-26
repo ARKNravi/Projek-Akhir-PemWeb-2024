@@ -9,14 +9,27 @@
 </head>
 <body>
     @section('content')
-    <a href="/layout">Kembali</a>
+    <h1 class="mb-4">Tambah fasilitas</h1>
+    <a href="/layout" class="btn btn-info">Kembali</a>
     <form action="/layout/tambah" method="post">
         {{ csrf_field() }}
-        id layout <input type="text" name="id_layout" id="id_layout">
-        nama layout <input type="text" name="nama_layout" id="nama_layout">
-        Harga <input type="text" name="harga" id="harga">
-        Kapasitas <input type="text" name="jumlahOrang" id="jumlahOrang">
-        <input type="submit" value="simpan">
+        <div class="mb-3">
+            <label for="id_layout">Id layout</label><br>
+            <input type="text" name="id_layout" id="id_layout">
+        </div>
+        <div class="mb-3">
+            <label for="nama_layout">Nama layout</label><br>
+            <input type="text" name="nama_layout" id="nama_layout">
+        </div>
+        <div class="mb-3">
+            <label for="harga">Harga</label><br>
+            <input type="text" name="harga" id="harga">
+        </div>
+        <div class="mb-3">
+            <label for="jumlahOrang">Kapasitas</label><br>
+            <input type="text" name="jumlahOrang" id="jumlahOrang">
+        </div>
+        <input type="submit" value="tambah" class="btn btn-primary">
     </form>
 @endsection
 </body>
