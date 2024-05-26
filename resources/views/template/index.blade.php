@@ -18,7 +18,7 @@
             <ul class="d-flex flex-column justify-content-md-between list-unstyled p-3 gap-5" >
                 <li><a class="text-decoration-none text-white" href="/profile">Profile</a></li>
                 <li><a class="text-decoration-none text-white" href="/admin/dashboard">dashboard</a></li>
-                <li><a class="text-decoration-none text-white" href="/packets">packets</a>
+                <li><a class="text-decoration-none text-white" href="/paket">paket</a>
                     <ul class="d-flex flex-column justify-content-md-between list-unstyled p-2 gap-2">
                         <li><a class="text-decoration-none text-white" href="/fasilitas">Fasilitas</a></li>
                         <li><a class="text-decoration-none text-white" href="/admin/ruangan">Ruangan</a></li>
@@ -29,10 +29,8 @@
                 <li><a class="text-decoration-none text-white" href="/admin/orders">order</a></li>
                 <li><a class="text-decoration-none text-white" href="/history">history</a></li>
                 <li><a class="text-decoration-none text-white" href="/income">income</a></li>
-                <li><a class="text-decoration-none text-white" href="/income">Docs</a></li>
-                <li><a class="text-decoration-none text-white" href="/income">Logout</a></li>
-                <li><a class="text-decoration-none text-white" href="/admin/history">history</a></li>
-                <li><a class="text-decoration-none text-white" href="/admin/income">income</a></li>
+                <li><a class="text-decoration-none text-white" href="/docs">Docs</a></li>
+                <li><a class="text-decoration-none text-white" href="/logout">Logout</a></li>
             </ul>
          </aside>
          <div class="content p-3 m-2">
