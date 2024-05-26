@@ -16,7 +16,7 @@
      <main class="d-flex flex-row justify-content-start align-content-center mt-0">
         <aside>
             <ul class="d-flex flex-column justify-content-md-between list-unstyled p-3 gap-5" >
-                <li><a class="text-decoration-none text-white" href="/profile">Profile</a></li>
+                <li><a class="text-decoration-none text-white" href="/admin/profile">Profile</a></li>
                 <li><a class="text-decoration-none text-white" href="/admin/dashboard">dashboard</a></li>
                 <li><a class="text-decoration-none text-white" href="/paket">paket</a>
                     <ul class="d-flex flex-column justify-content-md-between list-unstyled p-2 gap-2">

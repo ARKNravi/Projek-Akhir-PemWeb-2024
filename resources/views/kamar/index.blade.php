@@ -11,7 +11,10 @@
     @section('content') 
     <div class="container mt-4">
         <h1 class="mb-4">Daftar Kamar</h1>
-        <a href="/kamar/tambah" class="btn btn-primary mb-4">Tambah Makanan</a>
+        <div class="mb-3">
+            <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">Kembali ke Dashboard</a>
+            <a href="/kamar/tambah" class="btn btn-primary">Tambah Kamar</a>
+        </div>
         <div class="forms d-flex flex-row gap-3 justify-content-start align-items-start">
             <form action="/kamar" method="GET" class="mb-3 d-flex flex-row gap-1 justify-content-center align-items-start">
                 <div class="input">

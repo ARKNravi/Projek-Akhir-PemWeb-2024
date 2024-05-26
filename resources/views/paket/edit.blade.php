@@ -13,7 +13,6 @@
             <a href="/paket" class="btn btn-secondary mb-4">Kembali</a>
             <h1 class="mb-4">Edit paket</h1>
             @foreach ($paket as $pkt)
-            <p>{{$pkt->id_paket}}</p>
             <form method="POST" action="/paket/edit" class="needs-validation" novalidate>
                 @csrf
                 <input type="hidden" name="id_paket" id="id_paket" value="{{$pkt->id_paket}}">
@@ -25,7 +24,7 @@
                     <label for="id_fasilitas" class="form-label">id_fasilitas</label>
                     <select name="id_fasilitas" id="id_fasilitas">
                         @foreach ($fasilitas as $fslt)
-                            <option value="{{$fslt->id_fasilitas}}">{{$fslt->nama_fasilitas}}</option>
+                            <option value="{{$fslt->id_fasilitas}}">{{$fslt->id_fasilitas}}</option>
                         @endforeach
                     </select>
                 </div>
