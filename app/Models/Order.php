@@ -15,7 +15,6 @@ class Order extends Model
         return $this->belongsTo(Paket::class, 'id_paket');
     }
 
-
     public function session()
     {
         return $this->belongsTo(Sesi::class, 'id_session');

@@ -1,4 +1,6 @@
 <?php
+use App\Http\Controllers\fasilitasController;
+use App\Http\Controllers\paketController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\kamarController;
 use App\Http\Controllers\OrderController;
@@ -61,6 +63,23 @@ Route::get("/makanan/edit/{id_makanan}",[makananController::class,'edit']);
 Route::post("/makanan/edit",[makananController::class,'update']);
 Route::get("/makanan/hapus/{id_makanan}",[makananController::class,'destroy']);
 
+});
+
+//rute fasilitas
+Route::get("/fasilitas",[fasilitasController::class,'index']);
+Route::get("/fasilitas/tambah",[fasilitasController::class,'create']);
+Route::post("/fasilitas/tambah",[fasilitasController::class,'store']);
+Route::get("/fasilitas/edit/{id_fasilitas}",[fasilitasController::class,'edit']);
+Route::post("/fasilitas/edit",[fasilitasController::class,'update']);
+Route::get("/fasilitas/hapus/{id_fasilitas}",[fasilitasController::class,'destroy']);
+
+//rute paket
+Route::get("/paket",[paketController::class,'index']);
+Route::get("/paket/tambah",[paketController::class,'create']);
+Route::post("/paket/tambah",[paketController::class,'store']);
+Route::get("/paket/edit/{id_paket}",[paketController::class,'edit']);
+Route::post("/paket/edit",[paketController::class,'update']);
+Route::get("/paket/hapus/{id_paket}",[paketController::class,'destroy']);
 //Rute layout
 Route::get("/layout",[layoutController::class,'index']);
 Route::get("/layout/tambah",[layoutController::class,'create']);
@@ -70,6 +89,6 @@ Route::post("/layout/edit",[layoutController::class,'update']);
 Route::get("/layout/hapus/{id_layout}",[layoutController::class,'destroy']);
 
 
-Route::get('/admin/income', [incomeController::class, 'index'])->name('admin.laporan-pemasukan');
-Route::get('/admin/history', [historyController::class, 'index'])->name('admin.history');
-});
+Route::get('/income', [incomeController::class, 'index'])->name('admin.laporan-pemasukan');
+Route::get('/history', [historyController::class, 'index'])->name('admin.history');
+Route::get('/admin/orders/available-sessions', [OrderController::class, 'getAvailableSessions']);
