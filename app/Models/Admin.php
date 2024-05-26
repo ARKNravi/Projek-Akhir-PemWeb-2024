@@ -10,12 +10,11 @@ class Admin extends Authenticatable
     use Notifiable;
 
     protected $table = 'admin'; // Specify the correct table name
-
     protected $primaryKey = 'id_admin';
     protected $fillable = ['username', 'password'];
 
     public function orders()
     {
-        return $this->belongsTo(Order::class, 'id_order');
+        return $this->hasMany(Order::class, 'id_admin');
     }
 }
