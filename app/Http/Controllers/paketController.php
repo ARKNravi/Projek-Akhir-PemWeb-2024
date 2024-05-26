@@ -7,8 +7,14 @@ use Illuminate\Http\Request;
 
 class paketController extends Controller
 {
-    public function index(){
-        $paket = Paket::all();
+    public function index(Request $request){
+        $sort = $request->input('sort', 'created_at');
+        $search = $request->input('search');
+        $query =Paket::orderBy($sort,'desc');
+        if (!empty($search)) {
+            $query->where('nama', 'like', '%' . $search . '%');
+        }
+        $paket=$query->get();
         if($paket->isEmpty()){
             $message= "Belum ada paket";
         }else{
