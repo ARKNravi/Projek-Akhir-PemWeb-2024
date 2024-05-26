@@ -11,6 +11,7 @@ use App\Http\Controllers\makananController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', [dashboardController::class,'index']);
 Route::get('/packets');
@@ -92,3 +93,9 @@ Route::get("/layout/hapus/{id_layout}",[layoutController::class,'destroy']);
 Route::get('/income', [incomeController::class, 'index'])->name('admin.laporan-pemasukan');
 Route::get('/history', [historyController::class, 'index'])->name('admin.history');
 Route::get('/admin/orders/available-sessions', [OrderController::class, 'getAvailableSessions']);
+
+Route::get('/admin/profile', [ProfileController::class, 'index'])->name('profile.index');
+Route::get('/admin/profile/edit-username', [ProfileController::class, 'editUsername'])->name('profile.edit-username');
+Route::post('/admin/profile/update-username', [ProfileController::class, 'updateUsername'])->name('profile.update-username');
+Route::get('/admin/profile/edit-password', [ProfileController::class, 'editPassword'])->name('profile.edit-password');
+Route::post('/admin/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
