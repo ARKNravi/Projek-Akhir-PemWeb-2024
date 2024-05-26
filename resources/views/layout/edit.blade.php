@@ -12,8 +12,8 @@
     <h1 class="mb-4">Edit layout</h1>
     <a href="/layout" class="btn btn-info">Kembali</a>
     @foreach ($layout as $lyt)
+    <a href="/layout">Kembali</a>
     <form action="/layout/edit" method="post">
-        {{ csrf_field() }}
         <div class="mb-3">
             <label for="id_layout">Id layout</label><br>
             <input type="text" name="id_layout" id="id_layout" value="{{$lyt->id_layout}}">
@@ -31,10 +31,11 @@
             <input type="text" name="jumlahOrang" id="jumlahOrang" value="{{$lyt->jumlahOrang}}">
         </div>
         <input type="submit" value="edit" class="btn btn-primary">
+        <input type="submit" value="simpan">
     </form>
     @endforeach
     @endsection
-   
-   
+
+
 </body>
 </html>

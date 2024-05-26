@@ -11,6 +11,7 @@ use App\Models\Pemesan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -52,14 +53,98 @@ class OrderController extends Controller
             'status' => 'required|string',
         ]);
 
-        $pemesan = Pemesan::create($validated);
+        $paket = Paket::find($request->id_paket);
+        $fasilitas = $paket->fasilitas;
+        $ruangan = $fasilitas->ruangan;
+
+        $sessionTimes = [
+            ['start' => '07:00', 'end' => '15:00'],
+            ['start' => '07:00', 'end' => '21:00']
+        ];
+
+        $selectedSession = $sessionTimes[$request->id_session - 1];
+        $sessionStart = $request->tanggal . ' ' . $selectedSession['start'];
+        $sessionEnd = $request->tanggal . ' ' . $selectedSession['end'];
+
+        $conflictingOrders = Order::where('tanggal', $request->tanggal)
+            ->whereHas('session', function ($query) use ($sessionStart, $sessionEnd) {
+                $query->where('waktu_mulai', $sessionStart)
+                      ->where('waktu_selesai', $sessionEnd);
+            })
+            ->whereHas('paket', function ($query) use ($ruangan) {
+                $query->whereHas('fasilitas', function ($query) use ($ruangan) {
+                    $query->where('id_ruangan', $ruangan->id_ruangan);
+                });
+            })
+            ->whereIn('status', ['Reservasi', 'Check In'])
+            ->exists();
+
+        if ($conflictingOrders) {
+            return redirect()->back()->withErrors(['error' => 'The selected session is already booked for the chosen room.']);
+        }
+
+        $session = Sesi::firstOrCreate([
+            'waktu_mulai' => $sessionStart,
+            'waktu_selesai' => $sessionEnd
+        ]);
+
+        $validated['id_session'] = $session->id_session;
         $validated['id_admin'] = Auth::guard('admin')->id();
+
+        $pemesan = Pemesan::create($validated);
         $validated['nik'] = $pemesan->nik;
 
-        $order = Order::create($validated);
+        Order::create($validated);
 
         return redirect('/admin/orders');
     }
+
+    public function getAvailableSessions(Request $request)
+{
+    $date = $request->query('date');
+    $paketId = $request->query('paket_id');
+
+    $paket = Paket::find($paketId);
+    $fasilitas = $paket->fasilitas;
+    $ruangan = $fasilitas->ruangan;
+
+    $sessionTimes = [
+        ['start' => '07:00', 'end' => '15:00'],
+        ['start' => '07:00', 'end' => '21:00']
+    ];
+
+    $availableSessions = [];
+
+    foreach ($sessionTimes as $index => $session) {
+        $sessionStart = $date . ' ' . $session['start'];
+        $sessionEnd = $date . ' ' . $session['end'];
+
+        $conflictingOrders = Order::where('tanggal', $date)
+            ->whereHas('session', function ($query) use ($sessionStart, $sessionEnd) {
+                $query->where('waktu_mulai', $sessionStart)
+                      ->where('waktu_selesai', $sessionEnd);
+            })
+            ->whereHas('paket', function ($query) use ($ruangan) {
+                $query->whereHas('fasilitas', function ($query) use ($ruangan) {
+                    $query->where('id_ruangan', $ruangan->id_ruangan);
+                });
+            })
+            ->whereIn('status', ['Reservasi', 'Check In'])
+            ->exists();
+
+        if (!$conflictingOrders) {
+            $availableSessions[] = [
+                'id' => $index + 1,
+                'start' => $session['start'],
+                'end' => $session['end']
+            ];
+        }
+    }
+
+    return response()->json($availableSessions);
+}
+
+
 
     public function cancel($id)
     {

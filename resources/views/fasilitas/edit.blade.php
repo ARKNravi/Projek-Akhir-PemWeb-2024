@@ -58,9 +58,9 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Edit</button>
             </form>
-            </div>  
+            </div>
             @endforeach
-            
+
     @endsection
 </body>
 </html>
