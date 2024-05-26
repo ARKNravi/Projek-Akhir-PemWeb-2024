@@ -6,8 +6,14 @@ use Illuminate\Http\Request;
 
 class kamarController extends Controller
 {
-    public function index(){
-        $kamar = Kamar::all();
+    public function index(Request $request){
+        $sort = $request->input('sort', 'created_at');
+        $search = $request->input('search');
+        $query=Kamar::orderBy($sort,'desc');
+        if (!empty($search)) {
+            $query->where('tipe', 'like', '%' . $search . '%');
+        }
+        $kamar = $query->get();
         return view('kamar.index',["kamar"=>$kamar]);
     }
 

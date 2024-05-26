@@ -9,14 +9,24 @@
 </head>
 <body>
     @section('content')
-        <a href="/kamar">Kembali</a>
-        <form action="/kamar/tambah" method="post">
-            {{ csrf_field() }}
-            Nomor kamar <input type="text" name="nomor_kamar" id="nomor_kamar">
-            Tipe <input type="text" name="tipe" id="tipe">
-            Harga <input type="text" name="harga" id="harga">
-            <input type="submit" value="simpan">
-        </form>
+    <h1 class="mb-4">Tambah Kamar</h1>
+    <a href="/layout" class="btn btn-info">Kembali</a>
+    <form action="/kamar/tambah" method="post">
+        {{ csrf_field() }}
+        <div class="mb-3">
+            <label for="nomor_kamar">Nomor kamar</label><br>
+            <input type="text" name="nomor_kamar" id="nomor_kamar">
+        </div>
+        <div class="mb-3">
+            <label for="tipe">Tipe</label><br>
+            <input type="text" name="tipe" id="tipe">
+        </div>
+        <div class="mb-3">
+            <label for="harga">Harga</label><br>
+            <input type="text" name="harga" id="harga">
+        </div>
+        <input type="submit" value="Tambah" class="btn btn-primary">
+    </form>
     @endsection
 </body>
 </html>
