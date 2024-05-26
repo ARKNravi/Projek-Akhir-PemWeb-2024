@@ -11,6 +11,7 @@ use App\Http\Controllers\makananController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\dokumentasiController;
 
 Route::get('/', [dashboardController::class,'index']);
 Route::get('/packets');
@@ -92,3 +93,6 @@ Route::get("/layout/hapus/{id_layout}",[layoutController::class,'destroy']);
 Route::get('/income', [incomeController::class, 'index'])->name('admin.laporan-pemasukan');
 Route::get('/history', [historyController::class, 'index'])->name('admin.history');
 Route::get('/admin/orders/available-sessions', [OrderController::class, 'getAvailableSessions']);
+
+//Rute dokumentasi
+Route::get('/dokumentasi', [dokumentasiController::class, 'index']);
