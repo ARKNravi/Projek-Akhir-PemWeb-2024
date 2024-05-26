@@ -14,10 +14,19 @@
     <a href="/kamar">Kembali</a>
     <form action="/kamar/edit" method="post">
         {{ csrf_field() }}
-        <input type="hidden" name="nomor_kamar" value="{{ $kmr->nomor_kamar }}"> <br/>
-        Tipe <input type="text" name="tipe" id="tipe" value="{{$kmr->tipe}}">
-        Harga <input type="text" name="harga" id="harga" value="{{$kmr->harga}}">
-        <input type="submit" value="simpan">
+        <div class="mb-3">
+            <label for="nomor_kamar">Nomor kamar</label><br>
+            <input type="text" name="nomor_kamar" id="nomor_kamar" value="{{$kmr->nomor_kamar}}">
+        </div>
+        <div class="mb-3">
+            <label for="tipe">Tipe</label><br>
+            <input type="text" name="tipe" id="tipe" value="{{$kmr->tipe}}">
+        </div>
+        <div class="mb-3">
+            <label for="harga">Harga</label><br>
+            <input type="text" name="harga" id="harga" value="{{$kmr->harga}}">
+        </div>
+        <input type="submit" value="Edit" class="btn btn-primary">
     </form>
     @endforeach
     @endsection
