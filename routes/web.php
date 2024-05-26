@@ -71,6 +71,7 @@ Route::post("/fasilitas/tambah",[fasilitasController::class,'store']);
 Route::get("/fasilitas/edit/{id_fasilitas}",[fasilitasController::class,'edit']);
 Route::post("/fasilitas/edit",[fasilitasController::class,'update']);
 Route::get("/fasilitas/hapus/{id_fasilitas}",[fasilitasController::class,'destroy']);
+
 //rute paket
 
 
