@@ -11,6 +11,7 @@ use App\Http\Controllers\makananController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\dokumentasiController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', [dashboardController::class,'index']);
@@ -94,6 +95,8 @@ Route::get('/income', [incomeController::class, 'index'])->name('admin.laporan-p
 Route::get('/history', [historyController::class, 'index'])->name('admin.history');
 Route::get('/admin/orders/available-sessions', [OrderController::class, 'getAvailableSessions']);
 
+//Rute dokumentasi
+Route::get('/dokumentasi', [dokumentasiController::class, 'index']);
 Route::get('/admin/profile', [ProfileController::class, 'index'])->name('profile.index');
 Route::get('/admin/profile/edit-username', [ProfileController::class, 'editUsername'])->name('profile.edit-username');
 Route::post('/admin/profile/update-username', [ProfileController::class, 'updateUsername'])->name('profile.update-username');

@@ -30,7 +30,7 @@
                     </ul></li>
                 <li><a class="text-decoration-none text-white" href="/history">history</a></li>
                 <li><a class="text-decoration-none text-white" href="/income">income</a></li>
-                <li><a class="text-decoration-none text-white" href="/docs">Docs</a></li>
+                <li><a class="text-decoration-none text-white" href="/dokumentasi">Docs</a></li>
                 <li><a class="text-decoration-none text-white" href="/logout">Logout</a></li>
             </ul>
          </aside>
