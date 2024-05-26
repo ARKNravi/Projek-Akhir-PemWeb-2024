@@ -14,7 +14,7 @@ class paketController extends Controller
         }else{
             $message="";
         }
-        return view('paket.index', compact('packet','message'));
+        return view('paket.index', compact('paket','message'));
     }
 
     public function create(){
@@ -23,11 +23,21 @@ class paketController extends Controller
 
     }
 
+    public function updateHargaTotal($paketId){
+    $paket = Paket::find($paketId);
+    if ($paket) {
+        $hargaTotal = $paket->hargaTotal();
+        $paket->harga_total = $hargaTotal;
+        $paket->save();
+    }
+}
+
     public function store(Request $request){
         $paket = new Paket;
         $paket->id_paket=$request->id_paket;
-        $paket->harga_total=$request->harga_total;
+        $paket->nama=$request->nama;
         $paket->id_fasilitas=$request->id_fasilitas;
+        $paket->hargaTotal();
         $paket->save();
         return redirect('/paket');
     }
@@ -41,8 +51,10 @@ class paketController extends Controller
     public function update(Request $request){
         $paket = Paket::find($request)->first();
         $paket->id_paket=$request->id_paket;
+        $paket->nama=$request->nama;
         $paket->harga_total=$request->harga_total;
         $paket->id_fasilitas=$request->id_fasilitas;
+        $paket->hargaTotal();
         $paket->save();
         return redirect('/paket');
     }

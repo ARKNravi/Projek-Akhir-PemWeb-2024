@@ -12,7 +12,7 @@ class Ruangan extends Model
 
     public function layout()
     {
-        return $this->hasOne(layout::class, 'id_ruangan');
+        return $this->belongsTo(Layout::class, 'id_layout');
     }
 
 
