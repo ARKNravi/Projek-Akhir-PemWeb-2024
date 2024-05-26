@@ -7,9 +7,15 @@ use App\Models\Layout;
 
 class layoutController extends Controller
 {
-    public function index(){
-        $layout = Layout::all();
-        return view('layout.index',["layout"=>$layout]);
+    public function index(Request $request){
+        $sort = $request->input('sort', 'created_at');
+        $search = $request->input('search');
+        $query = Layout::orderBy($sort,'desc');
+        if (!empty($search)) {
+            $query->where('nama_layout', 'like', '%' . $search . '%');
+        }
+        $layout = $query->get();
+        return view('layout.index',compact('layout'));
     }
 
     public function create(){
@@ -46,4 +52,5 @@ class layoutController extends Controller
         $layout->delete();
         return redirect('/layout');
     }
+
 }
