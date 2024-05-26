@@ -18,6 +18,8 @@
             <ul class="d-flex flex-column justify-content-md-between list-unstyled p-3 gap-5" >
                 <li><a class="text-decoration-none text-white" href="/admin/profile">Profile</a></li>
                 <li><a class="text-decoration-none text-white" href="/admin/dashboard">dashboard</a></li>
+                <li><a class="text-decoration-none text-white" href="/admin/orders">order</a></li>
+
                 <li><a class="text-decoration-none text-white" href="/paket">paket</a>
                     <ul class="d-flex flex-column justify-content-md-between list-unstyled p-2 gap-2">
                         <li><a class="text-decoration-none text-white" href="/fasilitas">Fasilitas</a></li>
@@ -26,7 +28,6 @@
                         <li><a class="text-decoration-none text-white" href="/kamar">Kamar</a></li>
                         <li><a class="text-decoration-none text-white" href="/makanan">makanan</a></li>
                     </ul></li>
-                <li><a class="text-decoration-none text-white" href="/admin/orders">order</a></li>
                 <li><a class="text-decoration-none text-white" href="/history">history</a></li>
                 <li><a class="text-decoration-none text-white" href="/income">income</a></li>
                 <li><a class="text-decoration-none text-white" href="/dokumentasi">Docs</a></li>
