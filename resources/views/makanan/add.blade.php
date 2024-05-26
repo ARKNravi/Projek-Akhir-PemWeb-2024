@@ -10,12 +10,23 @@
 <body>
     @section('content')
     <a href="/makanan">Kembali</a>
+    <h1 class="mb-4">Tambah fasilitas</h1>
+    <a href="/layout" class="btn btn-info">Kembali</a>
     <form action="/makanan/tambah" method="post">
         {{ csrf_field() }}
-        Id makanan <input type="text" name="id_makanan" id="id_makanan">
-        Nama <input type="text" name="nama_makanan" id="nama_makanan">
-        Harga <input type="text" name="harga_makanan" id="harga_makanan">
-        <input type="submit" value="simpan">
+        <div class="mb-3">
+            <label for="id_makanan">Id Makanan</label><br>
+            <input type="text" name="id_makanan" id="id_makanan">
+        </div>
+        <div class="mb-3">
+            <label for="nama_makanan">Nama makanan</label><br>
+            <input type="text" name="nama_makanan" id="nama_makanan">
+        </div>
+        <div class="mb-3">
+            <label for="harga">Harga</label><br>
+            <input type="text" name="harga_makanan" id="harga_makanan">
+        </div>
+        <input type="submit" value="Tambah" class="btn btn-primary">
     </form>
     @endsection
 </body>

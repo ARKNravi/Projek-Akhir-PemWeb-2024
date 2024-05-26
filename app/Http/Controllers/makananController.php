@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 
 class makananController extends Controller
 {
-    public function index(){
-        $makanan = Makanan::all();
-        
+    public function index(Request $request){
+        $sort = $request->input('sort', 'created_at');
+        $search = $request->input('search');
+        $query =Makanan::orderBy($sort,'desc');
+        if (!empty($search)) {
+            $query->where('nama_makanan', 'like', '%' . $search . '%');
+        }
+        $makanan=$query->get();
         return view('makanan.index',["makanan"=>$makanan]);
     }
 
@@ -37,6 +42,7 @@ class makananController extends Controller
         $makanan->id_makanan=$request->id_makanan;
         $makanan->nama_makanan=$request->nama_makanan;
         $makanan->harga_makanan=$request->harga_makanan;
+        
         $makanan->save();
 
         return redirect('/makanan');
