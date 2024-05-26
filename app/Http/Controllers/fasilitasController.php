@@ -11,8 +11,14 @@ use App\Models\Fasilitas;
 
 class fasilitasController extends Controller
 {
-    public function index(){
-        $fasilitas = Fasilitas::all();
+    public function index(Request $request){
+        $sort = $request->input('sort', 'created_at');
+        $search = $request->input('search');
+        $query =Fasilitas::orderBy($sort,'desc');
+        if (!empty($search)) {
+            $query->where('nama_fasilitas', 'like', '%' . $search . '%');
+        }
+        $fasilitas=$query->get();
         if($fasilitas->isEmpty()){
             $message="belum ada fasilitas";
         }else{
