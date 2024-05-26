@@ -7,8 +7,9 @@ use App\Models\Layout;
 
 class layoutController extends Controller
 {
-    public function index(){
-        $layout = Layout::all();
+    public function index(Request $request){
+        $sort = $request->input('sort', 'created_at');
+        $layout = Layout::orderBy($sort,'desc')->get();
         return view('layout.index',["layout"=>$layout]);
     }
 

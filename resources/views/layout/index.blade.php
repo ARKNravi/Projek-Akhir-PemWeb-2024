@@ -8,12 +8,23 @@
     <title>Layout</title>
 </head>
 <body>
-    @section('content') 
-    <a href="/layout/tambah">Tambah layout</a>
+    @section('content')
+    <h1 class="mb-4">Layout</h1> 
+    <a href="/layout/tambah" class="btn btn-primary mb-4">Tambah layout</a>
     @if (empty($layout))
     <p>Tidak ada layout dalam data</p>
     @else
-    <table>
+    <form action="/layout" method="GET" class="mb-4">
+        <label for="sort">Sort by : </label>
+        <select name="sort" id="sort">
+            <option value="id_layout">Id layout</option>
+            <option value="nama_layout">Nama layout</option>
+            <option value="harga">Harga</option>
+            <option value="jumlahOrang">Kapasitas</option>
+        </select><br>
+        <input type="submit" value="sort"class="btn btn-secondary btn-sm px-4 mt-2">
+    </form>
+    <table class="table table-striped">
         <tr>
             <th>id layout</th>
             <th>Nama layout</th>
@@ -27,8 +38,8 @@
                 <td>{{$lyt->nama_layout}}</td>
                 <td>{{$lyt->harga}}</td>
                 <td>{{$lyt->jumlahOrang}}</td>
-                <td><a href="/layout/edit/{{$lyt->id_layout}}">Edit</a>|
-                    <a href="/layout/hapus/{{$lyt->id_layout}}">Hapus</a>
+                <td><a href="/layout/edit/{{$lyt->id_layout}}" class="btn btn-warning btn-sm">Edit</a>|
+                    <a href="/layout/hapus/{{$lyt->id_layout}}" class="btn btn-danger btn-sm">Hapus</a>
                 </td>
             </tr>
         @endforeach
