@@ -52,5 +52,4 @@ class layoutController extends Controller
         $layout->delete();
         return redirect('/layout');
     }
-
 }

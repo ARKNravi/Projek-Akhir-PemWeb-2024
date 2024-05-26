@@ -91,5 +91,4 @@ Route::get("/layout/hapus/{id_layout}",[layoutController::class,'destroy']);
 
 Route::get('/income', [incomeController::class, 'index'])->name('admin.laporan-pemasukan');
 Route::get('/history', [historyController::class, 'index'])->name('admin.history');
-
-
+Route::get('/admin/orders/available-sessions', [OrderController::class, 'getAvailableSessions']);

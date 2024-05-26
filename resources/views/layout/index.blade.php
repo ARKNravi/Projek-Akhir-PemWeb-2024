@@ -9,7 +9,7 @@
 </head>
 <body>
     @section('content')
-    <h1 class="mb-4">Layout</h1> 
+    <h1 class="mb-4">Layout</h1>
     <a href="/layout/tambah" class="btn btn-primary mb-4">Tambah layout</a>
     @if (empty($layout))
     <p>Tidak ada layout dalam data</p>
@@ -39,7 +39,7 @@
             </div>
         </form>
     </div>
-    
+
     <table class="table table-striped">
         <tr>
             <th>id layout</th>
@@ -59,7 +59,7 @@
                 </td>
             </tr>
         @endforeach
-    </table>   
+    </table>
     @endif
     @endsection
 </body>

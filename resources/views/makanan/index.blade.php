@@ -12,31 +12,6 @@
     <div class="container mt-4">
     <h1 class="mb-4">Daftar makanan</h1>
     <a href="/makanan/tambah" class="btn btn-primary mb-4">Tambah Makanan</a>
-    <div class="forms d-flex flex-row gap-3 justify-content-start align-items-start">
-        <form action="/makanan" method="GET" class="mb-3 d-flex flex-row gap-1 justify-content-center align-items-start">
-            <div class="input">
-                <label for="search">Search</label>
-                <input type="text" name="search" id="search">
-            </div>
-            <div class="submitButton">
-                <input type="submit" value="search" class="btn btn-secondary btn-sm px-4">
-            </div>
-        </form>
-        <form action="/makanan" method="GET" class="mb-3 d-flex flex-row gap-1 justify-content-start align-items-stretch">
-            <div class="input">
-                <label for="sort">Sort by : </label>
-                <select name="sort" id="sort">
-                    <option value="id_makanan">Id makanan</option>
-                    <option value="nama_makanan">Nama makanan</option>
-                    <option value="harga_makanan">Harga makanan</option>
-                </select>
-            </div>
-            <div class="submitButton">
-                <input type="submit" value="sort"class="btn btn-secondary btn-sm px-4">
-            </div>
-        </form>
-    </div>
-
     @if (empty($makanan))
     <p>Tidak ada makanan dalam data</p>
     @else
@@ -57,10 +32,10 @@
                 </td>
             </tr>
         @endforeach
-    </table>   
+    </table>
     @endif
     @endsection
     </div>
-    
+
 </body>
 </html>

@@ -42,10 +42,10 @@
                 </td>
             </tr>
         @endforeach
-    </table>   
+    </table>
     @endif
     @endsection
     </div>
-    
+
 </body>
 </html>
