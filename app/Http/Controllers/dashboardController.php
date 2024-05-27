@@ -9,7 +9,7 @@ use App\Models\Makanan;
 use App\Models\Paket;
 use App\Models\Ruangan;
 use Illuminate\Http\Request;
-use App\Models\Order;
+use App\Models\Order; 
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -30,7 +30,7 @@ class DashboardController extends Controller
 
         $processingOrders = Order::where('status', 'Pending')->count();
         $completedOrders = Order::where('status', 'Confirmed')->count();
-
+        
         $totalPaket =Paket::count();
         $totalFasilitas = Fasilitas::count();
         $totalKamar = Kamar::count();

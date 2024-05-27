@@ -4,41 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-        nav, aside, footer, ul, li{
-            background-color: rgb(17, 68, 48);
+        body {
+            background-color: #f8f9fa;
+        }
+        aside {
+            background-color: #114430;
+            color: #fff;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 200px;
+            padding: 20px;
+        }
+        aside ul {
+            padding: 0;
+            margin: 0;
+        }
+        aside ul li {
+            list-style: none;
+        }
+        aside ul li a {
+            display: block;
+            padding: 8px;
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s, background-color 0.3s, text-decoration 0.3s;
+        }
+        aside ul li a:hover {
+            background-color: #145c43;
+            color: red;
+            text-decoration: underline;
+        }
+        .main-content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+        .content {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
     </style>
 </head>
-<body class="">
-     <main class="d-flex flex-row justify-content-start align-content-center mt-0">
-        <aside>
-            <ul class="d-flex flex-column justify-content-md-between list-unstyled p-3 gap-5" >
-                <li><a class="text-decoration-none text-white" href="/admin/profile">Profile</a></li>
-                <li><a class="text-decoration-none text-white" href="/admin/dashboard">dashboard</a></li>
-                <li><a class="text-decoration-none text-white" href="/admin/orders">order</a></li>
-
-                <li><a class="text-decoration-none text-white" href="/paket">paket</a>
-                    <ul class="d-flex flex-column justify-content-md-between list-unstyled p-2 gap-2">
-                        <li><a class="text-decoration-none text-white" href="/fasilitas">Fasilitas</a></li>
-                        <li><a class="text-decoration-none text-white" href="/admin/ruangan">Ruangan</a></li>
-                        <li><a class="text-decoration-none text-white" href="/layout">Layout</a></li>
-                        <li><a class="text-decoration-none text-white" href="/kamar">Kamar</a></li>
-                        <li><a class="text-decoration-none text-white" href="/makanan">makanan</a></li>
-                    </ul></li>
-                <li><a class="text-decoration-none text-white" href="/history">history</a></li>
-                <li><a class="text-decoration-none text-white" href="/income">income</a></li>
-                <li><a class="text-decoration-none text-white" href="/dokumentasi">Docs</a></li>
-                <li><a class="text-decoration-none text-white" href="/logout">Logout</a></li>
-            </ul>
-         </aside>
-         <div class="content p-3 m-2">
+<body>
+    <aside>
+        <ul>
+            <li><a href="/admin/profile">Profile</a></li>
+            <li><a href="/admin/dashboard">Dashboard</a></li>
+            <li><a href="/admin/orders">Orders</a></li>
+            <li>
+                <a href="/paket">Paket</a>
+                <ul class="ms-3">
+                    <li><a href="/fasilitas">Fasilitas</a></li>
+                    <li><a href="/admin/ruangan">Ruangan</a></li>
+                    <li><a href="/layout">Layout</a></li>
+                    <li><a href="/kamar">Kamar</a></li>
+                    <li><a href="/makanan">Makanan</a></li>
+                </ul>
+            </li>
+            <li><a href="/history">History</a></li>
+            <li><a href="/income">Income</a></li>
+            <li><a href="/dokumentasi">Docs</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </aside>
+    <div class="main-content">
+        <div class="content">
             @yield('content')
-         </div>
-
-     </main>
-
+        </div>
+    </div>
 </body>
 </html>

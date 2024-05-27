@@ -8,18 +8,23 @@ use App\Models\Layout;
 
 class RuanganController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         
-        $ruangan = Ruangan::all();
-
+        $sort = $request->input('sort', 'created_at');
+        $search = $request->input('search');
+        $query =Ruangan::orderBy($sort,'desc');
+        if (!empty($search)) {
+            $query->where('nama_ruangan', 'like', '%' . $search . '%');
+        }
+        $ruangan=$query->get();
         if ($ruangan->isEmpty()) {
             $message = "Belum terdapat ruangan.";
         } else {
             $message = "";
         }
 
-        return view('ruangan.index', compact('ruangan', 'message'));
+        return view('ruangan.index', compact('ruangan','message'));
     }
     public function create()
 {

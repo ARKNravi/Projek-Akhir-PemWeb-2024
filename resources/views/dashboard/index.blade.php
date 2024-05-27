@@ -37,13 +37,13 @@
         </div>
         <h3 class="my-3">Utilities</h3>
         <div class="utilities d-flex flex-row flex-wrap align-items-start justify-content-start gap-5 mt-3">
-
+            
             <div class="px-lg-5 py-3 border shadow">
                 <h2>Jumlah Paket</h2>
                 <h3 class="mb-3">{{$totalPaket}}</h3>
                 <a href="/paket" class="btn btn-info">More</a>
             </div>
-
+            
             <div class="px-lg-5 py-3 border shadow">
                 <h2>Jumlah Fasilitas</h2>
                 <h3 class="mb-3">{{$totalFasilitas}}</h3>
@@ -74,9 +74,9 @@
                 <a href="/layout" class="btn btn-info">More</a>
             </div>
         </div>
-
+        
     </div>
-
+    
     @endsection
 </body>
 </html>
