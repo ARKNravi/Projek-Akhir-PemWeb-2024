@@ -90,8 +90,11 @@ Route::get("/layout/edit/{id_layout}",[layoutController::class,'edit']);
 Route::post("/layout/edit",[layoutController::class,'update']);
 Route::get("/layout/hapus/{id_layout}",[layoutController::class,'destroy']);
 
-
+//Rute income
 Route::get('/income', [incomeController::class, 'index'])->name('admin.laporan-pemasukan');
+Route::get('/income/cetak-income', [incomeController::class, 'cetakIncome'])->name('admin.laporan-pemasukan');
+
+
 Route::get('/history', [historyController::class, 'index'])->name('admin.history');
 Route::get('/admin/orders/available-sessions', [OrderController::class, 'getAvailableSessions']);
 
