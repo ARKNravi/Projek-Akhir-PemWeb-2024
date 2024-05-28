@@ -34,9 +34,8 @@
             transition: color 0.3s, background-color 0.3s, text-decoration 0.3s;
         }
         aside ul li a:hover {
-            background-color: #145c43;
-            color: red;
-            text-decoration: underline;
+            background-color: white;
+            color: #145c43;
         }
         .main-content {
             margin-left: 220px;

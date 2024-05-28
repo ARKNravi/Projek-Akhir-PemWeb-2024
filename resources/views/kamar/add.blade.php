@@ -10,7 +10,7 @@
 <body>
     @section('content')
     <h1 class="mb-4">Tambah Kamar</h1>
-    <a href="/layout" class="btn btn-info">Kembali</a>
+    <a href="/kamar" class="btn btn-info">Kembali</a>
     <form action="/kamar/tambah" method="post">
         {{ csrf_field() }}
         <div class="mb-3">
