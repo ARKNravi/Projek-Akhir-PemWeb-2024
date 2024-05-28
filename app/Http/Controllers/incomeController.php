@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Dompdf\Dompdf;
+use Mpdf\Mpdf;
 
 class incomeController extends Controller
 {
@@ -42,5 +43,20 @@ class incomeController extends Controller
         $dompdf->render();
         $dompdf->stream('laporan_income.pdf');
         //return view('income.cetak-income', compact('orders', 'totalPendapatan'));
+    }
+
+    public function viewIncome()
+    {
+        $orders = Order::with('paket.fasilitas.ruangan', 'paket.fasilitas.makanan', 'paket.fasilitas.kamar', 'pemesan', 'admin', 'payment')
+        ->whereHas('payment', function ($query) {
+            $query->where('id_payment', '!=', 1); // Exclude orders with id_payment = 1
+        })
+        ->get();
+
+        $totalPendapatan = $orders->sum(function ($order) {
+            return $order->paket->harga_total + ($order->payment->nominal_pembayaran ?? 0);
+        });
+
+        return view('income.cetak-income', compact('orders', 'totalPendapatan'));
     }
 }

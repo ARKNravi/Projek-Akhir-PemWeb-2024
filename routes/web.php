@@ -93,6 +93,8 @@ Route::get("/layout/hapus/{id_layout}",[layoutController::class,'destroy']);
 //Rute income
 Route::get('/income', [incomeController::class, 'index'])->name('admin.laporan-pemasukan');
 Route::get('/income/cetak-income', [incomeController::class, 'cetakIncome'])->name('admin.laporan-pemasukan');
+Route::get('/income/lihat-laporan', [incomeController::class, 'viewIncome'])->name('admin.laporan-pemasukan');
+
 
 
 Route::get('/history', [historyController::class, 'index'])->name('admin.history');
