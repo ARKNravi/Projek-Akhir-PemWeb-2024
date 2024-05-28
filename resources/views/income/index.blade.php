@@ -68,5 +68,11 @@
             </div>
         </div>
     </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <a href="/income/cetak-income" class="btn btn-primary float-left">Cetak Laporan</a>
+        </div>
+    </div>
 </div>
 @endsection
