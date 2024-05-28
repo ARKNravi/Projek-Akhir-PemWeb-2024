@@ -2,16 +2,15 @@
 
 @section('content')
 <div class="container mt-4">
-    <!-- Report Header -->
-    <div class="row mb-4">
+    <div class="row">
         <div class="col-md-12">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
+            <div class="card">
+                <div class="card-header">
                     <h1 class="mb-0">Laporan Pemasukan</h1>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered table-hover">
-                        <thead class="table-dark">
+                    <table class="table table-bordered">
+                        <thead>
                             <tr>
                                 <th>ID Pesanan</th>
                                 <th>Paket</th>
@@ -26,7 +25,8 @@
                             <tr>
                                 <td>{{ $order->id_order }}</td>
                                 <td>
-                                    <strong>{{ $order->paket->nama }}</strong><br>
+                                    <strong>{{ $order->paket->nama }}</strong>
+                                    <br>
                                     Harga: {{ number_format($order->paket->harga_total, 2) }}
                                 </td>
                                 <td>
@@ -35,16 +35,18 @@
                                     @endif
 
                                     @if($order->paket->fasilitas->kamar)
-                                    <strong>Kamar:</strong> {{ $order->paket->fasilitas->kamar->tipe }} ({{ number_format($order->paket->fasilitas->kamar->harga, 2) }})<br>
+                                    <strong>Kamar:</strong> {{ $order->paket->fasilitas->kamar->tipe }} ({{ $order->paket->fasilitas->kamar->harga }})<br>
                                     @endif
 
                                     @if($order->paket->fasilitas->makanan)
-                                    <strong>Makanan:</strong> {{ $order->paket->fasilitas->makanan->nama_makanan }} ({{ number_format($order->paket->fasilitas->makanan->harga_makanan, 2) }})<br>
+                                    <strong>Makanan:</strong> {{ $order->paket->fasilitas->makanan->nama_makanan }} ({{ $order->paket->fasilitas->makanan->harga_makanan }})<br>
                                     @endif
                                 </td>
                                 <td>{{ $order->pemesan->nama }}</td>
                                 <td>{{ $order->admin->username }}</td>
-                                <td>{{ number_format($order->paket->harga_total + ($order->payment->nominal_pembayaran ?? 0), 2) }}</td>
+                                <td>
+                                    {{ number_format($order->paket->harga_total + ($order->payment->nominal_pembayaran ?? 0), 2) }}
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -54,11 +56,10 @@
         </div>
     </div>
 
-    <!-- Total Income -->
-    <div class="row mb-4">
+    <div class="row mt-4">
         <div class="col-md-12">
-            <div class="card shadow-sm">
-                <div class="card-header bg-success text-white">
+            <div class="card">
+                <div class="card-header">
                     <h3 class="card-title">Total Pendapatan</h3>
                 </div>
                 <div class="card-body">
@@ -75,20 +76,3 @@
     </div>
 </div>
 @endsection
-
-<!-- Additional CSS for better styling -->
-<style>
-    .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .card-title {
-        margin-bottom: 0;
-    }
-
-    .table-hover tbody tr:hover {
-        background-color: #f2f2f2;
-    }
-</style>

@@ -36,6 +36,7 @@
         aside ul li a:hover {
             background-color: white;
             color: #145c43;
+            text-decoration: underline;
         }
         .main-content {
             margin-left: 220px;
