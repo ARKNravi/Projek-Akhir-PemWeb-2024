@@ -12,6 +12,7 @@
     <h1 class="mb-4">Tambah fasilitas</h1>
     <a href="/layout" class="btn btn-info">Kembali</a>
     <form action="/layout/tambah" method="post">
+        {{ csrf_field() }}
         <div class="mb-3">
             <label for="id_layout">Id layout</label><br>
             <input type="text" name="id_layout" id="id_layout">
