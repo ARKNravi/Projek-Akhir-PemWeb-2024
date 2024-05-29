@@ -48,6 +48,16 @@
                             @endforeach
                         </tbody>
                     </table>
+
+                    <!-- Pagination Links -->
+                    <div class="pagination m-3 mt-5">
+                        Halaman : {{ $orders->currentPage() }} <br/>
+                        Jumlah data : {{ $orders->total() }} <br/>
+                        Data per halaman : {{ $orders->perPage() }}<br/>
+                    </div>
+                    <div class="pagination">
+                        {{ $orders->links('pagination::bootstrap-5') }}
+                    </div>
                 </div>
             </div>
         </div>

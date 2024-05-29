@@ -11,15 +11,24 @@ class incomeController extends Controller
 {
     public function index()
     {
-        $orders = Order::with('paket.fasilitas.ruangan', 'paket.fasilitas.makanan', 'paket.fasilitas.kamar', 'pemesan', 'admin', 'payment')
-        ->whereHas('payment', function ($query) {
-            $query->where('id_payment', '!=', 1); // Exclude orders with id_payment = 1
-        })
-        ->get();
+        // Retrieve all orders with relationships for the total income calculation
+        $allOrders = Order::with('paket.fasilitas.ruangan', 'paket.fasilitas.makanan', 'paket.fasilitas.kamar', 'pemesan', 'admin', 'payment')
+            ->whereHas('payment', function ($query) {
+                $query->where('id_payment', '!=', 1); // Exclude orders with id_payment = 1
+            })
+            ->get();
 
-        $totalPendapatan = $orders->sum(function ($order) {
+        // Calculate the total income
+        $totalPendapatan = $allOrders->sum(function ($order) {
             return $order->paket->harga_total + ($order->payment->nominal_pembayaran ?? 0);
         });
+
+        // Paginate the orders (10 per page)
+        $orders = Order::with('paket.fasilitas.ruangan', 'paket.fasilitas.makanan', 'paket.fasilitas.kamar', 'pemesan', 'admin', 'payment')
+            ->whereHas('payment', function ($query) {
+                $query->where('id_payment', '!=', 1); // Exclude orders with id_payment = 1
+            })
+            ->paginate(10); // Pagination with 10 orders per page
 
         return view('income.index', compact('orders', 'totalPendapatan'));
     }
