@@ -14,7 +14,7 @@ class layoutController extends Controller
         if (!empty($search)) {
             $query->where('nama_layout', 'like', '%' . $search . '%');
         }
-        $layout = $query->get();
+        $layout = $query->paginate(5);
         return view('layout.index',compact('layout'));
     }
 
