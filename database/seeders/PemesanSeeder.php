@@ -2,14 +2,25 @@
 namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class PemesanSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('pemesan')->insert([
-            ['nama' => 'John Doe', 'nomor_telepon' => '08123456789', 'tipe' => 'VIP', 'created_at' => now(), 'updated_at' => now()],
-            ['nama' => 'Jane Smith', 'nomor_telepon' => '08198765432', 'tipe' => 'Regular', 'created_at' => now(), 'updated_at' => now()],
-        ]);
+        $faker = Faker::create();
+        $data = [];
+
+        for ($i = 1; $i <= 100; $i++) {
+            $data[] = [
+                'nama' => $faker->name,
+                'nomor_telepon' => $faker->phoneNumber,
+                'tipe' => $faker->randomElement(['VIP', 'Regular']),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        DB::table('pemesan')->insert($data);
     }
 }
