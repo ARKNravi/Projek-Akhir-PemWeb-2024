@@ -211,31 +211,65 @@ public function checkout($id)
 
     return redirect()->route('admin.order')->with('message', 'Gagal melakukan Check-Out');
 }
+
+
 public function upload(Request $request, $id)
-{
-    $order = Order::findOrFail($id);
+    {
+        $order = Order::findOrFail($id);
 
-    if ($order->status == 'Check Out') {
-        $request->validate([
-            'dokumentasi.*' => 'required|file|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048',
-        ]);
+        if ($order->status == 'Check Out') {
+            $request->validate([
+                'dokumentasi.*' => 'required|file|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048',
+            ]);
 
-        foreach ($request->dokumentasi as $file) {
-            $fileName = time().'_'.$file->getClientOriginalName();
-            $file->move(public_path('Dokumentasi/'.$order->id_order), $fileName);
+            $uploadedFiles = [];
 
-            // Store each file name into the database
-            $order->dokumentasi = json_encode(array_merge(json_decode($order->dokumentasi, true) ?? [], [$fileName]));
+            foreach ($request->file('dokumentasi') as $file) {
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('Dokumentasi/' . $order->id_order), $fileName);
+                $uploadedFiles[] = $fileName;
+            }
+
+            // Merge with existing documentation if any
+            $existingFiles = json_decode($order->dokumentasi, true) ?? [];
+            $order->dokumentasi = json_encode(array_merge($existingFiles, $uploadedFiles));
+            $order->save();
+
+            return back()->with('message', 'Dokumentasi berhasil diunggah');
         }
 
-        $order->save();
-
-        return back()->with('message', 'Dokumentasi berhasil diunggah');
+        return back()->with('message', 'Gagal mengunggah dokumentasi');
     }
 
-    return back()->with('message', 'Gagal mengunggah dokumentasi');
-}
-
+    public function viewImage($id, $image)
+    {
+        $path = public_path('Dokumentasi/' . $id . '/' . $image);
+        if (file_exists($path)) {
+            return response()->file($path);
+        }
+        abort(404);
+    }
+    public function deleteImage($id, $image)
+    {
+        $order = Order::findOrFail($id);
+        $images = json_decode($order->dokumentasi, true);
+    
+        if (($key = array_search($image, $images)) !== false) {
+            unset($images[$key]);
+        }
+    
+        $order->dokumentasi = json_encode(array_values($images));
+        $order->save();
+    
+        // Hapus file dari penyimpanan
+        $imagePath = public_path('Dokumentasi/' . $id . '/' . $image);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+    
+        return redirect()->route('admin.order')->with('message', 'Dokumentasi berhasil dihapus');
+    }
+    
 public function view($id)
 {
     $order = Order::findOrFail($id);
@@ -258,42 +292,7 @@ public function view($id)
 
     return back()->with('message', 'Dokumentasi tidak ditemukan');
 }
-public function viewImage($id, $image)
-{
-    $order = Order::findOrFail($id);
 
-    if ($order->dokumentasi) {
-        $files = json_decode($order->dokumentasi, true);
-
-        if (in_array($image, $files)) {
-            return response()->file(public_path('Dokumentasi/'.$order->id_order.'/'.$image));
-        }
-    }
-
-    return back()->with('message', 'Dokumentasi tidak ditemukan');
-}
-
-public function deleteImage($id, $image)
-{
-    $order = Order::findOrFail($id);
-
-    if ($order->dokumentasi) {
-        $files = json_decode($order->dokumentasi, true);
-
-        if (($key = array_search($image, $files)) !== false) {
-            unset($files[$key]);
-            $order->dokumentasi = json_encode(array_values($files));
-            $order->save();
-
-            $imagePath = public_path('Dokumentasi/'.$order->id_order.'/'.$image);
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
-            }
-        }
-    }
-
-    return back()->with('message', 'Dokumentasi berhasil dihapus');
-}
 public function downloadImage($id, $image)
 {
     $order = Order::findOrFail($id);

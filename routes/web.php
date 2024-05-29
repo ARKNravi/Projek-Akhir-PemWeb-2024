@@ -37,6 +37,10 @@ Route::middleware('auth:admin')->group(function () {
     Route::delete('/admin/ruangan/{id_ruangan}', [RuanganController::class, 'destroy'])->name('admin.ruangan.destroy');
     Route::get('/admin/orders/create', [OrderController::class, 'create'])->name('admin.order.create');
     Route::post('/admin/orders', [OrderController::class, 'store'])->name('admin.order.store');
+    Route::post('orders/upload/{id}', [OrderController::class, 'upload'])->name('admin.order.upload');
+    Route::get('orders/viewImage/{id}/{image}', [OrderController::class, 'viewImage'])->name('admin.order.viewImage');
+    Route::get('orders/downloadImage/{id}/{image}', [OrderController::class, 'downloadImage'])->name('admin.order.downloadImage');
+    Route::delete('orders/{id}/deleteImage/{image}', [OrderController::class, 'deleteImage'])->name('admin.order.deleteImage');
     Route::put('/admin/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('admin.order.cancel');
     Route::delete('/admin/orders/{id}/delete', [OrderController::class, 'delete'])->name('admin.order.delete');
     Route::get('/admin/orders/{id}/checkin', [OrderController::class, 'showCheckinForm'])->name('admin.order.checkin');
