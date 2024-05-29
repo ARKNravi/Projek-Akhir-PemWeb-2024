@@ -7,6 +7,16 @@
         <h2>Business Analytics</h2>
     </div>
     <hr>
+    <h3 class="my-4">Order Statistics</h3>
+    <div class="graph">
+        <canvas id="orderChart"></canvas>
+    </div>
+
+    <h3 class="my-4">Pemesan Statistics</h3>
+    <div class="graph mb-5">
+        <canvas id="pemesanChart"></canvas>
+    </div>
+
     <h3 class="mb-4">Orders</h3>
     <div class="order d-flex flex-row flex-wrap align-items-start justify-content-start gap-3">
         <div class="card text-center p-3 border-0 shadow-sm">
@@ -89,5 +99,56 @@
             </div>
         </div>
     </div>
+
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Order Chart
+    var ctxOrder = document.getElementById('orderChart').getContext('2d');
+    var orderChart = new Chart(ctxOrder, {
+        type: 'bar',
+        data: {
+            labels: @json($orderLabels),
+            datasets: [{
+                label: 'Order Statistics',
+                data: @json($orderData), // Example: [12, 19, 3, 5, 2]
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 20
+                    }
+                }
+            }
+        }
+    });
+
+    // Pemesan Chart
+    var ctxPemesan = document.getElementById('pemesanChart').getContext('2d');
+    var pemesanChart = new Chart(ctxPemesan, {
+        type: 'pie', // or 'doughnut'
+        data: {
+            labels: @json($pemesanLabels), // Example: ['VIP', 'Regular']
+            datasets: [{
+                label: 'Pemesan Statistics',
+                data: @json($pemesanData), // Example: [30, 70]
+                backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 159, 64, 1)'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+});
+</script>
 @endsection
