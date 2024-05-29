@@ -7,14 +7,15 @@
         <h2>Business Analytics</h2>
     </div>
     <hr>
-    <h3 class="my-4">Order Statistics</h3>
-    <div class="graph">
-        <canvas id="orderChart"></canvas>
-    </div>
+    <h3 class="my-4">Statistik</h3>
+    <div class="d-flex flex-row flex-wrap align-items-start justify-content-between gap-3">
+        <div class="graph flex-fill">
 
-    <h3 class="my-4">Pemesan Statistics</h3>
-    <div class="graph mb-5">
-        <canvas id="pemesanChart"></canvas>
+            <canvas id="orderChart"></canvas>
+        </div>
+        <div class="graph flex-fill">
+            <canvas id="pemesanChart"></canvas>
+        </div>
     </div>
 
     <h3 class="mb-4">Orders</h3>
@@ -119,11 +120,17 @@ document.addEventListener('DOMContentLoaded', function () {
             }]
         },
         options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Statistik Pesanan'
+                }
+            },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 20
+                        stepSize: 10
                     }
                 }
             }
@@ -145,6 +152,12 @@ document.addEventListener('DOMContentLoaded', function () {
             }]
         },
         options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Statistik Pemesan'
+                }
+            },
             responsive: true,
             maintainAspectRatio: false
         }

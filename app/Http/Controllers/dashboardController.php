@@ -44,8 +44,8 @@ class DashboardController extends Controller
 
         for ($month = 1; $month <= 12; $month++) {
             $orderLabels[] = Carbon::create()->month($month)->format('F');
-            $orderData[] = Order::whereYear('created_at', $currentYear)
-                ->whereMonth('created_at', $month)
+            $orderData[] = Order::whereYear('tanggal', $currentYear)
+                ->whereMonth('tanggal', $month)
                 ->count();
         }
 
