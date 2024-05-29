@@ -30,7 +30,6 @@
             <input type="text" name="jumlahOrang" id="jumlahOrang">
         </div>
         <input type="submit" value="tambah" class="btn btn-primary">
-        <input type="submit" value="simpan">
     </form>
 @endsection
 </body>
