@@ -50,14 +50,6 @@ Route::middleware('auth:admin')->group(function () {
     Route::delete('/admin/orders/{id}/delete/{image}', [OrderController::class, 'deleteImage'])->name('admin.order.deleteImage');
     Route::get('/admin/orders/{id}/download/{image}', [OrderController::class, 'downloadImage'])->name('admin.order.downloadImage');
 
-//Rute kamar
-Route::get("/kamar",[kamarController::class,'index']);
-Route::get("/kamar/tambah",[kamarController::class,'create']);
-Route::post("/kamar/tambah",[kamarController::class,'store']);
-Route::get('/kamar/edit/{nomor_kamar}',[kamarController::class,'edit']);
-Route::post('/kamar/edit',[kamarController::class,'update']);
-Route::get('/kamar/hapus/{nomor_kamar}',[kamarController::class,'destroy']);
-
 //rute makanan
 Route::get("/makanan",[makananController::class,'index']);
 Route::get("/makanan/tambah",[makananController::class,'create']);
@@ -65,13 +57,6 @@ Route::post("/makanan/tambah",[makananController::class,'store']);
 Route::get("/makanan/edit/{id_makanan}",[makananController::class,'edit']);
 Route::post("/makanan/edit",[makananController::class,'update']);
 Route::get("/makanan/hapus/{id_makanan}",[makananController::class,'destroy']);
-//rute fasilitas
-Route::get("/fasilitas",[fasilitasController::class,'index']);
-Route::get("/fasilitas/tambah",[fasilitasController::class,'create']);
-Route::post("/fasilitas/tambah",[fasilitasController::class,'store']);
-Route::get("/fasilitas/edit/{id_fasilitas}",[fasilitasController::class,'edit']);
-Route::post("/fasilitas/edit",[fasilitasController::class,'update']);
-Route::get("/fasilitas/hapus/{id_fasilitas}",[fasilitasController::class,'destroy']);
 
 //rute paket
 Route::get("/paket",[paketController::class,'index']);
@@ -108,4 +93,3 @@ Route::get('/admin/profile/edit-password', [ProfileController::class, 'editPassw
 Route::post('/admin/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
 
 });
-
