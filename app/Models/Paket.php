@@ -8,36 +8,29 @@ class Paket extends Model
 {
     protected $table = 'paket';
     protected $primaryKey = 'id_paket';
-    protected $fillable = ['nama', 'harga_total', 'id_fasilitas'];
+    protected $fillable = ['nama', 'harga_total', 'id_ruangan', 'id_makanan'];
 
-    public function hargaTotal(){
-            $fasilitas = $this->fasilitas;
-
-            $totalHarga = 0;
-            $kamar = $fasilitas->kamar;
-            $makanan = $fasilitas->makanan;
-            $ruangan = $fasilitas->ruangan;
-
-            $totalHarga += $kamar->harga;
-
-            $totalHarga += $makanan->harga_makanan;
-            $totalHarga += $ruangan->harga;
-
-            $layout = $ruangan->layout;
-            $totalHarga += $layout->harga;
-            $this->harga_total=$totalHarga;
-    }
-
-    public function fasilitas()
+    public function hargaTotal()
     {
-        return $this->belongsTo(Fasilitas::class, 'id_fasilitas');
+        $totalHarga = 0;
+        $totalHarga += $this->ruangan->harga;
+        $totalHarga += $this->ruangan->layout->harga;
+        $totalHarga += $this->makanan->harga_makanan;
+        $this->harga_total = $totalHarga;
     }
 
-    public function order(){
-        return $this->belongsTo(Order::class,'id_order');
+    public function ruangan()
+    {
+        return $this->belongsTo(Ruangan::class, 'id_ruangan');
     }
+
+    public function makanan()
+    {
+        return $this->belongsTo(Makanan::class, 'id_makanan');
+    }
+
     public function orders()
-{
-    return $this->hasMany(Order::class, 'id_paket');
-}
+    {
+        return $this->hasMany(Order::class, 'id_paket');
+    }
 }

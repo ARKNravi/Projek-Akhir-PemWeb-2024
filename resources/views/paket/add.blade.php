@@ -11,10 +11,18 @@
             <input type="text" id="nama" name="nama" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label for="id_fasilitas" class="form-label">Fasilitas</label>
-            <select name="id_fasilitas" id="id_fasilitas">
-                @foreach ($fasilitas as $fslt)
-                    <option value="{{$fslt->id_fasilitas}}">{{$fslt->nama_fasilitas}}</option>
+            <label for="id_ruangan" class="form-label">Ruangan</label>
+            <select name="id_ruangan" id="id_ruangan" class="form-control">
+                @foreach ($ruangan as $rng)
+                    <option value="{{$rng->id_ruangan}}">{{$rng->nama_ruangan}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="id_makanan" class="form-label">Makanan</label>
+            <select name="id_makanan" id="id_makanan" class="form-control">
+                @foreach ($makanan as $mkn)
+                    <option value="{{$mkn->id_makanan}}">{{$mkn->menu_makanan}}</option>
                 @endforeach
             </select>
         </div>
