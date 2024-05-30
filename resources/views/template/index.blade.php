@@ -60,10 +60,8 @@
             <li>
                 <a href="/paket">Paket</a>
                 <ul class="ms-3">
-                    <li><a href="/fasilitas">Fasilitas</a></li>
                     <li><a href="/admin/ruangan">Ruangan</a></li>
                     <li><a href="/layout">Layout</a></li>
-                    <li><a href="/kamar">Kamar</a></li>
                     <li><a href="/makanan">Makanan</a></li>
                 </ul>
             </li>
