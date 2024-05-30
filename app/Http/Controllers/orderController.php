@@ -33,17 +33,16 @@ class OrderController extends Controller
         $pakets = Paket::all();
         $sessions = Sesi::all();
         $payments = Payment::all();
-        $pemesans = Pemesan::all();
-        $admins = Admin::all();
-
-        return view('order.create', compact('pakets', 'sessions', 'payments', 'pemesans', 'admins'));
+        return view('order.create', compact('pakets', 'sessions', 'payments'));
     }
 
     public function store(Request $request)
     {
+        // Validate the incoming request data
         $validated = $request->validate([
             'nik' => 'required|integer',
             'nama' => 'required|string',
+            'nama_perusahaan' => 'required|string',
             'nomor_telepon' => 'required|string',
             'tipe' => 'required|string',
             'tanggal' => 'required|date',
@@ -53,28 +52,35 @@ class OrderController extends Controller
             'status' => 'required|string',
         ]);
 
-        $paket = Paket::find($request->id_paket);
-        $fasilitas = $paket->fasilitas;
-        $ruangan = $fasilitas->ruangan;
+        // Log the validated data
+        Log::info('Validated Data:', $validated);
 
+        $paket = Paket::find($request->id_paket);
+        if (!$paket) {
+            return redirect()->back()->withErrors(['error' => 'Paket not found.']);
+        }
+
+        $ruangan = $paket->ruangan;
+
+        // Define session times
         $sessionTimes = [
             ['start' => '07:00', 'end' => '15:00'],
             ['start' => '07:00', 'end' => '21:00']
         ];
 
+        // Determine session start and end times
         $selectedSession = $sessionTimes[$request->id_session - 1];
         $sessionStart = $request->tanggal . ' ' . $selectedSession['start'];
         $sessionEnd = $request->tanggal . ' ' . $selectedSession['end'];
 
+        // Check for conflicting orders
         $conflictingOrders = Order::where('tanggal', $request->tanggal)
             ->whereHas('session', function ($query) use ($sessionStart, $sessionEnd) {
                 $query->where('waktu_mulai', $sessionStart)
                       ->where('waktu_selesai', $sessionEnd);
             })
             ->whereHas('paket', function ($query) use ($ruangan) {
-                $query->whereHas('fasilitas', function ($query) use ($ruangan) {
-                    $query->where('id_ruangan', $ruangan->id_ruangan);
-                });
+                $query->where('id_ruangan', $ruangan->id_ruangan);
             })
             ->whereIn('status', ['Reservasi', 'Check In'])
             ->exists();
@@ -83,6 +89,7 @@ class OrderController extends Controller
             return redirect()->back()->withErrors(['error' => 'The selected session is already booked for the chosen room.']);
         }
 
+        // Create or find the session
         $session = Sesi::firstOrCreate([
             'waktu_mulai' => $sessionStart,
             'waktu_selesai' => $sessionEnd
@@ -91,12 +98,38 @@ class OrderController extends Controller
         $validated['id_session'] = $session->id_session;
         $validated['id_admin'] = Auth::guard('admin')->id();
 
-        $pemesan = Pemesan::create($validated);
-        $validated['nik'] = $pemesan->nik;
+        try {
+            // Create Pemesan record
+            $pemesan = Pemesan::create([
+                'nik' => $validated['nik'],
+                'nama' => $validated['nama'],
+                'nama_perusahaan' => $validated['nama_perusahaan'],
+                'nomor_telepon' => $validated['nomor_telepon'],
+                'tipe' => $validated['tipe']
+            ]);
+            Log::info('Pemesan created:', $pemesan->toArray());
 
-        Order::create($validated);
+            // Create Order record
+            $order = Order::create([
+                'tanggal' => $validated['tanggal'],
+                'id_paket' => $validated['id_paket'],
+                'id_session' => $session->id_session,
+                'id_payment' => $validated['id_payment'],
+                'nik' => $pemesan->nik,
+                'id_admin' => $validated['id_admin'],
+                'status' => $validated['status'],
+                'dokumentasi' => ''
+            ]);
+            Log::info('Order created:', $order->toArray());
 
-        return redirect('/admin/orders');
+        } catch (\Exception $e) {
+            // Log any exceptions
+            Log::error('Error creating order or pemesan:', ['exception' => $e]);
+            return redirect()->back()->withErrors(['error' => 'Failed to create order. Please try again.']);
+        }
+
+        // Redirect after successful creation
+        return redirect('/admin/orders')->with('message', 'Order created successfully');
     }
 
     public function getAvailableSessions(Request $request)
@@ -105,8 +138,7 @@ class OrderController extends Controller
     $paketId = $request->query('paket_id');
 
     $paket = Paket::find($paketId);
-    $fasilitas = $paket->fasilitas;
-    $ruangan = $fasilitas->ruangan;
+    $ruangan = $paket->ruangan;
 
     $sessionTimes = [
         ['start' => '07:00', 'end' => '15:00'],
@@ -125,9 +157,7 @@ class OrderController extends Controller
                       ->where('waktu_selesai', $sessionEnd);
             })
             ->whereHas('paket', function ($query) use ($ruangan) {
-                $query->whereHas('fasilitas', function ($query) use ($ruangan) {
                     $query->where('id_ruangan', $ruangan->id_ruangan);
-                });
             })
             ->whereIn('status', ['Reservasi', 'Check In'])
             ->exists();
@@ -143,8 +173,6 @@ class OrderController extends Controller
 
     return response()->json($availableSessions);
 }
-
-
 
     public function cancel($id)
     {
@@ -253,23 +281,23 @@ public function upload(Request $request, $id)
     {
         $order = Order::findOrFail($id);
         $images = json_decode($order->dokumentasi, true);
-    
+
         if (($key = array_search($image, $images)) !== false) {
             unset($images[$key]);
         }
-    
+
         $order->dokumentasi = json_encode(array_values($images));
         $order->save();
-    
+
         // Hapus file dari penyimpanan
         $imagePath = public_path('Dokumentasi/' . $id . '/' . $image);
         if (file_exists($imagePath)) {
             unlink($imagePath);
         }
-    
+
         return redirect()->route('admin.order')->with('message', 'Dokumentasi berhasil dihapus');
     }
-    
+
 public function view($id)
 {
     $order = Order::findOrFail($id);

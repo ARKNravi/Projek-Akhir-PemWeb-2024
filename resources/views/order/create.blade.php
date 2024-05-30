@@ -67,6 +67,10 @@
                 <input type="text" id="nama" name="nama" class="form-control" required>
             </div>
             <div class="mb-3">
+                <label for="nama_perusahaan" class="form-label">Nama Perusahaan:</label>
+                <input type="text" id="nama_perusahaan" name="nama_perusahaan" class="form-control" required>
+            </div>
+            <div class="mb-3">
                 <label for="nomor_telepon" class="form-label">Nomor Telepon:</label>
                 <input type="text" id="nomor_telepon" name="nomor_telepon" class="form-control" required>
             </div>

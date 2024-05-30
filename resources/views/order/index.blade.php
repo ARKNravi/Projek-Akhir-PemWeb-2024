@@ -47,7 +47,7 @@
                                 <td>{{ $order->tanggal }}</td>
                                 <td>{{ $order->paket ? $order->paket->nama : '' }}</td>
                                 <td>{{ $order->session->waktu_mulai }} - {{ $order->session->waktu_selesai }}</td>
-                                <td>{{ $order->paket && $order->paket->fasilitas && $order->paket->fasilitas->ruangan ? $order->paket->fasilitas->ruangan->nama_ruangan : 'N/A' }}</td>
+                                <td>{{ $order->paket && $order->paket && $order->paket->ruangan ? $order->paket->ruangan->nama_ruangan : 'N/A' }}</td>
                                 <td>{{ $order->pemesan->nama }}</td>
                                 <td>{{ $order->pemesan->nomor_telepon }}</td>
                                 <td>{{ $order->payment->metode_pembayaran }}</td>
