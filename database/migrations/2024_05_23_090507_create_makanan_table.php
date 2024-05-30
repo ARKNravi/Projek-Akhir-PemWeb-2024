@@ -10,7 +10,7 @@ class CreateMakananTable extends Migration
     {
         Schema::create('makanan', function (Blueprint $table) {
             $table->id('id_makanan');
-            $table->string('nama_makanan');
+            $table->string('menu_makanan');
             $table->decimal('harga_makanan', 10, 2);
             $table->timestamps();
         });
