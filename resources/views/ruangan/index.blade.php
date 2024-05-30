@@ -51,7 +51,7 @@
                     <tr>
                         <td>{{$r->id_ruangan}}</td>
                         <td>{{ $r->nama_ruangan }}</td>
-                        <td>{{ $r->luas_ruangan }}</td>
+                        <td>{{ $r->kapasitas }}</td>
                         <td>{{ $r->harga }}</td>
                         <td>{{ $r->backdrop }}</td>
                         <td>

@@ -9,7 +9,6 @@ class Sesi extends Model
     protected $table = 'session';
     protected $primaryKey = 'id_session';
     protected $fillable = ['waktu_mulai', 'waktu_selesai'];
-    protected $dates = ['waktu_mulai', 'waktu_selesai'];
 
     public function orders()
     {

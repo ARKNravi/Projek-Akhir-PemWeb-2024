@@ -4,14 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-
 class Makanan extends Model
 {
     protected $table = 'makanan';
     protected $primaryKey = 'id_makanan';
-    protected $fillable = ['nama_makanan', 'harga_makanan'];
-
-    public function fasilitas(){
-        return $this->belongsTo(Fasilitas::class,'id_fasilitas');
-    }
+    protected $fillable = ['menu_makanan', 'harga_makanan'];
 }

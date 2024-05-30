@@ -1,15 +1,19 @@
 <?php
+
 namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Paket;
 
 class PaketSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('paket')->insert([
-            ['nama' => 'Paket A', 'harga_total' => 3000000.00, 'id_fasilitas' => 1, 'created_at' => now(), 'updated_at' => now()],
-            ['nama' => 'Paket B', 'harga_total' => 5000000.00, 'id_fasilitas' => 2, 'created_at' => now(), 'updated_at' => now()],
+        Paket::create([
+            'nama' => 'Paket A',
+            'harga_total' => 1500.00,
+            'id_ruangan' => 1, // Assuming RuanganSeeder has run and created a ruangan with ID 1
+            'id_makanan' => 1, // Assuming MakananSeeder has run and created a makanan with ID 1
         ]);
     }
 }

@@ -20,15 +20,15 @@
                 <input type="text" id="nama_ruangan" name="nama_ruangan" class="form-control" value="{{ $ruangan->nama_ruangan }}" required>
             </div>
             <div class="mb-3">
-                <label for="luas_ruangan" class="form-label">Kapasitas Ruangan:</label>
-                <input type="number" id="luas_ruangan" name="luas_ruangan" class="form-control" value="{{ $ruangan->luas_ruangan }}" required>
+                <label for="kapasitas" class="form-label">Kapasitas Ruangan:</label>
+                <input type="number" id="kapasitas" name="kapasitas" class="form-control" value="{{ $ruangan->kapasitas }}" required>
             </div>
             <div class="mb-3">
                 <label for="harga" class="form-label">Harga:</label>
                 <input type="number" id="harga" name="harga" class="form-control" value="{{ $ruangan->harga }}" required>
             </div>
             <div class="mb-3">
-                <label for="backdrop" class="form-label">Status:</label>
+                <label for="backdrop" class="form-label">Backdrop:</label>
                 <input type="text" id="backdrop" name="backdrop" class="form-control" value="{{ $ruangan->backdrop }}" required>
             </div>
             <button type="submit" class="btn btn-primary">Simpan</button>

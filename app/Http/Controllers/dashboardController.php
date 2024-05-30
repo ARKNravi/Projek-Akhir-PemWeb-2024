@@ -32,8 +32,6 @@ class DashboardController extends Controller
         $completedOrders = Order::where('status', 'Confirmed')->count();
 
         $totalPaket = Paket::count();
-        $totalFasilitas = Fasilitas::count();
-        $totalKamar = Kamar::count();
         $totalRuangan = Ruangan::count();
         $totalMakanan = Makanan::count();
         $totalLayout = Layout::count();
@@ -66,8 +64,6 @@ class DashboardController extends Controller
                 'processingOrders',
                 'completedOrders',
                 'totalPaket',
-                'totalFasilitas',
-                'totalKamar',
                 'totalRuangan',
                 'totalMakanan',
                 'totalLayout',

@@ -40,7 +40,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Terapkan</button>
             </form>
-            
+
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">
                     <h1 class="mb-0">Laporan Pemasukan</h1>
@@ -66,16 +66,12 @@
                                     Harga: {{ number_format($order->paket->harga_total, 2) }}
                                 </td>
                                 <td>
-                                    @if($order->paket->fasilitas->ruangan)
-                                    <strong>Ruangan:</strong> {{ $order->paket->fasilitas->ruangan->nama_ruangan }}<br>
+                                    @if($order->paket->ruangan)
+                                    <strong>Ruangan:</strong> {{ $order->paket->ruangan->nama_ruangan }}<br>
                                     @endif
 
-                                    @if($order->paket->fasilitas->kamar)
-                                    <strong>Kamar:</strong> {{ $order->paket->fasilitas->kamar->tipe }} ({{ number_format($order->paket->fasilitas->kamar->harga, 2) }})<br>
-                                    @endif
-
-                                    @if($order->paket->fasilitas->makanan)
-                                    <strong>Makanan:</strong> {{ $order->paket->fasilitas->makanan->nama_makanan }} ({{ number_format($order->paket->fasilitas->makanan->harga_makanan, 2) }})<br>
+                                    @if($order->paket->makanan)
+                                    <strong>Makanan:</strong> {{ $order->paket->makanan->menu_makanan }} ({{ number_format($order->paket->makanan->harga_makanan, 2) }})<br>
                                     @endif
                                 </td>
                                 <td>{{ $order->pemesan->nama }}</td>

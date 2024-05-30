@@ -19,8 +19,8 @@
             <input type="text" name="id_makanan" id="id_makanan">
         </div>
         <div class="mb-3">
-            <label for="nama_makanan">Nama makanan</label><br>
-            <input type="text" name="nama_makanan" id="nama_makanan">
+            <label for="menu_makanan">Nama makanan</label><br>
+            <input type="text" name="menu_makanan" id="menu_makanan">
         </div>
         <div class="mb-3">
             <label for="harga">Harga</label><br>

@@ -10,8 +10,8 @@
             <input type="text" id="nama_ruangan" name="nama_ruangan" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label for="luas_ruangan" class="form-label">Luas Ruangan:</label>
-            <input type="number" id="luas_ruangan" name="luas_ruangan" class="form-control" required>
+            <label for="kapasitas" class="form-label">Kapasitas Ruangan:</label>
+            <input type="number" id="kapasitas" name="kapasitas" class="form-control" required>
         </div>
         <div class="mb-3">
             <label for="harga" class="form-label">Harga:</label>

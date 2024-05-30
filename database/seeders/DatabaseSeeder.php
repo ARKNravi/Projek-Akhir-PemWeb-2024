@@ -11,12 +11,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             LayoutSeeder::class,
             MakananSeeder::class,
-            KamarSeeder::class,
             PemesanSeeder::class,
             PaymentSeeder::class,
             SessionSeeder::class,
             RuanganSeeder::class,
-            FasilitasSeeder::class,
             PaketSeeder::class,
             OrderSeeder::class,
         ]);

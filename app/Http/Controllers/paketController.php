@@ -1,71 +1,83 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Paket;
+use App\Models\Makanan;
+use App\Models\Ruangan;
 use App\Models\Fasilitas;
 use Illuminate\Http\Request;
 
-class paketController extends Controller
+class PaketController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $sort = $request->input('sort', 'created_at');
         $search = $request->input('search');
-        $query =Paket::orderBy($sort,'desc');
+
+        $query = Paket::with(['ruangan', 'makanan'])->orderBy($sort, 'desc');
+
         if (!empty($search)) {
             $query->where('nama', 'like', '%' . $search . '%');
         }
-        $paket=$query->get();
-        if($paket->isEmpty()){
-            $message= "Belum ada paket";
-        }else{
-            $message="";
+
+        $paket = $query->get();
+
+        $message = $paket->isEmpty() ? "Belum ada paket" : "";
+
+        return view('paket.index', compact('paket', 'message'));
+    }
+
+
+    public function updateHargaTotal($paketId)
+    {
+        $paket = Paket::find($paketId);
+        if ($paket) {
+            $hargaTotal = $paket->hargaTotal();
+            $paket->harga_total = $hargaTotal;
+            $paket->save();
         }
-        return view('paket.index', compact('paket','message'));
     }
 
-    public function create(){
-        $fasilitas = Fasilitas::all();
-        return view('paket.add',compact('fasilitas'));
-
+    public function create()
+    {
+        $ruangan = Ruangan::all();
+        $makanan = Makanan::all();
+        return view('paket.add', compact('ruangan', 'makanan'));
     }
 
-    public function updateHargaTotal($paketId){
-    $paket = Paket::find($paketId);
-    if ($paket) {
-        $hargaTotal = $paket->hargaTotal();
-        $paket->harga_total = $hargaTotal;
-        $paket->save();
-    }
-}
-
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $paket = new Paket;
-        $paket->id_paket=$request->id_paket;
-        $paket->nama=$request->nama;
-        $paket->id_fasilitas=$request->id_fasilitas;
+        $paket->nama = $request->nama;
+        $paket->id_ruangan = $request->id_ruangan;
+        $paket->id_makanan = $request->id_makanan;
         $paket->hargaTotal();
         $paket->save();
         return redirect('/paket');
     }
 
-    public function edit($id_paket){
-        $paket = Paket::where('id_paket',$id_paket)->get();
-        $fasilitas = Fasilitas::all();
-        return view('paket.edit',compact('paket','fasilitas'));
+    public function edit($id_paket)
+    {
+        $paket = Paket::find($id_paket);
+        $ruangan = Ruangan::all();
+        $makanan = Makanan::all();
+        return view('paket.edit', compact('paket', 'ruangan', 'makanan'));
     }
 
-    public function update(Request $request){
-        $paket = Paket::find($request)->first();
-        $paket->id_paket=$request->id_paket;
-        $paket->nama=$request->nama;
-        $paket->harga_total=$request->harga_total;
-        $paket->id_fasilitas=$request->id_fasilitas;
+    public function update(Request $request)
+    {
+        $paket = Paket::find($request->id_paket);
+        $paket->nama = $request->nama;
+        $paket->id_ruangan = $request->id_ruangan;
+        $paket->id_makanan = $request->id_makanan;
         $paket->hargaTotal();
         $paket->save();
         return redirect('/paket');
     }
 
-    public function destroy($id_paket){
+    public function destroy($id_paket)
+    {
         $paket = Paket::findOrFail($id_paket);
         $paket->delete();
         return redirect('/paket');
