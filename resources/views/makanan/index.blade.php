@@ -32,7 +32,7 @@
                     <label for="sort">Sort by : </label>
                     <select name="sort" id="sort">
                         <option value="id_makanan">ID makanan</option>
-                        <option value="nama_makanan">Nama makanan</option>
+                        <option value="menu_makanan">Nama makanan</option>
                         <option value="harga_makanan">Harga makanan</option>
                     </select>
                 </div>
@@ -54,7 +54,7 @@
             @foreach ($makanan as $mkn)
             <tr>
                 <td>{{$mkn->id_makanan}}</td>
-                <td>{{$mkn->nama_makanan}}</td>
+                <td>{{$mkn->menu_makanan}}</td>
                 <td>{{$mkn->harga_makanan}}</td>
                 <td><a href="/makanan/edit/{{$mkn->id_makanan}}" class="btn btn-warning btn-sm">Edit</a>|
                     <a href="/makanan/hapus/{{$mkn->id_makanan}}" class="btn btn-danger btn-sm">Hapus</a>

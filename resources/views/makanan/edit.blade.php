@@ -16,8 +16,8 @@
         {{ csrf_field() }}
         <input type="hidden" name="id_makanan" id="id_makanan" value="{{$mkn->id_makanan}}">
         <div class="mb-3">
-            <label for="nama_layout">Nama layout</label><br>
-            <input type="text" name="nama_makanan" id="nama_makanan" value="{{$mkn->nama_makanan}}">
+            <label for="menu_makanan">Menu Makanan</label><br>
+            <input type="text" name="=menu_makanan" id="menu_makanan" value="{{$mkn->menu_makanan}}">
         </div>
         <div class="mb-3">
             <label for="harga">Harga</label><br>
@@ -27,6 +27,6 @@
     </form>
     @endforeach
     @endsection
-   
+
 </body>
 </html>
