@@ -11,6 +11,7 @@ class CreatePemesanTable extends Migration
         Schema::create('pemesan', function (Blueprint $table) {
             $table->id('nik');
             $table->string('nama');
+            $table->string('nama_perusahaan');
             $table->string('nomor_telepon');
             $table->string('tipe');
             $table->timestamps();

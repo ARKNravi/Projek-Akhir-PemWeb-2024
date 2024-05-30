@@ -11,7 +11,7 @@ class CreateRuanganTable extends Migration
         Schema::create('ruangan', function (Blueprint $table) {
             $table->id('id_ruangan');
             $table->string('nama_ruangan');
-            $table->integer('luas_ruangan');
+            $table->integer('kapasitas');
             $table->decimal('harga', 10, 2);
             $table->string('backdrop')->nullable();
             $table->unsignedBigInteger('id_layout');
