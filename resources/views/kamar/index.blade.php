@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Kamar</title>
+    <style type="text/css">
+		.pagination li{
+			float: left;
+			list-style-type: none;
+			margin: 5px;
+		}
+	</style>
+
 </head>
 <body>
     @section('content') 
@@ -62,6 +70,15 @@
         @endforeach
     </table>   
     @endif
+    <div class="pagination m-3 mt-5">
+        Halaman : {{$kamar->currentPage()}} <br/>
+        Jumlah data : {{$kamar->total()}} <br/>
+        Data per halaman : {{$kamar->perPage()}}<br/>
+        
+    </div>
+    <div class="pagination">
+        {{$kamar->links('pagination::bootstrap-5')}}
+    </div>
     @endsection
 </body>
 </html>

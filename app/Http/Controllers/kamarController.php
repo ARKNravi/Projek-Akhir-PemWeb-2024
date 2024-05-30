@@ -13,7 +13,7 @@ class kamarController extends Controller
         if (!empty($search)) {
             $query->where('tipe', 'like', '%' . $search . '%');
         }
-        $kamar = $query->get();
+        $kamar = $query->paginate(5);
         return view('kamar.index',["kamar"=>$kamar]);
     }
 
