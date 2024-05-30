@@ -13,8 +13,9 @@ class CreatePaketTable extends Migration
             $table->id('id_paket');
             $table->string('nama');
             $table->decimal('harga_total', 10, 2);
-            $table->unsignedBigInteger('id_fasilitas');
-            $table->foreign('id_fasilitas')->references('id_fasilitas')->on('fasilitas')->onDelete('cascade');
+            $table->unsignedBigInteger('id_ruangan');
+            $table->unsignedBigInteger('id_makanan');
+            $table->foreign('id_ruangan')->references('id_ruangan')->on('ruangan')->onDelete('cascade');
             $table->timestamps();
         });
     }

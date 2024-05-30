@@ -70,7 +70,7 @@
             <li><a href="/history">History</a></li>
             <li><a href="/income">Income</a></li>
             <li><a href="/dokumentasi">Docs</a></li>
-            <li><a href="/logout">Logout</a></li>
+            <li><a href="{{route('admin.logout')}}">Logout</a></li>
         </ul>
     </aside>
     <div class="main-content">

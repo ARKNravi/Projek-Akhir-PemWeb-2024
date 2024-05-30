@@ -14,19 +14,16 @@ use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\dokumentasiController;
 use App\Http\Controllers\ProfileController;
 
-Route::get('/', [dashboardController::class,'index']);
-Route::get('/packets');
-Route::get('/orders');
-Route::get('/income');
-Route::get('/history');
-Route::get('/profile');
-Route::get('/docs');
 
 Route::get('admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('admin/login', [AdminAuthController::class, 'login']);
-Route::post('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+Route::get('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AdminAuthController::class, 'login']);
+
 
 Route::middleware('auth:admin')->group(function () {
+    Route::get('/', [dashboardController::class,'index']);
     Route::get('/admin/dashboard', [dashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/ruangan', [RuanganController::class, 'index'])->name('admin.ruangan');
     Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.order');
@@ -68,9 +65,6 @@ Route::post("/makanan/tambah",[makananController::class,'store']);
 Route::get("/makanan/edit/{id_makanan}",[makananController::class,'edit']);
 Route::post("/makanan/edit",[makananController::class,'update']);
 Route::get("/makanan/hapus/{id_makanan}",[makananController::class,'destroy']);
-
-});
-
 //rute fasilitas
 Route::get("/fasilitas",[fasilitasController::class,'index']);
 Route::get("/fasilitas/tambah",[fasilitasController::class,'create']);
@@ -112,3 +106,6 @@ Route::get('/admin/profile/edit-username', [ProfileController::class, 'editUsern
 Route::post('/admin/profile/update-username', [ProfileController::class, 'updateUsername'])->name('profile.update-username');
 Route::get('/admin/profile/edit-password', [ProfileController::class, 'editPassword'])->name('profile.edit-password');
 Route::post('/admin/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+
+});
+
