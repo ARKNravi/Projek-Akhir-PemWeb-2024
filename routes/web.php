@@ -95,10 +95,11 @@ Route::post("/layout/edit",[layoutController::class,'update']);
 Route::get("/layout/hapus/{id_layout}",[layoutController::class,'destroy']);
 
 //Rute income
-Route::get('/income', [incomeController::class, 'index'])->name('admin.laporan-pemasukan');
-Route::get('/income/cetak-income', [incomeController::class, 'cetakIncome'])->name('admin.laporan-pemasukan');
-Route::get('/income/lihat-laporan', [incomeController::class, 'viewIncome'])->name('admin.laporan-pemasukan');
-
+//Route::get('/income', [incomeController::class, 'index'])->name('admin.laporan-pemasukan');
+// Route::get('/income/cetak-income', [incomeController::class, 'cetakIncome'])->name('admin.laporan-pemasukan');
+// Route::get('/income/lihat-laporan', [incomeController::class, 'viewIncome'])->name('admin.laporan-pemasukan');
+Route::get('/income', [IncomeController::class, 'index'])->name('income.index');
+Route::get('/income/cetak-income', [IncomeController::class, 'cetakIncome'])->name('income.cetak');
 
 
 Route::get('/history', [historyController::class, 'index'])->name('admin.history');
