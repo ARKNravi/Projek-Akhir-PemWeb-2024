@@ -10,8 +10,8 @@ class Layout extends Model
     protected $primaryKey = 'id_layout';
     protected $fillable = ['nama_layout', 'harga', 'jumlahOrang'];
 
-    public function ruangan()
+    public function ruangans()
     {
-        return $this->belongsTo(Ruangan::class,'id_ruangan');
+        return $this->hasMany(Ruangan::class, 'id_layout');
     }
 }

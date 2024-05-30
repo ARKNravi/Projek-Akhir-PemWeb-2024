@@ -14,7 +14,7 @@ class historyController extends Controller
      */
     public function index()
     {
-        $orders = Order::with('paket.fasilitas.ruangan', 'pemesan', 'session', 'payment')
+        $orders = Order::with('paket.ruangan', 'pemesan', 'session', 'payment')
         ->where('status', 'Check Out')
         ->get();
 

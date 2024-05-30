@@ -34,16 +34,14 @@ class Order extends Model
     {
         return $this->belongsTo(Admin::class, 'id_admin');
     }
-// Order.php
 
-public function checkout()
-{
-    if ($this->status == 'Check In') {
-        $this->status = 'Check Out';
-        $this->save();
-        return true; // Checkout successful
+    public function checkout()
+    {
+        if ($this->status == 'Check In') {
+            $this->status = 'Check Out';
+            $this->save();
+            return true;
+        }
+        return false;
     }
-    return false; // Checkout failed
-}
-
 }

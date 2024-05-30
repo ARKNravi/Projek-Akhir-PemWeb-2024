@@ -33,7 +33,7 @@
                                         <td>{{ $order->tanggal }}</td>
                                         <td>{{ $order->paket->nama }}</td>
                                         <td>{{ $order->session->waktu_mulai }} - {{ $order->session->waktu_selesai }}</td>
-                                        <td>{{ $order->paket->fasilitas->ruangan->nama_ruangan }}</td>
+                                        <td>{{ $order->paket->ruangan->nama_ruangan }}</td>
                                         <td>{{ $order->payment->metode_pembayaran }}</td>
                                     </tr>
                                 @endforeach

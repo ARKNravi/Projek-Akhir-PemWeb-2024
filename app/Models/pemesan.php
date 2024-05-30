@@ -6,13 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pemesan extends Model
 {
-
     protected $table = 'pemesan';
     protected $primaryKey = 'nik';
-    protected $fillable = ['nama', 'nomor_telepon', 'tipe'];
+    protected $fillable = ['nama', 'nama_perusahaan', 'nomor_telepon', 'tipe'];
 
     public function orders()
     {
-        return $this->belongsTo(Order::class, 'id_order');
+        return $this->hasMany(Order::class, 'nik');
     }
 }
