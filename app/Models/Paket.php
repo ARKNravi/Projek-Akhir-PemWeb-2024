@@ -42,5 +42,4 @@ class Paket extends Model
 
         return $totalHarga;
     }
-
 }

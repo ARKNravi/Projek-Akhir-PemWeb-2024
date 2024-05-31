@@ -62,18 +62,27 @@ class PaketController extends Controller
         $paket->id_makanan = json_encode($request->id_makanan); // Encode to JSON
         $paket->harga_total = $paket->hargaTotal();
         $paket->save();
+
         return redirect('/paket');
     }
+
 
 
 
     public function edit($id_paket)
     {
         $paket = Paket::find($id_paket);
+        $paket->id_makanan = is_array($paket->id_makanan) ? $paket->id_makanan : json_decode($paket->id_makanan, true);
+
         $ruangan = Ruangan::all();
-        $makanan = Makanan::all();
-        return view('paket.edit', compact('paket', 'ruangan', 'makanan'));
+        $makanan = Makanan::whereIn('id_makanan', $paket->id_makanan)->get(); // Fetch only related makanan
+        $allMakanan = Makanan::all(); // All makanan for adding new items
+
+        return view('paket.edit', compact('paket', 'ruangan', 'makanan', 'allMakanan'));
     }
+
+
+
     public function destroy($id_paket)
     {
         $paket = Paket::findOrFail($id_paket);
