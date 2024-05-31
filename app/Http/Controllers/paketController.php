@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Paket;
 use App\Models\Makanan;
 use App\Models\Ruangan;
-use App\Models\Fasilitas;
 use Illuminate\Http\Request;
 
 class PaketController extends Controller
@@ -15,7 +13,7 @@ class PaketController extends Controller
         $sort = $request->input('sort', 'created_at');
         $search = $request->input('search');
 
-        $query = Paket::with(['ruangan', 'makanan'])->orderBy($sort, 'desc');
+        $query = Paket::with(['ruangan'])->orderBy($sort, 'desc');
 
         if (!empty($search)) {
             $query->where('nama', 'like', '%' . $search . '%');
@@ -27,7 +25,6 @@ class PaketController extends Controller
 
         return view('paket.index', compact('paket', 'message'));
     }
-
 
     public function updateHargaTotal($paketId)
     {
@@ -51,11 +48,24 @@ class PaketController extends Controller
         $paket = new Paket;
         $paket->nama = $request->nama;
         $paket->id_ruangan = $request->id_ruangan;
-        $paket->id_makanan = $request->id_makanan;
-        $paket->hargaTotal();
+        $paket->id_makanan = json_encode($request->id_makanan); // Encode to JSON
+        $paket->harga_total = $paket->hargaTotal();
         $paket->save();
         return redirect('/paket');
     }
+
+    public function update(Request $request)
+    {
+        $paket = Paket::find($request->id_paket);
+        $paket->nama = $request->nama;
+        $paket->id_ruangan = $request->id_ruangan;
+        $paket->id_makanan = json_encode($request->id_makanan); // Encode to JSON
+        $paket->harga_total = $paket->hargaTotal();
+        $paket->save();
+        return redirect('/paket');
+    }
+
+
 
     public function edit($id_paket)
     {
@@ -64,18 +74,6 @@ class PaketController extends Controller
         $makanan = Makanan::all();
         return view('paket.edit', compact('paket', 'ruangan', 'makanan'));
     }
-
-    public function update(Request $request)
-    {
-        $paket = Paket::find($request->id_paket);
-        $paket->nama = $request->nama;
-        $paket->id_ruangan = $request->id_ruangan;
-        $paket->id_makanan = $request->id_makanan;
-        $paket->hargaTotal();
-        $paket->save();
-        return redirect('/paket');
-    }
-
     public function destroy($id_paket)
     {
         $paket = Paket::findOrFail($id_paket);
