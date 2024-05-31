@@ -21,13 +21,42 @@
         </div>
         <div class="mb-3">
             <label for="id_makanan" class="form-label">Makanan</label>
-            <select name="id_makanan" id="id_makanan" class="form-control">
+            <div id="menuItems">
                 @foreach ($makanan as $mkn)
-                    <option value="{{ $mkn->id_makanan }}" {{ $paket->id_makanan == $mkn->id_makanan ? 'selected' : '' }}>{{ $mkn->menu_makanan }}</option>
+                    <div class="input-group mb-3">
+                        <select name="id_makanan[]" class="form-control">
+                            <option value="{{ $mkn->id_makanan }}" {{ in_array($mkn->id_makanan, (array)$paket->id_makanan) ? 'selected' : '' }}>
+                                {{ $mkn->menu_makanan }}
+                            </option>
+                        </select>
+                        <button type="button" class="btn btn-danger" onclick="removeMenuItem(this)">Remove</button>
+                    </div>
                 @endforeach
-            </select>
+            </div>
+            <button type="button" class="btn btn-success" onclick="addMenuItem()">Add Menu Item</button>
         </div>
         <button type="submit" class="btn btn-primary">Edit</button>
     </form>
 </div>
+<script>
+    function addMenuItem() {
+        const menuItem = `
+            <div class="input-group mb-3">
+                <select name="id_makanan[]" class="form-control">
+                    @foreach ($allMakanan as $mkn)
+                        <option value="{{ $mkn->id_makanan }}">{{ $mkn->menu_makanan }}</option>
+                    @endforeach
+                </select>
+                <button type="button" class="btn btn-danger" onclick="removeMenuItem(this)">Remove</button>
+            </div>
+        `;
+        document.getElementById('menuItems').insertAdjacentHTML('beforeend', menuItem);
+    }
+
+    function removeMenuItem(button) {
+        button.closest('.input-group').remove();
+    }
+</script>
+
+
 @endsection
