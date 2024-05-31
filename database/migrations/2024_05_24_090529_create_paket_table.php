@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -14,7 +13,7 @@ class CreatePaketTable extends Migration
             $table->string('nama');
             $table->decimal('harga_total', 10, 2);
             $table->unsignedBigInteger('id_ruangan');
-            $table->unsignedBigInteger('id_makanan');
+            $table->json('id_makanan'); // Store multiple makanan IDs as JSON
             $table->foreign('id_ruangan')->references('id_ruangan')->on('ruangan')->onDelete('cascade');
             $table->timestamps();
         });
@@ -24,4 +23,4 @@ class CreatePaketTable extends Migration
     {
         Schema::dropIfExists('paket');
     }
-}//
+}

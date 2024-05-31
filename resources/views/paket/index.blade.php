@@ -61,7 +61,13 @@
                 <td>{{ $pkt->id_paket }}</td>
                 <td>{{ $pkt->nama }}</td>
                 <td>{{ $pkt->ruangan->nama_ruangan }}</td>
-                <td>{{ $pkt->makanan->menu_makanan }}</td>
+                <td>
+                    @foreach (json_decode($pkt->id_makanan) as $makananId)
+                        {{ \App\Models\Makanan::find($makananId)->menu_makanan }}@if (!$loop->last), @endif
+                    @endforeach
+                </td>
+
+
                 <td>{{ $pkt->harga_total }}</td>
                 <td>
                     <a href="/paket/edit/{{ $pkt->id_paket }}" class="btn btn-warning btn-sm">Edit</a>

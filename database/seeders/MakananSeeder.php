@@ -9,9 +9,15 @@ class MakananSeeder extends Seeder
 {
     public function run()
     {
-        Makanan::create([
-            'menu_makanan' => 'Nasi Goreng',
-            'harga_makanan' => 25.00,
-        ]);
+        $makananData = [
+            ['menu_makanan' => 'Coffee Break', 'harga_makanan' => 50000],
+            ['menu_makanan' => 'Breakfast', 'harga_makanan' => 75000],
+            ['menu_makanan' => 'Lunch', 'harga_makanan' => 120000],
+            ['menu_makanan' => 'Dinner', 'harga_makanan' => 120000],
+        ];
+
+        foreach ($makananData as $makanan) {
+            Makanan::create($makanan);
+        }
     }
 }
