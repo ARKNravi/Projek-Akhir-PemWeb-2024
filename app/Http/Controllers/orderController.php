@@ -48,131 +48,142 @@ class OrderController extends Controller
             'tanggal' => 'required|date',
             'id_paket' => 'required|integer',
             'id_session' => 'required|integer',
-            'id_payment' => 'required|integer',
-            'status' => 'required|string',
+            'payment_option' => 'required|string',
+            'metode_pembayaran' => 'nullable|string',
+            'nominal_pembayaran' => 'nullable|numeric',
         ]);
 
-        // Log the validated data
-        Log::info('Validated Data:', $validated);
+        // Fetch the selected package
+        $paket = Paket::findOrFail($validated['id_paket']);
 
-        $paket = Paket::find($request->id_paket);
-        if (!$paket) {
-            return redirect()->back()->withErrors(['error' => 'Paket not found.']);
-        }
-
-        $ruangan = $paket->ruangan;
-
-        // Define session times
-        $sessionTimes = [
-            ['start' => '07:00', 'end' => '15:00'],
-            ['start' => '07:00', 'end' => '21:00']
-        ];
-
-        // Determine session start and end times
-        $selectedSession = $sessionTimes[$request->id_session - 1];
-        $sessionStart = $request->tanggal . ' ' . $selectedSession['start'];
-        $sessionEnd = $request->tanggal . ' ' . $selectedSession['end'];
-
-        // Check for conflicting orders
-        $conflictingOrders = Order::where('tanggal', $request->tanggal)
-            ->whereHas('session', function ($query) use ($sessionStart, $sessionEnd) {
-                $query->where('waktu_mulai', $sessionStart)
-                      ->where('waktu_selesai', $sessionEnd);
-            })
-            ->whereHas('paket', function ($query) use ($ruangan) {
-                $query->where('id_ruangan', $ruangan->id_ruangan);
-            })
-            ->whereIn('status', ['Reservasi', 'Check In'])
-            ->exists();
-
-        if ($conflictingOrders) {
-            return redirect()->back()->withErrors(['error' => 'The selected session is already booked for the chosen room.']);
-        }
-
-        // Create or find the session
+        // Create or fetch the session
         $session = Sesi::firstOrCreate([
-            'waktu_mulai' => $sessionStart,
-            'waktu_selesai' => $sessionEnd
+            'waktu_mulai' => $validated['tanggal'] . ' 07:00:00',
+            'waktu_selesai' => $validated['tanggal'] . ' 21:00:00',
         ]);
 
-        $validated['id_session'] = $session->id_session;
-        $validated['id_admin'] = Auth::guard('admin')->id();
+        // Handle payment creation
+// Handle payment creation
+$payment = null;
+if ($validated['payment_option'] == 'dp') {
+    $dpAmount = $paket->harga_total * 0.1;
+
+    // Create the payment record
+    if ($validated['payment_option'] == 'dp') {
+        $dpAmount = $paket->harga_total * 0.1;
+        $payment = Payment::create([
+            'nominal_pembayaran' => $dpAmount,
+            'metode_pembayaran' => $validated['metode_pembayaran'],
+        ]);
+        $validated['id_payment'] = $payment->id_payment; // Assign the newly created payment's id
+    } else {
+        $validated['id_payment'] = 1; // No DP
+    }
+}
+
 
         try {
-            // Create Pemesan record
+            // Create a new Pemesan record
             $pemesan = Pemesan::create([
                 'nik' => $validated['nik'],
                 'nama' => $validated['nama'],
                 'nama_perusahaan' => $validated['nama_perusahaan'],
                 'nomor_telepon' => $validated['nomor_telepon'],
-                'tipe' => $validated['tipe']
+                'tipe' => $validated['tipe'],
             ]);
-            Log::info('Pemesan created:', $pemesan->toArray());
 
-            // Create Order record
+            // Create a new Order record
             $order = Order::create([
                 'tanggal' => $validated['tanggal'],
                 'id_paket' => $validated['id_paket'],
-                'id_session' => $session->id_session,
-                'id_payment' => $validated['id_payment'],
+                'id_session' => $validated['id_session'],
+                'id_payment' => optional($payment)->id,
                 'nik' => $pemesan->nik,
-                'id_admin' => $validated['id_admin'],
-                'status' => $validated['status'],
-                'dokumentasi' => ''
+                'id_admin' => Auth::guard('admin')->id(),
+                'status' => $validated['payment_option'] == 'dp' ? 'Reservasi DP' : 'Reservasi NO DP',
             ]);
-            Log::info('Order created:', $order->toArray());
 
         } catch (\Exception $e) {
-            // Log any exceptions
             Log::error('Error creating order or pemesan:', ['exception' => $e]);
             return redirect()->back()->withErrors(['error' => 'Failed to create order. Please try again.']);
         }
 
-        // Redirect after successful creation
         return redirect('/admin/orders')->with('message', 'Order created successfully');
     }
 
-    public function getAvailableSessions(Request $request)
+
+    public function getPaketPrice(Request $request)
 {
-    $date = $request->query('date');
     $paketId = $request->query('paket_id');
-
     $paket = Paket::find($paketId);
-    $ruangan = $paket->ruangan;
 
-    $sessionTimes = [
-        ['start' => '07:00', 'end' => '15:00'],
-        ['start' => '07:00', 'end' => '21:00']
-    ];
-
-    $availableSessions = [];
-
-    foreach ($sessionTimes as $index => $session) {
-        $sessionStart = $date . ' ' . $session['start'];
-        $sessionEnd = $date . ' ' . $session['end'];
-
-        $conflictingOrders = Order::where('tanggal', $date)
-            ->whereHas('session', function ($query) use ($sessionStart, $sessionEnd) {
-                $query->where('waktu_mulai', $sessionStart)
-                      ->where('waktu_selesai', $sessionEnd);
-            })
-            ->whereHas('paket', function ($query) use ($ruangan) {
-                    $query->where('id_ruangan', $ruangan->id_ruangan);
-            })
-            ->whereIn('status', ['Reservasi', 'Check In'])
-            ->exists();
-
-        if (!$conflictingOrders) {
-            $availableSessions[] = [
-                'id' => $index + 1,
-                'start' => $session['start'],
-                'end' => $session['end']
-            ];
-        }
+    if ($paket) {
+        return response()->json(['price' => $paket->hargaTotal()]);
     }
 
-    return response()->json($availableSessions);
+    return response()->json(['error' => 'Invalid paket ID'], 400);
 }
+
+    public function getAvailableSessions(Request $request)
+    {
+        $date = $request->query('date');
+        $paketId = $request->query('paket_id');
+
+        $paket = Paket::find($paketId);
+        $ruangan = $paket->ruangan;
+
+        $sessionTimes = [
+            ['start' => '07:00', 'end' => '15:00'],
+            ['start' => '07:00', 'end' => '21:00']
+        ];
+
+        $availableSessions = [];
+
+        foreach ($sessionTimes as $index => $session) {
+            $sessionStart = $date . ' ' . $session['start'];
+            $sessionEnd = $date . ' ' . $session['end'];
+
+            $conflictingOrders = Order::where('tanggal', $date)
+                ->whereHas('session', function ($query) use ($sessionStart, $sessionEnd) {
+                    $query->where('waktu_mulai', $sessionStart)
+                          ->where('waktu_selesai', $sessionEnd);
+                })
+                ->whereHas('paket', function ($query) use ($ruangan) {
+                    $query->where('id_ruangan', $ruangan->id_ruangan);
+                })
+                ->whereIn('status', ['Reservasi', 'Check In'])
+                ->exists();
+
+            if (!$conflictingOrders) {
+                $availableSessions[] = [
+                    'id' => $index + 1,
+                    'start' => $session['start'],
+                    'end' => $session['end']
+                ];
+            }
+        }
+
+        return response()->json($availableSessions);
+    }
+
+    public function getDpPaymentId(Request $request)
+    {
+        $paketId = $request->query('paket_id');
+        $paket = Paket::find($paketId);
+
+        if ($paket) {
+            $dpAmount = $paket->hargaTotal() * 0.1;
+            $payment = Payment::create([
+                'nominal_pembayaran' => $dpAmount,
+                'metode_pembayaran' => 'Not Specified', // Default value
+            ]);
+            return response()->json(['payment_id' => $payment->id]);
+        }
+
+        return response()->json(['error' => 'Invalid paket ID'], 400);
+    }
+
+
 
     public function cancel($id)
     {
@@ -206,19 +217,17 @@ class OrderController extends Controller
         $validated = $request->validate([
             'nominal_pembayaran' => 'required|numeric',
             'metode_pembayaran' => 'required|string',
-            'id_payment' => 'required', // Ensure id_payment is required
+            'id_payment' => 'required',
         ]);
 
         $order = Order::findOrFail($id);
 
         if ($order->status == 'Reservasi') {
-            // Create a new payment record
             $newPayment = Payment::create([
                 'nominal_pembayaran' => $validated['nominal_pembayaran'],
                 'metode_pembayaran' => $validated['metode_pembayaran'],
             ]);
 
-            // Update the order with the new payment id and change the status
             $order->id_payment = $newPayment->id_payment;
             $order->status = 'Check In';
             $order->save();
@@ -258,7 +267,6 @@ public function upload(Request $request, $id)
                 $uploadedFiles[] = $fileName;
             }
 
-            // Merge with existing documentation if any
             $existingFiles = json_decode($order->dokumentasi, true) ?? [];
             $order->dokumentasi = json_encode(array_merge($existingFiles, $uploadedFiles));
             $order->save();
@@ -289,7 +297,6 @@ public function upload(Request $request, $id)
         $order->dokumentasi = json_encode(array_values($images));
         $order->save();
 
-        // Hapus file dari penyimpanan
         $imagePath = public_path('Dokumentasi/' . $id . '/' . $image);
         if (file_exists($imagePath)) {
             unlink($imagePath);

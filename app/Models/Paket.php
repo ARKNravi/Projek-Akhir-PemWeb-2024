@@ -11,7 +11,7 @@ class Paket extends Model
     protected $fillable = ['nama', 'harga_total', 'id_ruangan', 'id_makanan'];
 
     protected $casts = [
-        'id_makanan' => 'array', // Cast JSON field to array
+        'id_makanan' => 'array',
     ];
 
     public function ruangan()
@@ -30,7 +30,6 @@ class Paket extends Model
         $totalHarga += $this->ruangan->harga;
         $totalHarga += $this->ruangan->layout->harga;
 
-        // Ensure that id_makanan is an array
         $makananIds = is_array($this->id_makanan) ? $this->id_makanan : json_decode($this->id_makanan, true);
 
         foreach ($makananIds as $makananId) {
