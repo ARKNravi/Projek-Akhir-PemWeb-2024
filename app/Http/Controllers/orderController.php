@@ -51,6 +51,7 @@ class OrderController extends Controller
             'payment_option' => 'required|string',
             'metode_pembayaran' => 'nullable|string',
             'nominal_pembayaran' => 'nullable|numeric',
+            'status' => 'required|string',
         ]);
 
         // Fetch the selected package
@@ -62,23 +63,27 @@ class OrderController extends Controller
             'waktu_selesai' => $validated['tanggal'] . ' 21:00:00',
         ]);
 
-        // Handle payment creation
-// Handle payment creation
-$payment = null;
+        $validated['id_session'] = $session->id_session;
+        $validated['id_admin'] = Auth::guard('admin')->id();
+
 if ($validated['payment_option'] == 'dp') {
-    $dpAmount = $paket->harga_total * 0.1;
+    // Fetch the selected package
+    $paket = Paket::findOrFail($validated['id_paket']);
+    // Calculate the DP amount (10% of the package price)
+    $dpAmount = $paket->harga_total*0.1;
+
+
 
     // Create the payment record
-    if ($validated['payment_option'] == 'dp') {
-        $dpAmount = $paket->harga_total * 0.1;
-        $payment = Payment::create([
-            'nominal_pembayaran' => $dpAmount,
-            'metode_pembayaran' => $validated['metode_pembayaran'],
-        ]);
-        $validated['id_payment'] = $payment->id_payment; // Assign the newly created payment's id
-    } else {
-        $validated['id_payment'] = 1; // No DP
-    }
+    $payment = Payment::create([
+        'nominal_pembayaran' => $dpAmount,
+
+        'metode_pembayaran' => $validated['metode_pembayaran'],
+    ]);
+
+    $validated['id_payment'] = $payment->id_payment;
+} else {
+    $validated['id_payment'] = 1; // No DP
 }
 
 
@@ -92,17 +97,19 @@ if ($validated['payment_option'] == 'dp') {
                 'tipe' => $validated['tipe'],
             ]);
 
+            // Determine the status based on the payment option
+            $status = $validated['payment_option'] === 'dp' ? 'Reservasi with DP' : 'Reservasi with NO DP';
+
             // Create a new Order record
             $order = Order::create([
                 'tanggal' => $validated['tanggal'],
                 'id_paket' => $validated['id_paket'],
                 'id_session' => $validated['id_session'],
-                'id_payment' => optional($payment)->id,
+                'id_payment' => $validated['id_payment'],
                 'nik' => $pemesan->nik,
-                'id_admin' => Auth::guard('admin')->id(),
-                'status' => $validated['payment_option'] == 'dp' ? 'Reservasi DP' : 'Reservasi NO DP',
+                'id_admin' => $validated['id_admin'],
+                'status' => $status,
             ]);
-
         } catch (\Exception $e) {
             Log::error('Error creating order or pemesan:', ['exception' => $e]);
             return redirect()->back()->withErrors(['error' => 'Failed to create order. Please try again.']);
@@ -110,6 +117,7 @@ if ($validated['payment_option'] == 'dp') {
 
         return redirect('/admin/orders')->with('message', 'Order created successfully');
     }
+
 
 
     public function getPaketPrice(Request $request)
@@ -217,18 +225,23 @@ if ($validated['payment_option'] == 'dp') {
         $validated = $request->validate([
             'nominal_pembayaran' => 'required|numeric',
             'metode_pembayaran' => 'required|string',
-            'id_payment' => 'required',
         ]);
 
         $order = Order::findOrFail($id);
 
-        if ($order->status == 'Reservasi') {
-            $newPayment = Payment::create([
-                'nominal_pembayaran' => $validated['nominal_pembayaran'],
-                'metode_pembayaran' => $validated['metode_pembayaran'],
-            ]);
+        if ($order->status == 'Reservasi with DP' || $order->status == 'Reservasi with NO DP') {
+            $totalAmount = $order->paket->harga_total;
+            $paidAmount = $order->payment->nominal_pembayaran;
+            $remainingAmount = $totalAmount - $paidAmount;
+            // Ensure the $validated['nominal_pembayaran'] is equal to the remaining amount
+            $validated['nominal_pembayaran'] = $remainingAmount;
 
-            $order->id_payment = $newPayment->id_payment;
+            $payment = $order->payment;
+            $payment->nominal_pembayaran += $validated['nominal_pembayaran'];
+            $payment->metode_pembayaran = $validated['metode_pembayaran'];
+
+            $payment->save();
+
             $order->status = 'Check In';
             $order->save();
 
