@@ -126,7 +126,7 @@ if ($validated['payment_option'] == 'dp') {
     $paket = Paket::find($paketId);
 
     if ($paket) {
-        return response()->json(['price' => $paket->hargaTotal()]);
+        return response()->json(['price' => $paket->harga_total]);
     }
 
     return response()->json(['error' => 'Invalid paket ID'], 400);
@@ -180,7 +180,8 @@ if ($validated['payment_option'] == 'dp') {
         $paket = Paket::find($paketId);
 
         if ($paket) {
-            $dpAmount = $paket->hargaTotal() * 0.1;
+            $dpAmount = $paket->harga_total * 0.1;
+            dd($dpAmount);
             $payment = Payment::create([
                 'nominal_pembayaran' => $dpAmount,
                 'metode_pembayaran' => 'Not Specified', // Default value
@@ -354,5 +355,73 @@ public function downloadImage($id, $image)
     }
 
     return back()->with('message', 'Dokumentasi tidak ditemukan');
+}
+public function edit($id)
+{
+    $order = Order::findOrFail($id);
+    $pakets = Paket::all();
+    return view('order.edit', compact('order', 'pakets'));
+}
+
+public function update(Request $request, $id)
+{
+    $order = Order::findOrFail($id);
+    $pemesan = $order->pemesan;
+    $payment = $order->payment;
+
+    $validated = $request->validate([
+        'nik' => 'required|integer',
+        'nama' => 'required|string',
+        'nama_perusahaan' => 'required|string',
+        'nomor_telepon' => 'required|string',
+        'tipe' => 'required|string',
+        'tanggal' => 'required|date',
+        'id_paket' => 'required|integer',
+        'id_session' => 'required|integer',
+        'payment_option' => 'required|string',
+        'metode_pembayaran' => 'nullable|string',
+        'nominal_pembayaran' => 'nullable|numeric',
+        'status' => 'required|string',
+    ]);
+
+    $pemesan->update([
+        'nik' => $validated['nik'],
+        'nama' => $validated['nama'],
+        'nama_perusahaan' => $validated['nama_perusahaan'],
+        'nomor_telepon' => $validated['nomor_telepon'],
+        'tipe' => $validated['tipe'],
+    ]);
+
+    $session = Sesi::firstOrCreate([
+        'waktu_mulai' => $validated['tanggal'] . ' 07:00:00',
+        'waktu_selesai' => $validated['tanggal'] . ' 21:00:00',
+    ]);
+
+    $validated['id_session'] = $session->id_session;
+
+    if ($validated['payment_option'] == 'dp') {
+        $paket = Paket::findOrFail($validated['id_paket']);
+        $dpAmount = $paket->harga_total * 0.1;
+        $payment->update([
+            'nominal_pembayaran' => $dpAmount,
+            'metode_pembayaran' => $validated['metode_pembayaran'],
+        ]);
+    } else {
+        $payment->update([
+            'nominal_pembayaran' => 0,
+            'metode_pembayaran' => null,
+        ]);
+    }
+
+    $order->update([
+        'tanggal' => $validated['tanggal'],
+        'id_paket' => $validated['id_paket'],
+        'id_session' => $validated['id_session'],
+        'id_payment' => $payment->id_payment,
+        'nik' => $pemesan->nik,
+        'status' => $validated['status'],
+    ]);
+
+    return redirect('/admin/orders')->with('message', 'Order updated successfully');
 }
 }
