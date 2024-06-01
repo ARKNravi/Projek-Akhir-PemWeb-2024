@@ -20,10 +20,10 @@
 <body class="d-flex flex-column min-vh-100">
     @section('content')
     <h1>Order Management</h1>
-    <div id="sessions">
+    <div id="sessions" class=" d-flex flex-row gap-2 align-items-center justify-content-center my-3">
         @foreach($sevenDays as $date => $dateSessions)
             <div>
-                <h2>{{ $date }}</h2>
+                <h3>{{ \Carbon\Carbon::parse($date)->format('d F Y') }}</h3>
                 @foreach($dateSessions as $session)
                     <a href="" class="session-box">
                         {{ $session->waktu_mulai }} - {{ $session->waktu_selesai }}
