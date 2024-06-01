@@ -41,10 +41,9 @@ class OrderController extends Controller
     public function create()
     {
         $pakets = Paket::all();
-        $sessions = Sesi::all();
-        $payments = Payment::all();
-        return view('order.create', compact('pakets', 'sessions', 'payments'));
+        return view('order.create', compact('pakets'));
     }
+
 
     public function store(Request $request)
     {
@@ -57,48 +56,55 @@ class OrderController extends Controller
             'tipe' => 'required|string',
             'tanggal' => 'required|date',
             'id_paket' => 'required|integer',
-            'id_session' => 'required|integer',
+            'waktu_mulai' => 'required',
+            'waktu_selesai' => 'required',
             'payment_option' => 'required|string',
             'metode_pembayaran' => 'nullable|string',
             'nominal_pembayaran' => 'nullable|numeric',
             'status' => 'required|string',
         ]);
 
-        // Fetch the selected package
         $paket = Paket::findOrFail($validated['id_paket']);
+        $ruanganId = $paket->id_ruangan;
+        $waktuMulai = $validated['tanggal'] . ' ' . $validated['waktu_mulai'] . ':00';
+        $waktuSelesai = $validated['tanggal'] . ' ' . $validated['waktu_selesai'] . ':00';
 
-        // Create or fetch the session
+        // Check if the room is available
+        $overlappingOrders = Order::whereHas('session', function ($query) use ($waktuMulai, $waktuSelesai) {
+            $query->where(function ($q) use ($waktuMulai, $waktuSelesai) {
+                $q->where('waktu_mulai', '<', $waktuSelesai)
+                  ->where('waktu_selesai', '>', $waktuMulai);
+            });
+        })->whereHas('paket', function ($query) use ($ruanganId) {
+            $query->where('id_ruangan', $ruanganId);
+        })->exists();
+
+        if ($overlappingOrders) {
+            return redirect()->back()->withErrors(['error' => 'The selected room is already booked for the chosen time. Please select a different time.']);
+        }
+
         $session = Sesi::firstOrCreate([
-            'waktu_mulai' => $validated['tanggal'] . ' 07:00:00',
-            'waktu_selesai' => $validated['tanggal'] . ' 21:00:00',
+            'waktu_mulai' => $waktuMulai,
+            'waktu_selesai' => $waktuSelesai,
         ]);
 
         $validated['id_session'] = $session->id_session;
         $validated['id_admin'] = Auth::guard('admin')->id();
 
-if ($validated['payment_option'] == 'dp') {
-    // Fetch the selected package
-    $paket = Paket::findOrFail($validated['id_paket']);
-    // Calculate the DP amount (10% of the package price)
-    $dpAmount = $paket->harga_total*0.1;
+        if ($validated['payment_option'] == 'dp') {
+            $dpAmount = $paket->harga_total * 0.1;
 
+            $payment = Payment::create([
+                'nominal_pembayaran' => $dpAmount,
+                'metode_pembayaran' => $validated['metode_pembayaran'],
+            ]);
 
-
-    // Create the payment record
-    $payment = Payment::create([
-        'nominal_pembayaran' => $dpAmount,
-
-        'metode_pembayaran' => $validated['metode_pembayaran'],
-    ]);
-
-    $validated['id_payment'] = $payment->id_payment;
-} else {
-    $validated['id_payment'] = 1; // No DP
-}
-
+            $validated['id_payment'] = $payment->id_payment;
+        } else {
+            $validated['id_payment'] = 1; // No DP
+        }
 
         try {
-            // Create a new Pemesan record
             $pemesan = Pemesan::create([
                 'nik' => $validated['nik'],
                 'nama' => $validated['nama'],
@@ -107,10 +113,8 @@ if ($validated['payment_option'] == 'dp') {
                 'tipe' => $validated['tipe'],
             ]);
 
-            // Determine the status based on the payment option
             $status = $validated['payment_option'] === 'dp' ? 'Reservasi with DP' : 'Reservasi with NO DP';
 
-            // Create a new Order record
             $order = Order::create([
                 'tanggal' => $validated['tanggal'],
                 'id_paket' => $validated['id_paket'],
@@ -129,7 +133,6 @@ if ($validated['payment_option'] == 'dp') {
     }
 
 
-
     public function getPaketPrice(Request $request)
 {
     $paketId = $request->query('paket_id');
@@ -142,47 +145,48 @@ if ($validated['payment_option'] == 'dp') {
     return response()->json(['error' => 'Invalid paket ID'], 400);
 }
 
-    public function getAvailableSessions(Request $request)
-    {
-        $date = $request->query('date');
-        $paketId = $request->query('paket_id');
+public function getAvailableSessions(Request $request)
+{
+    $date = $request->query('date');
+    $paketId = $request->query('paket_id');
 
-        $paket = Paket::find($paketId);
-        $ruangan = $paket->ruangan;
+    $paket = Paket::find($paketId);
+    $ruangan = $paket->ruangan;
 
-        $sessionTimes = [
-            ['start' => '07:00', 'end' => '15:00'],
-            ['start' => '07:00', 'end' => '21:00']
-        ];
+    $sessionTimes = [
+        ['start' => '07:00', 'end' => '15:00'],
+        ['start' => '07:00', 'end' => '21:00']
+    ];
 
-        $availableSessions = [];
+    $availableSessions = [];
 
-        foreach ($sessionTimes as $index => $session) {
-            $sessionStart = $date . ' ' . $session['start'];
-            $sessionEnd = $date . ' ' . $session['end'];
+    foreach ($sessionTimes as $index => $session) {
+        $sessionStart = $date . ' ' . $session['start'];
+        $sessionEnd = $date . ' ' . $session['end'];
 
-            $conflictingOrders = Order::where('tanggal', $date)
-                ->whereHas('session', function ($query) use ($sessionStart, $sessionEnd) {
-                    $query->where('waktu_mulai', $sessionStart)
-                          ->where('waktu_selesai', $sessionEnd);
-                })
-                ->whereHas('paket', function ($query) use ($ruangan) {
-                    $query->where('id_ruangan', $ruangan->id_ruangan);
-                })
-                ->whereIn('status', ['Reservasi', 'Check In'])
-                ->exists();
+        $conflictingOrders = Order::where('tanggal', $date)
+            ->whereHas('session', function ($query) use ($sessionStart, $sessionEnd) {
+                $query->where('waktu_mulai', $sessionStart)
+                      ->where('waktu_selesai', $sessionEnd);
+            })
+            ->whereHas('paket', function ($query) use ($ruangan) {
+                $query->where('id_ruangan', $ruangan->id_ruangan);
+            })
+            ->whereIn('status', ['Reservasi', 'Check In'])
+            ->exists();
 
-            if (!$conflictingOrders) {
-                $availableSessions[] = [
-                    'id' => $index + 1,
-                    'start' => $session['start'],
-                    'end' => $session['end']
-                ];
-            }
+        if (!$conflictingOrders) {
+            $availableSessions[] = [
+                'id' => $index + 1,
+                'start' => $session['start'],
+                'end' => $session['end']
+            ];
         }
-
-        return response()->json($availableSessions);
     }
+
+    return response()->json($availableSessions);
+}
+
 
     public function getDpPaymentId(Request $request)
     {
@@ -200,19 +204,6 @@ if ($validated['payment_option'] == 'dp') {
         }
 
         return response()->json(['error' => 'Invalid paket ID'], 400);
-    }
-
-
-
-    public function cancel($id)
-    {
-        $order = Order::findOrFail($id);
-        if ($order->status == 'Reservasi') {
-            $order->status = 'Dibatalkan';
-            $order->save();
-        }
-
-        return redirect()->route('admin.order')->with('message', 'Reservasi berhasil dibatalkan');
     }
 
     public function delete($id)
@@ -370,68 +361,69 @@ public function edit($id)
 {
     $order = Order::findOrFail($id);
     $pakets = Paket::all();
+
+    // Convert session times to DateTime objects
+    $order->session->waktu_mulai = new \DateTime($order->session->waktu_mulai);
+    $order->session->waktu_selesai = new \DateTime($order->session->waktu_selesai);
+
     return view('order.edit', compact('order', 'pakets'));
 }
 
 public function update(Request $request, $id)
 {
-    $order = Order::findOrFail($id);
-    $pemesan = $order->pemesan;
-    $payment = $order->payment;
-
+    // Validate the incoming request data
     $validated = $request->validate([
-        'nik' => 'required|integer',
-        'nama' => 'required|string',
-        'nama_perusahaan' => 'required|string',
-        'nomor_telepon' => 'required|string',
-        'tipe' => 'required|string',
         'tanggal' => 'required|date',
         'id_paket' => 'required|integer',
-        'id_session' => 'required|integer',
-        'payment_option' => 'required|string',
-        'metode_pembayaran' => 'nullable|string',
-        'nominal_pembayaran' => 'nullable|numeric',
-        'status' => 'required|string',
+        'waktu_mulai' => 'required',
+        'waktu_selesai' => 'required',
     ]);
 
-    $pemesan->update([
-        'nik' => $validated['nik'],
-        'nama' => $validated['nama'],
-        'nama_perusahaan' => $validated['nama_perusahaan'],
-        'nomor_telepon' => $validated['nomor_telepon'],
-        'tipe' => $validated['tipe'],
-    ]);
+    $order = Order::findOrFail($id);
 
-    $session = Sesi::firstOrCreate([
-        'waktu_mulai' => $validated['tanggal'] . ' 07:00:00',
-        'waktu_selesai' => $validated['tanggal'] . ' 21:00:00',
-    ]);
+    $paket = Paket::findOrFail($validated['id_paket']);
+    $ruanganId = $paket->id_ruangan;
+    $waktuMulai = $validated['tanggal'] . ' ' . $validated['waktu_mulai'] . ':00';
+    $waktuSelesai = $validated['tanggal'] . ' ' . $validated['waktu_selesai'] . ':00';
 
-    $validated['id_session'] = $session->id_session;
+    // Check if the room is available
+    $overlappingOrders = Order::whereHas('session', function ($query) use ($waktuMulai, $waktuSelesai) {
+        $query->where(function ($q) use ($waktuMulai, $waktuSelesai) {
+            $q->where('waktu_mulai', '<', $waktuSelesai)
+              ->where('waktu_selesai', '>', $waktuMulai);
+        });
+    })->whereHas('paket', function ($query) use ($ruanganId) {
+        $query->where('id_ruangan', $ruanganId);
+    })->where('id_order', '!=', $id)->exists();
 
-    if ($validated['payment_option'] == 'dp') {
-        $paket = Paket::findOrFail($validated['id_paket']);
-        $dpAmount = $paket->harga_total * 0.1;
-        $payment->update([
-            'nominal_pembayaran' => $dpAmount,
-            'metode_pembayaran' => $validated['metode_pembayaran'],
-        ]);
-    } else {
-        $payment->update([
-            'nominal_pembayaran' => 0,
-            'metode_pembayaran' => null,
-        ]);
+    if ($overlappingOrders) {
+        return redirect()->back()->withErrors(['error' => 'The selected room is already booked for the chosen time. Please select a different time.']);
     }
 
+    // Get or create the session with the new times
+    $session = Sesi::updateOrCreate(
+        ['id_session' => $order->id_session],
+        ['waktu_mulai' => $waktuMulai, 'waktu_selesai' => $waktuSelesai]
+    );
+
+    // Update the order
     $order->update([
         'tanggal' => $validated['tanggal'],
         'id_paket' => $validated['id_paket'],
-        'id_session' => $validated['id_session'],
-        'id_payment' => $payment->id_payment,
-        'nik' => $pemesan->nik,
-        'status' => $validated['status'],
+        'id_session' => $session->id_session,
     ]);
 
     return redirect('/admin/orders')->with('message', 'Order updated successfully');
+}
+
+public function cancel($id)
+{
+    $order = Order::findOrFail($id);
+    if ($order->status == 'Reservasi') {
+        $order->status = 'Dibatalkan';
+        $order->save();
+    }
+
+    return redirect()->route('admin.order')->with('message', 'Reservasi berhasil dibatalkan');
 }
 }
