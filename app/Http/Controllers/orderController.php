@@ -27,11 +27,13 @@ class OrderController extends Controller
 
         $today = Carbon::today();
         $sevenDays = Sesi::whereBetween('tanggal', [$today, $today->copy()->addDays(6)])
-                            ->with('orders')
-                            ->orderBy('tanggal')
-                            ->orderBy('waktu_mulai')
-                            ->get()
-                            ->groupBy('tanggal');
+        ->with('orders')
+        ->orderBy('tanggal')
+        ->orderBy('waktu_mulai')
+        ->get()
+        ->groupBy(function ($date) {
+            return Carbon::parse($date->tanggal)->format('d F Y');
+        });
         
         return view('order.index', compact('sevenDays'));
     }
