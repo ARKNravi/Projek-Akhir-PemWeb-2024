@@ -9,7 +9,8 @@ class Sessions extends Model
     protected $primaryKey = 'id_session';
     protected $fillable = ['waktu_mulai', 'waktu_selesai'];
 
+
     public function order(){
-        return $this->belongsTo(Order::class,'id_order');
+        return $this->hasMany(Order::class,'id_order');
     }
 }

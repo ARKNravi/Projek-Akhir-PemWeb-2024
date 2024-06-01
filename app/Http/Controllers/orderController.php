@@ -25,7 +25,15 @@ class OrderController extends Controller
             $message = "";
         }
 
-        return view('order.index', compact('orders', 'message'));
+        $today = Carbon::today();
+        $sevenDays = Sesi::whereBetween('tanggal', [$today, $today->copy()->addDays(6)])
+                            ->with('orders')
+                            ->orderBy('tanggal')
+                            ->orderBy('waktu_mulai')
+                            ->get()
+                            ->groupBy('tanggal');
+        
+        return view('order.index', compact('sevenDays'));
     }
 
     public function create()
