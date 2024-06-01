@@ -20,6 +20,9 @@
             const dateInput = document.getElementById('tanggal');
             const paketSelect = document.getElementById('id_paket');
             const sessionSelect = document.getElementById('id_session');
+            const paymentOptions = document.querySelectorAll('input[name="payment_option"]');
+            const dpDetails = document.getElementById('dp_details');
+            const dpAmountInput = document.getElementById('nominal_pembayaran');
 
             dateInput.addEventListener('change', function() {
                 fetchAvailableSessions();
@@ -27,6 +30,18 @@
 
             paketSelect.addEventListener('change', function() {
                 fetchAvailableSessions();
+                updateDpAmount();
+            });
+
+            paymentOptions.forEach(option => {
+                option.addEventListener('change', function() {
+                    if (this.value === 'dp') {
+                        dpDetails.style.display = 'block';
+                        updateDpAmount();
+                    } else {
+                        dpDetails.style.display = 'none';
+                    }
+                });
             });
 
             function fetchAvailableSessions() {
@@ -47,6 +62,20 @@
                         });
                 }
             }
+
+            function updateDpAmount() {
+                const paketId = paketSelect.value;
+                if (paketId) {
+                    fetch(`/admin/orders/get-paket-price?paket_id=${paketId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const dpAmount = data.price * 0.1;
+                            dpAmountInput.value = dpAmount.toFixed(2);
+                        });
+                }
+            }
+
+            updateDpAmount(); // Initial call to set the correct DP amount
         });
     </script>
 </head>
@@ -99,7 +128,33 @@
                     <!-- Options will be populated by JavaScript -->
                 </select>
             </div>
-            <input type="hidden" id="id_payment" name="id_payment" value="1">
+            <div class="mb-3">
+                <label class="form-label">Payment:</label>
+                <div class="form-check">
+                    <input type="radio" id="no_dp" name="payment_option" value="no_dp" class="form-check-input" checked>
+                    <label for="no_dp" class="form-check-label">No DP</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" id="dp" name="payment_option" value="dp" class="form-check-input">
+                    <label for="dp" class="form-check-label">DP (10%)</label>
+                </div>
+            </div>
+            <div id="dp_details" style="display:none;">
+                <div class="mb-3">
+                    <label for="metode_pembayaran" class="form-label">Metode Pembayaran:</label>
+                    <select id="metode_pembayaran" name="metode_pembayaran" class="form-select">
+                        <option value="QRIS">QRIS</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Debit">Debit</option>
+                        <option value="Credit">Credit</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="nominal_pembayaran" class="form-label">Nominal Pembayaran:</label>
+                    <input type="number" id="nominal_pembayaran" name="nominal_pembayaran" class="form-control" readonly>
+                </div>
+            </div>
+            <input type="hidden" id="id_payment" name="id_payment" value="">
             <input type="hidden" id="status" name="status" value="Reservasi">
             <button type="submit" class="btn btn-primary">Save</button>
         </form>

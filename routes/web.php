@@ -42,8 +42,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::delete('/admin/orders/{id}/delete', [OrderController::class, 'delete'])->name('admin.order.delete');
     Route::get('/admin/orders/{id}/checkin', [OrderController::class, 'showCheckinForm'])->name('admin.order.checkin');
     Route::post('/admin/orders/{id}/processCheckin', [OrderController::class, 'processCheckin'])->name('admin.order.processCheckin');
-
+    Route::get('/admin/orders/get-paket-price', [OrderController::class, 'getPaketPrice']);
     Route::put('/admin/orders/{id}/checkout', [OrderController::class, 'checkout'])->name('admin.order.checkout');
+    Route::get('/admin/orders/get-dp-payment-id', [OrderController::class, 'getDpPaymentId']);
     Route::post('/admin/orders/{id}/upload', [OrderController::class, 'upload'])->name('admin.order.upload');
     Route::get('/admin/orders/{id}/view', [OrderController::class, 'view'])->name('admin.order.view');
     Route::get('/admin/orders/{id}/view/{image}', [OrderController::class, 'viewImage'])->name('admin.order.viewImage');

@@ -1,3 +1,4 @@
+<!-- checkin.blade.php -->
 @extends('template.index')
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +19,14 @@
             @csrf
             <div class="mb-3">
                 <label for="nominal_pembayaran" class="form-label">Nominal Pembayaran:</label>
-                <input type="text" id="nominal_pembayaran" name="nominal_pembayaran" class="form-control" value="{{ $order->paket->harga_total }}" readonly required>
+                @php
+                    $totalAmount = $order->paket->harga_total;
+                    $paidAmount = $order->payment->nominal_pembayaran;
+                    $remainingAmount = $totalAmount - $paidAmount;
+                @endphp
+                <input type="text" id="nominal_pembayaran" name="nominal_pembayaran" class="form-control" value="{{ $remainingAmount }}" readonly required>
+                <small class="form-text text-muted">Total pembayaran: Rp {{ number_format($totalAmount, 2, ',', '.') }}</small>
+                <small class="form-text text-muted">Sudah dibayar: Rp {{ number_format($paidAmount, 2, ',', '.') }}</small>
             </div>
             <div class="mb-3">
                 <label for="metode_pembayaran" class="form-label">Metode Pembayaran:</label>
@@ -34,7 +42,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
-</div>   
+</div>
     @endsection
 </body>
 </html>

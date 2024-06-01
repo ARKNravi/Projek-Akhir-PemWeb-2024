@@ -88,7 +88,7 @@
                                             <button type="submit" class="btn btn-secondary btn-sm">Check Out</button>
                                         </form>
                                     @endif
-                                    @if($order->status == 'Reservasi')
+                                    @if($order->status == 'Reservasi' ||$order->status == 'Reservasi with DP' ||$order->status == 'Reservasi with NO DP' )
                                         <form method="POST" action="{{ route('admin.order.cancel', ['id' => $order->id_order]) }}" class="mb-2">
                                             @csrf
                                             @method('PUT')

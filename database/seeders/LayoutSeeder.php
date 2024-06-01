@@ -14,7 +14,7 @@ class LayoutSeeder extends Seeder
             ['nama_layout' => 'Classroom Mango', 'harga' => 500000, 'jumlahOrang' => 24],
             ['nama_layout' => 'Theatre Mango', 'harga' => 500000, 'jumlahOrang' => 48],
             ['nama_layout' => 'U Shape Citrus', 'harga' => 450000, 'jumlahOrang' => 20],
-            ['nama_layout' => 'Classroom Mango', 'harga' => 450000, 'jumlahOrang' => 20],
+            ['nama_layout' => 'Classroom Citrus', 'harga' => 450000, 'jumlahOrang' => 20],
             ['nama_layout' => 'U Shape Banana', 'harga' => 400000, 'jumlahOrang' => 12],
             ['nama_layout' => 'U Shape Apple', 'harga' => 1000000, 'jumlahOrang' => 40],
             ['nama_layout' => 'Classroom Apple', 'harga' => 1000000, 'jumlahOrang' => 40],
