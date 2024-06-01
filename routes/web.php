@@ -32,10 +32,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/ruangan/{id_ruangan}/edit', [RuanganController::class, 'edit'])->name('admin.ruangan.edit');
     Route::put('/admin/ruangan/{id_ruangan}', [RuanganController::class, 'update'])->name('admin.ruangan.update');
     Route::delete('/admin/ruangan/{id_ruangan}', [RuanganController::class, 'destroy'])->name('admin.ruangan.destroy');
-    Route::get('/admin/orders/create', [OrderController::class, 'create'])->name('admin.order.create');
-    Route::get('/admin/orders/create', [OrderController::class, 'create'])->name('admin.order.create');
-    Route::get('/admin/orders/{id}/edit', [OrderController::class, 'edit'])->name('admin.order.edit');
-    Route::put('/admin/orders/{id}/update', [OrderController::class, 'update'])->name('admin.order.update');
+
 
     Route::post('/admin/orders', [OrderController::class, 'store'])->name('admin.order.store');
     Route::post('orders/upload/{id}', [OrderController::class, 'upload'])->name('admin.order.upload');
@@ -54,6 +51,12 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/orders/{id}/view/{image}', [OrderController::class, 'viewImage'])->name('admin.order.viewImage');
     Route::delete('/admin/orders/{id}/delete/{image}', [OrderController::class, 'deleteImage'])->name('admin.order.deleteImage');
     Route::get('/admin/orders/{id}/download/{image}', [OrderController::class, 'downloadImage'])->name('admin.order.downloadImage');
+    Route::get('/admin/orders/create', [OrderController::class, 'create'])->name('admin.order.create');
+    Route::get('/admin/orders/create', [OrderController::class, 'create'])->name('admin.order.create');
+    Route::get('/admin/orders/{id}/edit', [OrderController::class, 'edit'])->name('admin.order.edit');
+    Route::put('/admin/orders/{id}', [OrderController::class, 'update'])->name('admin.order.update');
+
+
 
 //rute makanan
 Route::get("/makanan",[makananController::class,'index']);

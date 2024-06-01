@@ -82,6 +82,15 @@
 <body class="d-flex flex-column min-vh-100">
     <div class="content p-3">
         <h1>Create Order</h1>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <form action="{{ route('admin.order.store') }}" method="POST">
             @csrf
             <div class="mb-3">
@@ -116,52 +125,46 @@
             </div>
             <div class="mb-3">
                 <label for="id_paket" class="form-label">Paket:</label>
-                <select id="id_paket" name="id_paket" class="form-select" required>
+                <select id="id_paket" name="id_paket" class="form-control" required>
                     @foreach ($pakets as $paket)
                         <option value="{{ $paket->id_paket }}">{{ $paket->nama }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="mb-3">
-                <label for="id_session" class="form-label">Session:</label>
-                <select id="id_session" name="id_session" class="form-select" required>
-                    <!-- Options will be populated by JavaScript -->
-                </select>
+                <label for="waktu_mulai" class="form-label">Waktu Mulai:</label>
+                <input type="time" id="waktu_mulai" name="waktu_mulai" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Payment:</label>
+                <label for="waktu_selesai" class="form-label">Waktu Selesai:</label>
+                <input type="time" id="waktu_selesai" name="waktu_selesai" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <h2>Payment Details</h2>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Payment Option:</label>
                 <div class="form-check">
-                    <input type="radio" id="no_dp" name="payment_option" value="no_dp" class="form-check-input" checked>
-                    <label for="no_dp" class="form-check-label">No DP</label>
+                    <input class="form-check-input" type="radio" name="payment_option" id="payment_option_no_dp" value="no_dp" checked>
+                    <label class="form-check-label" for="payment_option_no_dp">No DP</label>
                 </div>
                 <div class="form-check">
-                    <input type="radio" id="dp" name="payment_option" value="dp" class="form-check-input">
-                    <label for="dp" class="form-check-label">DP (10%)</label>
+                    <input class="form-check-input" type="radio" name="payment_option" id="payment_option_dp" value="dp">
+                    <label class="form-check-label" for="payment_option_dp">DP</label>
                 </div>
             </div>
-            <div id="dp_details" style="display:none;">
-                <div class="mb-3">
-                    <label for="metode_pembayaran" class="form-label">Metode Pembayaran:</label>
-                    <select id="metode_pembayaran" name="metode_pembayaran" class="form-select">
-                        <option value="QRIS">QRIS</option>
-                        <option value="Cash">Cash</option>
-                        <option value="Debit">Debit</option>
-                        <option value="Credit">Credit</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="nominal_pembayaran" class="form-label">Nominal Pembayaran:</label>
-                    <input type="number" id="nominal_pembayaran" name="nominal_pembayaran" class="form-control" readonly>
-                </div>
+            <div id="dp_details" class="mb-3" style="display: none;">
+                <label for="nominal_pembayaran" class="form-label">Nominal Pembayaran DP:</label>
+                <input type="text" id="nominal_pembayaran" name="nominal_pembayaran" class="form-control" readonly>
             </div>
-            <input type="hidden" id="id_payment" name="id_payment" value="">
-            <input type="hidden" id="status" name="status" value="Reservasi">
-            <button type="submit" class="btn btn-primary">Save</button>
+            <div class="mb-3">
+                <label for="metode_pembayaran" class="form-label">Metode Pembayaran:</label>
+                <input type="text" id="metode_pembayaran" name="metode_pembayaran" class="form-control">
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Create Order</button>
+            </div>
         </form>
     </div>
-    <footer class="mt-auto bg-dark text-white text-center py-3">
-        &copy; 2024 Your Company
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
