@@ -10,8 +10,9 @@ class CreateSessionTable extends Migration
     {
         Schema::create('session', function (Blueprint $table) {
             $table->id('id_session');
-            $table->dateTime('waktu_mulai');
-            $table->dateTime('waktu_selesai');
+            $table->date('tanggal');
+            $table->Time('waktu_mulai');
+            $table->Time('waktu_selesai');
             $table->timestamps();
         });
     }
