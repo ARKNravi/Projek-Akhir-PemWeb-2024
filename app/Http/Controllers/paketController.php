@@ -48,7 +48,7 @@ class PaketController extends Controller
         $paket = new Paket;
         $paket->nama = $request->nama;
         $paket->id_ruangan = $request->id_ruangan;
-        $paket->id_makanan = json_encode($request->id_makanan); // Encode to JSON
+        $paket->id_makanan = $request->id_makanan; // Encode to JSON
         $paket->harga_total = $paket->hargaTotal();
         $paket->save();
         return redirect('/paket');

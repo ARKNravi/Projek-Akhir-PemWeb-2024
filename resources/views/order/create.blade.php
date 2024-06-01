@@ -104,8 +104,11 @@
                 <input type="text" id="nomor_telepon" name="nomor_telepon" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="tipe" class="form-label">Tipe:</label>
-                <input type="text" id="tipe" name="tipe" class="form-control" required>
+                <label for="tipe" class="form-label" required>Tipe:</label>
+                <select name="tipe" id="tipe">
+                    <option value="internal">Internal</option>
+                    <option value="eksternal">Eksternal</option>
+                </select>
             </div>
             <div class="mb-3">
                 <h2>Order Details</h2>
