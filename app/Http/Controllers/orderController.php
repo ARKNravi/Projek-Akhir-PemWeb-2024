@@ -28,7 +28,7 @@ class OrderController extends Controller
 
         $today = Carbon::today();
         $sevenDays = Sesi::whereBetween('tanggal', [$today, $today->copy()->addDays(6)])
-                            ->with('orders')
+                            ->with('ruangans.orders')
                             ->orderBy('tanggal')
                             ->orderBy('waktu_mulai')
                             ->get()
