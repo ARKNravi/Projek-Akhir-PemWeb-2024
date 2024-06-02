@@ -21,22 +21,24 @@
     @section('content')
     <div class="content p-3">
         <h1>Order Management</h1>
-        <div id="sessions">
-            @foreach($sevenDays as $date => $dateSessions)
+        @foreach($rooms as $room)
+            <h2>{{ $room->name }}</h2>
+            @foreach($room->sessions->groupBy('session_date') as $date => $dateSessions)
                 <div>
-                    <h2>{{ $date }}</h2>
+                    <h3>{{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }}</h3>
                     @foreach($dateSessions as $session)
-                        <a href="{{ route('orders.create', $session->id_session) }}" class="session-box">
-                            {{ $session->waktu_mulai }} - {{ $session->waktu_selesai }}
-                            @foreach($session->order as $order)
-                                <div>{{ $order->pemesan->nama }}</div>
+                        <a href="{{ route('orders.create', $session->id) }}" class="session-box {{ $session->orders->isEmpty() ? 'available' : 'booked' }}">
+                            {{ $session->start_time }} - {{ $session->end_time }}
+                            @foreach($session->orders as $order)
+                                <div>{{ $order->customer_name }}</div>
                             @endforeach
                         </a>
                     @endforeach
                 </div>
             @endforeach
-        </div>
-        <a href="{{ route('admin.order.create') }}" class="btn btn-primary">Create New Order</a>
+        @endforeach
+        <a href="{{ route('orders.create') }}" class="btn btn-primary">Create New Order</a>
+       
     </div>
     @endsection
 </body>

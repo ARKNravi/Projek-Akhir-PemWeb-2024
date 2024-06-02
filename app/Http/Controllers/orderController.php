@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\Sesi;
+use App\Models\Session;
 use App\Models\Admin;
 use App\Models\Order;
 use App\Models\Paket;
@@ -25,18 +25,11 @@ class OrderController extends Controller
         } else {
             $message = "";
         }
-
-        $today = Carbon::today();
-        $sevenDays = Sesi::whereBetween('tanggal', [$today, $today->copy()->addDays(6)])
-                            ->with('orders')
-                            ->orderBy('tanggal')
-                            ->orderBy('waktu_mulai')
-                            ->get()
-                            ->groupBy(function ($date) {
-                                return Carbon::parse($date->session_date)->format('d F Y');
-                            });
-
-        return view('order.index', compact('sevenDays','orders','message'));
+        $rooms = Ruangan::with(['sessions.orders' => function ($query) {
+            $query->whereBetween('tanggal', [Carbon::today(), Carbon::today()->copy()->addDays(6)]);
+        }])->get();
+        
+        return view('order.index', compact('rooms','orders','message'));
     }
 
     public function store(Request $request)
@@ -78,7 +71,7 @@ class OrderController extends Controller
             return redirect()->back()->withErrors(['error' => 'The selected room is already booked for the chosen time. Please select a different time.']);
         }
 
-        $session = Sesi::firstOrCreate([
+        $session = Session::firstOrCreate([
             'tanggal' => $tanggal,
             'waktu_mulai' => $waktuMulai,
             'waktu_selesai' => $waktuSelesai,
@@ -406,7 +399,7 @@ public function update(Request $request, $id)
             'waktu_selesai' => $waktuSelesai,
         ]);
     } else {
-        $session = Sesi::create([
+        $session = Session::create([
             'waktu_mulai' => $waktuMulai,
             'waktu_selesai' => $waktuSelesai,
         ]);

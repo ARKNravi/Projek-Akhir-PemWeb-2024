@@ -15,8 +15,8 @@ class Ruangan extends Model
         return $this->belongsTo(Layout::class, 'id_layout');
     }
 
-    public function session()
+    public function sessions()
     {
-        return $this->belongsTo(Sesi::class, 'id_session');
+        return $this->hasMany(Session::class, 'id_ruangan'); // Sesuaikan dengan nama kolom yang sesuai di tabel `sessions`
     }
 }

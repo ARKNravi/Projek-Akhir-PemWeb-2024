@@ -36,7 +36,7 @@ class Order extends Model
 
     public function session()
     {
-        return $this->ruangan->session();
+        return $this->belongsTo(Session::class);
     }
 
     public function checkout()

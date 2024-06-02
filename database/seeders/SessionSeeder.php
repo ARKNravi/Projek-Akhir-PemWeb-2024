@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Sesi;
+use App\Models\Session;
 use App\Models\Ruangan;
 use Carbon\Carbon;
 
@@ -22,11 +22,11 @@ class SessionSeeder extends Seeder
 
             while ($startTime->lt($endTime)) {
                 foreach ($rooms as $room) {
-                    Sesi::create([
+                    Session::create([
                         'id_ruangan' => $room->id_ruangan,
                         'tanggal' => $sessionDate->toDateString(),
-                        'waktu_mulai' => $startTime->toTimeString(),
-                        'waktu_selesai' => $startTime->copy()->addHour()->toTimeString(),
+                        'waktu_mulai' => $startTime->toDateTime(),
+                        'waktu_selesai' => $endTime->toDateTime(),
                     ]);
                 }
                 $startTime->addHour();

@@ -13,6 +13,8 @@ class CreateSessionTable extends Migration
             $table->date('tanggal');
             $table->dateTime('waktu_mulai');
             $table->dateTime('waktu_selesai');
+            $table->unsignedBigInteger('id_ruangan');
+            $table->foreign('id_ruangan')->references('id_ruangan')->on('ruangan')->onDelete('cascade');
             $table->timestamps();
         });
     }
