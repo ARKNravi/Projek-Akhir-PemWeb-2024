@@ -34,8 +34,8 @@ class OrderController extends Controller
                             ->groupBy(function ($date) {
                                 return Carbon::parse($date->session_date)->format('d F Y');
                             });
-        
-        return view('orders.index', compact('sevenDays','orders','message'));
+
+        return view('order.index', compact('sevenDays','orders','message'));
     }
 
     public function create()
@@ -61,13 +61,15 @@ class OrderController extends Controller
             'payment_option' => 'required|string',
             'metode_pembayaran' => 'nullable|string',
             'nominal_pembayaran' => 'nullable|numeric',
-            'status' => 'required|string',
+            'status' => 'nullable|string',
         ]);
+
 
         $paket = Paket::findOrFail($validated['id_paket']);
         $ruanganId = $paket->id_ruangan;
-        $waktuMulai = $validated['tanggal'] . ' ' . $validated['waktu_mulai'] . ':00';
-        $waktuSelesai = $validated['tanggal'] . ' ' . $validated['waktu_selesai'] . ':00';
+        $tanggal = $validated['tanggal'];
+        $waktuMulai = $tanggal . ' ' . $validated['waktu_mulai'] . ':00';
+        $waktuSelesai = $tanggal . ' ' . $validated['waktu_selesai'] . ':00';
 
         // Check if the room is available
         $overlappingOrders = Order::whereHas('session', function ($query) use ($waktuMulai, $waktuSelesai) {
@@ -83,10 +85,14 @@ class OrderController extends Controller
             return redirect()->back()->withErrors(['error' => 'The selected room is already booked for the chosen time. Please select a different time.']);
         }
 
+
+
         $session = Sesi::firstOrCreate([
+            'tanggal' => $tanggal,
             'waktu_mulai' => $waktuMulai,
             'waktu_selesai' => $waktuSelesai,
         ]);
+
 
         $validated['id_session'] = $session->id_session;
         $validated['id_admin'] = Auth::guard('admin')->id();
@@ -114,16 +120,20 @@ class OrderController extends Controller
             ]);
 
             $status = $validated['payment_option'] === 'dp' ? 'Reservasi with DP' : 'Reservasi with NO DP';
-
+            // dd($validated);
             $order = Order::create([
                 'tanggal' => $validated['tanggal'],
                 'id_paket' => $validated['id_paket'],
                 'id_session' => $validated['id_session'],
                 'id_payment' => $validated['id_payment'],
+                'id_ruangan' => 7,
                 'nik' => $pemesan->nik,
                 'id_admin' => $validated['id_admin'],
                 'status' => $status,
             ]);
+
+
+
         } catch (\Exception $e) {
             Log::error('Error creating order or pemesan:', ['exception' => $e]);
             return redirect()->back()->withErrors(['error' => 'Failed to create order. Please try again.']);
