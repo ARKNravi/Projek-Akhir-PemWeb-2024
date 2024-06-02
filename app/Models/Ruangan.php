@@ -8,15 +8,15 @@ class Ruangan extends Model
 {
     protected $table = 'ruangan';
     protected $primaryKey = 'id_ruangan';
-    protected $fillable = ['nama_ruangan', 'kapasitas', 'harga', 'backdrop', 'id_layout'];
+    protected $fillable = ['nama_ruangan', 'kapasitas', 'harga', 'backdrop', 'id_layout', 'id_session'];
 
     public function layout()
     {
         return $this->belongsTo(Layout::class, 'id_layout');
     }
 
-    public function sesi()
+    public function session()
     {
-        return $this->hasMany(Sesi::class);
+        return $this->belongsTo(Sesi::class, 'id_session');
     }
 }

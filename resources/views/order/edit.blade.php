@@ -46,14 +46,25 @@
                     @endforeach
                 </select>
             </div>
-            <div class="mb-3">
-                <label for="waktu_mulai" class="form-label">Waktu Mulai:</label>
-                <input type="time" id="waktu_mulai" name="waktu_mulai" class="form-control" value="{{ $order->session->waktu_mulai->format('H:i') }}" required>
-            </div>
-            <div class="mb-3">
-                <label for="waktu_selesai" class="form-label">Waktu Selesai:</label>
-                <input type="time" id="waktu_selesai" name="waktu_selesai" class="form-control" value="{{ $order->session->waktu_selesai->format('H:i') }}" required>
-            </div>
+            @if ($order->ruangan && $order->ruangan->session)
+                <div class="mb-3">
+                    <label for="waktu_mulai" class="form-label">Waktu Mulai:</label>
+                    <input type="time" id="waktu_mulai" name="waktu_mulai" class="form-control" value="{{ $order->ruangan->session->waktu_mulai->format('H:i') }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="waktu_selesai" class="form-label">Waktu Selesai:</label>
+                    <input type="time" id="waktu_selesai" name="waktu_selesai" class="form-control" value="{{ $order->ruangan->session->waktu_selesai->format('H:i') }}" required>
+                </div>
+            @else
+                <div class="mb-3">
+                    <label for="waktu_mulai" class="form-label">Waktu Mulai:</label>
+                    <input type="time" id="waktu_mulai" name="waktu_mulai" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="waktu_selesai" class="form-label">Waktu Selesai:</label>
+                    <input type="time" id="waktu_selesai" name="waktu_selesai" class="form-control" required>
+                </div>
+            @endif
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
