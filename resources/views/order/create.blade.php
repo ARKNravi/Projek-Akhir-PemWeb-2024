@@ -16,67 +16,43 @@
         }
     </style>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dateInput = document.getElementById('tanggal');
-            const paketSelect = document.getElementById('id_paket');
-            const sessionSelect = document.getElementById('id_session');
-            const paymentOptions = document.querySelectorAll('input[name="payment_option"]');
-            const dpDetails = document.getElementById('dp_details');
-            const dpAmountInput = document.getElementById('nominal_pembayaran');
+document.addEventListener('DOMContentLoaded', function() {
+    const dateInput = document.getElementById('tanggal');
+    const paketSelect = document.getElementById('id_paket');
+    const ruanganSelect = document.getElementById('id_ruangan');
+    const paymentOptions = document.querySelectorAll('input[name="payment_option"]');
+    const dpDetails = document.getElementById('dp_details');
+    const dpAmountInput = document.getElementById('nominal_pembayaran');
 
-            dateInput.addEventListener('change', function() {
-                fetchAvailableSessions();
-            });
+    dateInput.addEventListener('change', fetchAvailableSessions);
+    paketSelect.addEventListener('change', fetchAvailableSessions);
+    ruanganSelect.addEventListener('change', fetchAvailableSessions);
 
-            paketSelect.addEventListener('change', function() {
-                fetchAvailableSessions();
-                updateDpAmount();
-            });
+    function fetchAvailableSessions() {
+        const selectedDate = dateInput.value;
+        const selectedPaket = paketSelect.value;
+        const selectedRuangan = ruanganSelect.value;
 
-            paymentOptions.forEach(option => {
-                option.addEventListener('change', function() {
-                    if (this.value === 'dp') {
-                        dpDetails.style.display = 'block';
-                        updateDpAmount();
-                    } else {
-                        dpDetails.style.display = 'none';
-                    }
+        if (selectedDate && selectedPaket && selectedRuangan) {
+            fetch(`/api/available-sessions?date=${selectedDate}&paket=${selectedPaket}&ruangan=${selectedRuangan}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Update time options based on the response
                 });
-            });
+        }
+    }
 
-            function fetchAvailableSessions() {
-                const date = dateInput.value;
-                const paketId = paketSelect.value;
-
-                if (date && paketId) {
-                    fetch(`/admin/orders/available-sessions?date=${date}&paket_id=${paketId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            sessionSelect.innerHTML = '';
-                            data.forEach(session => {
-                                const option = document.createElement('option');
-                                option.value = session.id;
-                                option.text = `${session.start} - ${session.end}`;
-                                sessionSelect.appendChild(option);
-                            });
-                        });
-                }
+    paymentOptions.forEach(option => {
+        option.addEventListener('change', () => {
+            if (option.value === 'dp') {
+                dpDetails.style.display = 'block';
+            } else {
+                dpDetails.style.display = 'none';
             }
-
-            function updateDpAmount() {
-                const paketId = paketSelect.value;
-                if (paketId) {
-                    fetch(`/admin/orders/get-paket-price?paket_id=${paketId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            const dpAmount = data.price * 0.1;
-                            dpAmountInput.value = dpAmount.toFixed(2);
-                        });
-                }
-            }
-
-            updateDpAmount(); // Initial call to set the correct DP amount
         });
+    });
+});
+
     </script>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -131,6 +107,14 @@
                 <select id="id_paket" name="id_paket" class="form-control" required>
                     @foreach ($pakets as $paket)
                         <option value="{{ $paket->id_paket }}">{{ $paket->nama }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="id_ruangan" class="form-label">Ruangan:</label>
+                <select id="id_ruangan" name="id_ruangan" class="form-control" required>
+                    @foreach ($ruangans as $ruangan)
+                        <option value="{{ $ruangan->id_ruangan }}">{{ $ruangan->nama_ruangan }}</option>
                     @endforeach
                 </select>
             </div>
