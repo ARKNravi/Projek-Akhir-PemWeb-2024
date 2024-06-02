@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ruangan;
 use App\Models\Sesi;
 use App\Models\Admin;
 use App\Models\Order;
@@ -25,17 +26,11 @@ class OrderController extends Controller
             $message = "";
         }
 
-        $today = Carbon::today();
-        $sevenDays = Sesi::whereBetween('tanggal', [$today, $today->copy()->addDays(6)])
-                            ->with('orders')
-                            ->orderBy('tanggal')
-                            ->orderBy('waktu_mulai')
-                            ->get()
-                            ->groupBy(function ($date) {
-                                return Carbon::parse($date->session_date)->format('d F Y');
-                            });
+        $rooms = Ruangan::with(['Sesi.orders' => function ($query) {
+            $query->whereBetween('tanggal', [Carbon::today(), Carbon::today()->copy()->addDays(6)]);
+        }])->get();
         
-        return view('orders.index', compact('sevenDays','orders','message'));
+        return view('order.index', compact('rooms','orders','message'));
     }
 
     public function create()

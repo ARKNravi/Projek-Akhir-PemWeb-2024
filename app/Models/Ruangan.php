@@ -14,4 +14,9 @@ class Ruangan extends Model
     {
         return $this->belongsTo(Layout::class, 'id_layout');
     }
+
+    public function sesi()
+    {
+        return $this->hasMany(Sesi::class);
+    }
 }
