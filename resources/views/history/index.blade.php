@@ -32,8 +32,8 @@
                                         <td>{{ $order->pemesan->nomor_telepon }}</td>
                                         <td>{{ $order->tanggal }}</td>
                                         <td>{{ $order->paket->nama }}</td>
-                                        <td>{{ $order->session->waktu_mulai }} - {{ $order->session->waktu_selesai }}</td>
-                                        <td>{{ $order->paket->ruangan->nama_ruangan }}</td>
+                                        <td>{{ $order->ruangan->session->waktu_mulai }} - {{ $order->ruangan->session->waktu_selesai }}</td>
+                                        <td>{{ $order->ruangan->nama_ruangan }}</td>
                                         <td>{{ $order->payment->metode_pembayaran }}</td>
                                     </tr>
                                 @endforeach
