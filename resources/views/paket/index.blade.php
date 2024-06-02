@@ -60,21 +60,25 @@
                 <td>{{ $pkt->id_paket }}</td>
                 <td>{{ $pkt->nama }}</td>
                 <td>
-                    @if(is_array($pkt->id_makanan))
-                        @foreach ($pkt->id_makanan as $makananId)
-                            {{ \App\Models\Makanan::find($makananId)->menu_makanan }}@if (!$loop->last), @endif
+                    @php
+                        $makananIds = is_array($pkt->id_makanan) ? $pkt->id_makanan : json_decode($pkt->id_makanan, true);
+                        $makananList = [];
+                    @endphp
+
+                    @if(is_array($makananIds))
+                        @foreach ($makananIds as $makananId)
+                            @php
+                                $makanan = \App\Models\Makanan::find($makananId);
+                            @endphp
+
+                            @if ($makanan)
+                                {{ $makanan->menu_makanan }}@if (!$loop->last), @endif
+                            @else
+                                [Unknown]
+                            @endif
                         @endforeach
                     @else
-                        @php
-                            $makananArray = json_decode($pkt->id_makanan, true);
-                        @endphp
-                        @if(is_array($makananArray))
-                            @foreach ($makananArray as $makananId)
-                                {{ \App\Models\Makanan::find($makananId)->menu_makanan }}@if (!$loop->last), @endif
-                            @endforeach
-                        @else
-                            {{ $pkt->id_makanan }}
-                        @endif
+                        {{ $pkt->id_makanan }}
                     @endif
                 </td>
                 <td>{{ $pkt->harga_total }}</td>
@@ -84,6 +88,7 @@
                 </td>
             </tr>
             @endforeach
+
         </tbody>
     </table>
 

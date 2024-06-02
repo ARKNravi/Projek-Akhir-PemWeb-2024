@@ -19,4 +19,10 @@ class Ruangan extends Model
     {
         return $this->belongsTo(Sesi::class, 'id_session');
     }
+    // App\Models\Sesi.php
+// App\Models\Ruangan.php
+public function orders()
+{
+    return $this->hasMany(Order::class, 'id_ruangan');
+}
 }

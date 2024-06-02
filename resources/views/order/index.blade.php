@@ -23,18 +23,20 @@
         <h1>Order Management</h1>
         <div id="sessions">
             @foreach($sevenDays as $date => $dateSessions)
-                <div>
-                    <h2>{{ $date }}</h2>
-                    @foreach($dateSessions as $session)
-                        <a href="{{ route('orders.create', $session->id_session) }}" class="session-box">
-                            {{ $session->waktu_mulai }} - {{ $session->waktu_selesai }}
-                            @foreach($session->order as $order)
+            <div>
+                <h2>{{ $date }}</h2>
+                @foreach($dateSessions as $session)
+                    <a href="{{ route('admin.order.create', $session->id_session) }}" class="session-box">
+                        {{ $session->waktu_mulai }} - {{ $session->waktu_selesai }}
+                        @foreach($session->ruangans as $ruangan)
+                            @foreach($ruangan->orders as $order)
                                 <div>{{ $order->pemesan->nama }}</div>
                             @endforeach
-                        </a>
-                    @endforeach
-                </div>
-            @endforeach
+                        @endforeach
+                    </a>
+                @endforeach
+            </div>
+        @endforeach
         </div>
         <a href="{{ route('admin.order.create') }}" class="btn btn-primary">Create New Order</a>
     </div>

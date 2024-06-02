@@ -2,36 +2,22 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Sesi;
-use App\Models\Ruangan;
-use Carbon\Carbon;
-
+use Illuminate\Database\Seeder;
 
 class SessionSeeder extends Seeder
 {
     public function run()
     {
+        $sessions = [
+            ['tanggal' => '2024-01-01', 'waktu_mulai' => '2024-01-01 09:00:00', 'waktu_selesai' => '2024-01-01 11:00:00'],
+            ['tanggal' => '2024-01-01', 'waktu_mulai' => '2024-01-01 13:00:00', 'waktu_selesai' => '2024-01-01 15:00:00'],
+            ['tanggal' => '2024-01-02', 'waktu_mulai' => '2024-01-02 09:00:00', 'waktu_selesai' => '2024-01-02 11:00:00'],
+            ['tanggal' => '2024-01-02', 'waktu_mulai' => '2024-01-02 13:00:00', 'waktu_selesai' => '2024-01-02 15:00:00'],
+        ];
 
-        $rooms = Ruangan::all();
-        $today = Carbon::today();
-        for ($day = 0; $day < 7; $day++) {
-            $sessionDate = $today->copy()->addDays($day);
-            $startTime = Carbon::createFromTime(8, 0, 0); // 8 AM
-            $endTime = Carbon::createFromTime(18, 0, 0); // 6 PM
-
-            while ($startTime->lt($endTime)) {
-                foreach ($rooms as $room) {
-                    Sesi::create([
-                        'id_ruangan' => $room->id_ruangan,
-                        'tanggal' => $sessionDate->toDateString(),
-                        'waktu_mulai' => $startTime->toTimeString(),
-                        'waktu_selesai' => $startTime->copy()->addHour()->toTimeString(),
-                    ]);
-                }
-                $startTime->addHour();
-            }
+        foreach ($sessions as $session) {
+            Sesi::create($session);
         }
-       
     }
 }
