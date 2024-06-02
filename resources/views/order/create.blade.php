@@ -16,43 +16,36 @@
         }
     </style>
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const dateInput = document.getElementById('tanggal');
-    const paketSelect = document.getElementById('id_paket');
-    const ruanganSelect = document.getElementById('id_ruangan');
-    const paymentOptions = document.querySelectorAll('input[name="payment_option"]');
-    const dpDetails = document.getElementById('dp_details');
-    const dpAmountInput = document.getElementById('nominal_pembayaran');
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateInput = document.getElementById('tanggal');
+            const paketSelect = document.getElementById('id_paket');
+            const ruanganSelect = document.getElementById('id_ruangan');
+            const paymentOptions = document.querySelectorAll('input[name="payment_option"]');
+            const dpDetails = document.getElementById('dp_details');
+            const dpAmountInput = document.getElementById('nominal_pembayaran');
 
-    dateInput.addEventListener('change', fetchAvailableSessions);
-    paketSelect.addEventListener('change', fetchAvailableSessions);
-    ruanganSelect.addEventListener('change', fetchAvailableSessions);
-
-    function fetchAvailableSessions() {
-        const selectedDate = dateInput.value;
-        const selectedPaket = paketSelect.value;
-        const selectedRuangan = ruanganSelect.value;
-
-        if (selectedDate && selectedPaket && selectedRuangan) {
-            fetch(`/api/available-sessions?date=${selectedDate}&paket=${selectedPaket}&ruangan=${selectedRuangan}`)
-                .then(response => response.json())
-                .then(data => {
-                    // Update time options based on the response
+            paketSelect.addEventListener('change', updateDPAmount);
+            paymentOptions.forEach(option => {
+                option.addEventListener('change', () => {
+                    if (option.value === 'dp') {
+                        dpDetails.style.display = 'block';
+                        updateDPAmount();
+                    } else {
+                        dpDetails.style.display = 'none';
+                    }
                 });
-        }
-    }
+            });
 
-    paymentOptions.forEach(option => {
-        option.addEventListener('change', () => {
-            if (option.value === 'dp') {
-                dpDetails.style.display = 'block';
-            } else {
-                dpDetails.style.display = 'none';
+            function updateDPAmount() {
+                const selectedPaket = paketSelect.value;
+                const paketPrice = paketSelect.options[paketSelect.selectedIndex].dataset.price;
+                if (selectedPaket && paketPrice) {
+                    dpAmountInput.value = (paketPrice * 0.1).toFixed(2);
+                } else {
+                    dpAmountInput.value = '';
+                }
             }
         });
-    });
-});
-
     </script>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -90,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             <div class="mb-3">
                 <label for="tipe" class="form-label" required>Tipe:</label>
-                <select name="tipe" id="tipe">
+                <select name="tipe" id="tipe" class="form-select">
                     <option value="internal">Internal</option>
                     <option value="eksternal">Eksternal</option>
                 </select>
@@ -104,15 +97,15 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             <div class="mb-3">
                 <label for="id_paket" class="form-label">Paket:</label>
-                <select id="id_paket" name="id_paket" class="form-control" required>
+                <select id="id_paket" name="id_paket" class="form-select" required>
                     @foreach ($pakets as $paket)
-                        <option value="{{ $paket->id_paket }}">{{ $paket->nama }}</option>
+                        <option value="{{ $paket->id_paket }}" data-price="{{ $paket->harga_total }}">{{ $paket->nama }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="mb-3">
                 <label for="id_ruangan" class="form-label">Ruangan:</label>
-                <select id="id_ruangan" name="id_ruangan" class="form-control" required>
+                <select id="id_ruangan" name="id_ruangan" class="form-select" required>
                     @foreach ($ruangans as $ruangan)
                         <option value="{{ $ruangan->id_ruangan }}">{{ $ruangan->nama_ruangan }}</option>
                     @endforeach
@@ -127,29 +120,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 <input type="time" id="waktu_selesai" name="waktu_selesai" class="form-control" required>
             </div>
             <div class="mb-3">
-                <h2>Payment Details</h2>
-            </div>
-            <div class="mb-3">
                 <label class="form-label">Payment Option:</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="payment_option" id="payment_option_no_dp" value="no_dp" checked>
-                    <label class="form-check-label" for="payment_option_no_dp">No DP</label>
+                <div>
+                    <input type="radio" id="no_dp" name="payment_option" value="no_dp" class="form-check-input" checked>
+                    <label for="no_dp" class="form-check-label">No DP</label>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="payment_option" id="payment_option_dp" value="dp">
-                    <label class="form-check-label" for="payment_option_dp">DP</label>
+                <div>
+                    <input type="radio" id="dp" name="payment_option" value="dp" class="form-check-input">
+                    <label for="dp" class="form-check-label">DP</label>
                 </div>
             </div>
-            <div id="dp_details" class="mb-3" style="display: none;">
-                <label for="nominal_pembayaran" class="form-label">Nominal Pembayaran DP:</label>
-                <input type="text" id="nominal_pembayaran" name="nominal_pembayaran" class="form-control" readonly>
+            <div id="dp_details" style="display: none;">
+                <div class="mb-3">
+                    <label for="nominal_pembayaran" class="form-label">Nominal Pembayaran DP:</label>
+                    <input type="number" id="nominal_pembayaran" name="nominal_pembayaran" class="form-control" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="metode_pembayaran" class="form-label">Metode Pembayaran:</label>
+                    <select id="metode_pembayaran" name="metode_pembayaran" class="form-select">
+                        <option value="QRIS">QRIS</option>
+                        <option value="DEBIT">DEBIT</option>
+                        <option value="CREDIT CARD">CREDIT CARD</option>
+                        <option value="CASH">CASH</option>
+                    </select>
+                </div>
             </div>
             <div class="mb-3">
-                <label for="metode_pembayaran" class="form-label">Metode Pembayaran:</label>
-                <input type="text" id="metode_pembayaran" name="metode_pembayaran" class="form-control">
-            </div>
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Create Order</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
     </div>

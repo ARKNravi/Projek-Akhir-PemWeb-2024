@@ -31,7 +31,12 @@ class OrderController extends Controller
         
         return view('order.index', compact('rooms','orders','message'));
     }
-
+    public function create()
+    {
+        $pakets = Paket::all();
+        $ruangans = Ruangan::all();
+        return view('order.create', compact('pakets', 'ruangans'));
+    }
     public function store(Request $request)
     {
         $validated = $request->validate([

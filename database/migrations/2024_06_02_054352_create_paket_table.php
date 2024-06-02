@@ -12,7 +12,6 @@ class CreatePaketTable extends Migration
             $table->id('id_paket');
             $table->string('nama');
             $table->decimal('harga_total', 10, 2);
-            $table->unsignedBigInteger('id_ruangan');
             $table->json('id_makanan'); // Store multiple makanan IDs as JSON
             $table->timestamps();
         });

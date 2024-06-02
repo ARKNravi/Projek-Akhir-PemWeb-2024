@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Paket;
@@ -68,6 +69,10 @@ class PaketController extends Controller
     {
         $paket = Paket::find($id_paket);
         $paket->id_makanan = is_array($paket->id_makanan) ? $paket->id_makanan : json_decode($paket->id_makanan, true);
+
+        if (!is_array($paket->id_makanan)) {
+            $paket->id_makanan = [$paket->id_makanan];
+        }
 
         $ruangan = Ruangan::all();
         $makanan = Makanan::whereIn('id_makanan', $paket->id_makanan)->get(); // Fetch only related makanan
