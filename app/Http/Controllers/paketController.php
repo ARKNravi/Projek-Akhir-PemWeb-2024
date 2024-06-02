@@ -8,6 +8,28 @@ use Illuminate\Http\Request;
 
 class PaketController extends Controller
 {
+    public function store(Request $request)
+    {
+        $paket = new Paket;
+        $paket->nama = $request->nama;
+        $paket->id_ruangan = $request->id_ruangan;
+        $paket->id_makanan = $request->id_makanan; // Store as array
+        $paket->harga_total = $paket->hargaTotal();
+        $paket->save();
+        return redirect('/paket');
+    }
+
+    public function update(Request $request)
+    {
+        $paket = Paket::find($request->id_paket);
+        $paket->nama = $request->nama;
+        $paket->id_ruangan = $request->id_ruangan;
+        $paket->id_makanan = $request->id_makanan; // Store as array
+        $paket->harga_total = $paket->hargaTotal();
+        $paket->save();
+        return redirect('/paket');
+    }
+
     public function index(Request $request)
     {
         $sort = $request->input('sort', 'created_at');
@@ -20,7 +42,6 @@ class PaketController extends Controller
         }
 
         $paket = $query->get();
-
         $message = $paket->isEmpty() ? "Belum ada paket" : "";
 
         return view('paket.index', compact('paket', 'message'));
@@ -43,32 +64,6 @@ class PaketController extends Controller
         return view('paket.add', compact('ruangan', 'makanan'));
     }
 
-    public function store(Request $request)
-    {
-        $paket = new Paket;
-        $paket->nama = $request->nama;
-        $paket->id_ruangan = $request->id_ruangan;
-        $paket->id_makanan = $request->id_makanan; // Encode to JSON
-        $paket->harga_total = $paket->hargaTotal();
-        $paket->save();
-        return redirect('/paket');
-    }
-
-    public function update(Request $request)
-    {
-        $paket = Paket::find($request->id_paket);
-        $paket->nama = $request->nama;
-        $paket->id_ruangan = $request->id_ruangan;
-        $paket->id_makanan = json_encode($request->id_makanan); // Encode to JSON
-        $paket->harga_total = $paket->hargaTotal();
-        $paket->save();
-
-        return redirect('/paket');
-    }
-
-
-
-
     public function edit($id_paket)
     {
         $paket = Paket::find($id_paket);
@@ -80,8 +75,6 @@ class PaketController extends Controller
 
         return view('paket.edit', compact('paket', 'ruangan', 'makanan', 'allMakanan'));
     }
-
-
 
     public function destroy($id_paket)
     {

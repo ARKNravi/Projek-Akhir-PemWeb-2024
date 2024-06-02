@@ -1,4 +1,4 @@
-@extends('template.index')
+//@extends('template.index')
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,12 +62,23 @@
                 <td>{{ $pkt->nama }}</td>
                 <td>{{ $pkt->ruangan->nama_ruangan }}</td>
                 <td>
-                    @foreach ($pkt->id_makanan as $makananId)
-                        {{ \App\Models\Makanan::find($makananId)->menu_makanan }}@if (!$loop->last), @endif
-                    @endforeach
+                    @if(is_array($pkt->id_makanan))
+                        @foreach ($pkt->id_makanan as $makananId)
+                            {{ \App\Models\Makanan::find($makananId)->menu_makanan }}@if (!$loop->last), @endif
+                        @endforeach
+                    @else
+                        @php
+                            $makananArray = json_decode($pkt->id_makanan, true);
+                        @endphp
+                        @if(is_array($makananArray))
+                            @foreach ($makananArray as $makananId)
+                                {{ \App\Models\Makanan::find($makananId)->menu_makanan }}@if (!$loop->last), @endif
+                            @endforeach
+                        @else
+                            {{ $pkt->id_makanan }}
+                        @endif
+                    @endif
                 </td>
-
-
                 <td>{{ $pkt->harga_total }}</td>
                 <td>
                     <a href="/paket/edit/{{ $pkt->id_paket }}" class="btn btn-warning btn-sm">Edit</a>
@@ -77,6 +88,7 @@
             @endforeach
         </tbody>
     </table>
+
     @endif
 @endsection
 </div>
