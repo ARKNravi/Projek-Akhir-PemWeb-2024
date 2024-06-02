@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('order', function (Blueprint $table) {
-            $table->text('dokumentasi')->nullable();
+        Schema::create('paket_makanan', function (Blueprint $table) {
+            $table->id('id_paket_makanan');
+            $table->string('nama_paket_makanan');
+            $table->decimal('harga_total',10,2);
+            $table->json('id_makanan');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('order', function (Blueprint $table) {
-            $table->dropColumn('dokumentasi');
-        });
+        Schema::dropIfExists('paket_makanan');
     }
 };
