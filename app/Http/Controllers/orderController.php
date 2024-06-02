@@ -193,7 +193,7 @@ public function getAvailableSessions(Request $request)
             ];
         }
     }
-
+//
     return response()->json($availableSessions);
 }
 
