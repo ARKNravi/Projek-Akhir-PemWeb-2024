@@ -14,15 +14,25 @@
         <div class="mb-3">
             <label for="id_makanan" class="form-label">Makanan</label>
             <div id="menuItems">
-                @foreach ($makanan as $mkn)
-                    <div class="input-group mb-3">
-                        <select name="id_makanan[]" class="form-control">
-                            <option value="{{ $mkn->id_makanan }}" {{ in_array($mkn->id_makanan, (array)$paket->id_makanan) ? 'selected' : '' }}>
-                                {{ $mkn->menu_makanan }}
-                            </option>
-                        </select>
-                        <button type="button" class="btn btn-danger" onclick="removeMenuItem(this)">Remove</button>
-                    </div>
+                @foreach ($paket->id_makanan as $makananId)
+                    @php
+                        $makanan = App\Models\Makanan::find($makananId);
+                    @endphp
+                    @if ($makanan)
+                        <div class="input-group mb-3">
+                            <select name="id_makanan[]" class="form-control">
+                                <option value="{{ $makanan->id_makanan }}" selected>{{ $makanan->menu_makanan }}</option>
+                                @foreach ($allMakanan as $mkn)
+                                    @if ($mkn->id_makanan != $makanan->id_makanan)
+                                        <option value="{{ $mkn->id_makanan }}">{{ $mkn->menu_makanan }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <button type="button" class="btn btn-danger" onclick="removeMenuItem(this)">Remove</button>
+                        </div>
+                    @else
+                        <div class="alert alert-warning">Makanan with ID {{ $makananId }} not found.</div>
+                    @endif
                 @endforeach
             </div>
             <button type="button" class="btn btn-success" onclick="addMenuItem()">Add Menu Item</button>

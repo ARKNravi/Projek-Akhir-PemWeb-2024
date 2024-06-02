@@ -14,10 +14,6 @@
     <form action="/layout/tambah" method="post">
         {{ csrf_field() }}
         <div class="mb-3">
-            <label for="id_layout">Id layout</label><br>
-            <input type="text" name="id_layout" id="id_layout">
-        </div>
-        <div class="mb-3">
             <label for="nama_layout">Nama layout</label><br>
             <input type="text" name="nama_layout" id="nama_layout">
         </div>

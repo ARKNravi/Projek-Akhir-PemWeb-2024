@@ -15,6 +15,11 @@
             width: 100%;
             height: auto;
         }
+        .thumbnail .actions {
+            display: flex;
+            flex-direction: row;
+            gap: 5px; /* Atur jarak antar tombol sesuai kebutuhan */
+        }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -69,11 +74,14 @@
                                                 @foreach($images as $image)
                                                     <div class="thumbnail me-2 mb-2">
                                                         <img src="{{ url('Dokumentasi/' . $order->id_order . '/' . $image) }}" alt="{{ $image }}" class="img-thumbnail">
-                                                        <form method="POST" action="{{ route('admin.order.deleteImage', ['id' => $order->id_order, 'image' => $image]) }}" class="d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm mt-2">Hapus</button>
-                                                        </form>
+                                                        <div class="actions">
+                                                            <form method="POST" action="{{ route('admin.order.deleteImage', ['id' => $order->id_order, 'image' => $image]) }}" class="d-inline">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                                            </form>
+                                                            <a href="{{ route('admin.order.viewImage', ['id' => $order->id_order, 'image' => $image]) }}" class="btn btn-info btn-sm">Lihat</a>
+                                                        </div>
                                                     </div>
                                                 @endforeach
                                             </div>
