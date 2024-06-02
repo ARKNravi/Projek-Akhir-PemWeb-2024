@@ -10,8 +10,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             // LayoutSeeder::class,
-             RuanganSeeder::class,
-            // MakananSeeder::class,
+            // RuanganSeeder::class,
+            MakananSeeder::class,
             // PaketSeeder::class,
         ]);
     }
