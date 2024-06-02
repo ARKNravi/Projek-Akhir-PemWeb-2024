@@ -49,7 +49,6 @@
             <tr>
                 <th>Id Paket</th>
                 <th>Nama Paket</th>
-                <th>Nama Ruangan</th>
                 <th>Menu Makanan</th>
                 <th>Harga Total</th>
                 <th>Aksi</th>
@@ -60,7 +59,6 @@
             <tr>
                 <td>{{ $pkt->id_paket }}</td>
                 <td>{{ $pkt->nama }}</td>
-                <td>{{ $pkt->ruangan->nama_ruangan }}</td>
                 <td>
                     @if(is_array($pkt->id_makanan))
                         @foreach ($pkt->id_makanan as $makananId)

@@ -11,14 +11,6 @@
             <input type="text" id="nama" name="nama" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label for="id_ruangan" class="form-label">Ruangan</label>
-            <select name="id_ruangan" id="id_ruangan" class="form-control">
-                @foreach ($ruangan as $rng)
-                    <option value="{{$rng->id_ruangan}}">{{$rng->nama_ruangan}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="mb-3">
             <label for="id_makanan" class="form-label">Makanan</label>
             <div id="menuItems">
                 <div class="input-group mb-3">
