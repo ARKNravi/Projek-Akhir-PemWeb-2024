@@ -20,3 +20,5 @@ yarn-error.log
 /.vscode
 /public/Dokumentasi
 z
+
+app.yaml

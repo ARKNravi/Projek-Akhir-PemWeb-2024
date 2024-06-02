@@ -100,4 +100,7 @@ Route::post('/admin/profile/update-username', [ProfileController::class, 'update
 Route::get('/admin/profile/edit-password', [ProfileController::class, 'editPassword'])->name('profile.edit-password');
 Route::post('/admin/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
 
+Route::get('/about', function () {
+    return view('about-us.index');
+});
 });
