@@ -8,10 +8,5 @@ class Sesi extends Model
 {
     protected $table = 'session';
     protected $primaryKey = 'id_session';
-    protected $fillable = ['tanggal','waktu_mulai', 'waktu_selesai'];
-
-
-    public function order(){
-        return $this->hasMany(Order::class,'id_order');
-    }
+    protected $fillable = ['tanggal', 'waktu_mulai', 'waktu_selesai'];
 }

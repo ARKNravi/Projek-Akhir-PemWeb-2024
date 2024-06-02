@@ -43,6 +43,9 @@
                     <th>Kapasitas Ruangan</th>
                     <th>Harga</th>
                     <th>Backdrop</th>
+                    <th>Tanggal</th>
+                    <th>Waktu Mulai</th>
+                    <th>Waktu Selesai</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -54,6 +57,9 @@
                         <td>{{ $r->kapasitas }}</td>
                         <td>{{ $r->harga }}</td>
                         <td>{{ $r->backdrop }}</td>
+                        <td>{{ $r->session->tanggal ?? 'N/A' }}</td>
+                        <td>{{ $r->session->waktu_mulai ?? 'N/A' }}</td>
+                        <td>{{ $r->session->waktu_selesai ?? 'N/A' }}</td>
                         <td>
                             <a href="{{ route('admin.ruangan.edit', $r->id_ruangan) }}" class="btn btn-warning btn-sm">Edit</a>
                             <form method="POST" action="{{ route('admin.ruangan.destroy', $r->id_ruangan) }}" class="d-inline">
