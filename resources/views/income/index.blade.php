@@ -51,7 +51,7 @@
                             <tr>
                                 <th>ID Pesanan</th>
                                 <th>Paket</th>
-                                <th>Fasilitas</th>
+                                <th>Ruangan</th>
                                 <th>Pemesan</th>
                                 <th>Admin</th>
                                 <th>Total Harga</th>
@@ -66,13 +66,15 @@
                                     Harga: {{ number_format($order->paket->harga_total, 2) }}
                                 </td>
                                 <td>
-                                    @if($order->paket->ruangan)
-                                    <strong>Ruangan:</strong> {{ $order->paket->ruangan->nama_ruangan }}<br>
+                                    @if($order->ruangan)
+                                    <strong>Ruangan:</strong> {{ $order->ruangan->nama_ruangan }}<br>
                                     @endif
-
-                                    @if($order->paket->makanan)
-                                    <strong>Makanan:</strong> {{ $order->paket->makanan->menu_makanan }} ({{ number_format($order->paket->makanan->harga_makanan, 2) }})<br>
-                                    @endif
+                                    @if($order->paket->makanan->isNotEmpty())
+                                    <strong>Makanan:</strong>
+                                    @foreach($order->paket->makanan as $makanan)
+                                        {{ $makanan->menu_makanan }} ({{ number_format($makanan->harga_makanan, 2) }})<br>
+                                    @endforeach
+                                @endif
                                 </td>
                                 <td>{{ $order->pemesan->nama }}</td>
                                 <td>{{ $order->admin->username }}</td>

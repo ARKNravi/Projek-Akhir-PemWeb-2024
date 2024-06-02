@@ -21,7 +21,7 @@ class Paket extends Model
 
     public function makanan()
     {
-        return $this->belongsToMany(Makanan::class, 'id_makanan');
+        return $this->hasMany(Makanan::class, 'id_makanan', 'id_makanan');
     }
 
     public function hargaTotal()

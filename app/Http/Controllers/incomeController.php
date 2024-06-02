@@ -42,7 +42,7 @@ class IncomeController extends Controller
     $month = $request->input('month');
     $year = $request->input('year');
 
-    $ordersQuery = Order::with('paket.fasilitas.ruangan', 'paket.fasilitas.makanan', 'paket.fasilitas.kamar', 'pemesan', 'admin', 'payment')
+    $ordersQuery = Order::with('paket.ruangan', 'paket.makanan', 'pemesan', 'admin', 'payment')
         ->whereHas('payment', function ($query) {
             $query->where('id_payment', '!=', 1); // Exclude orders with id_payment = 1
         });
