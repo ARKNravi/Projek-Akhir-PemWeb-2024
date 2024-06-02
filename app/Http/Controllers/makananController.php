@@ -12,7 +12,7 @@ class makananController extends Controller
         $search = $request->input('search');
         $query =Makanan::orderBy($sort,'desc');
         if (!empty($search)) {
-            $query->where('nama_makanan', 'like', '%' . $search . '%');
+            $query->where('menu_makanan', 'like', '%' . $search . '%');
         }
         $makanan=$query->get();
         return view('makanan.index',["makanan"=>$makanan]);
@@ -37,15 +37,19 @@ class makananController extends Controller
         return view('makanan.edit',['makanan'=>$makanan]);
     }
 
-    public function update(Request $request){
-        $makanan = Makanan::find($request)->first();
-        $makanan->id_makanan=$request->id_makanan;
-        $makanan->nama_makanan=$request->nama_makanan;
-        $makanan->harga_makanan=$request->harga_makanan;
+    public function update(Request $request)
+    {
+        $request->validate([
+            'menu_makanan' => 'required',
+            'harga_makanan' => 'required|numeric',
+        ]);
 
+        $makanan = Makanan::findOrFail($request->id_makanan);
+        $makanan->menu_makanan = $request->menu_makanan;
+        $makanan->harga_makanan = $request->harga_makanan;
         $makanan->save();
 
-        return redirect('/makanan');
+        return redirect('/makanan')->with('success', 'Makanan berhasil diperbarui.');
     }
 
     public function destroy($id_makanan){

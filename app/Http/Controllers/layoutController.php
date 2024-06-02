@@ -37,14 +37,15 @@ class layoutController extends Controller
         return view('layout.edit',["layout"=>$layout]);
     }
 
-    public function update(Request $request){
-        $layout = Layout::find($request)->first();
-        $layout->id_layout=$request->id_layout;
-        $layout->nama_layout=$request->nama_layout;
-        $layout->harga=$request->harga;
-        $layout->jumlahOrang=$request->jumlahOrang;
+    public function update(Request $request)
+    {
+        $layout = Layout::findOrFail($request->id_layout);
+        $layout->nama_layout = $request->nama_layout;
+        $layout->harga = $request->harga;
+        $layout->jumlahOrang = $request->jumlahOrang;
         $layout->save();
-        return redirect('/layout');
+
+        return redirect('/layout')->with('success', 'Layout berhasil diperbarui.');
     }
 
     public function destroy($id_layout){

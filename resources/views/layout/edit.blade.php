@@ -13,7 +13,9 @@
     <a href="/layout" class="btn btn-info">Kembali</a>
     @foreach ($layout as $lyt)
     <a href="/layout">Kembali</a>
-    <form action="/layout/edit" method="post">
+    <form action="{{ route('layout.update') }}" method="POST">
+        @csrf
+        @method('PUT')
         <div class="mb-3">
             <label for="id_layout">Id layout</label><br>
             <input type="text" name="id_layout" id="id_layout" value="{{$lyt->id_layout}}">

@@ -13,7 +13,6 @@ class PaketController extends Controller
     {
         $paket = new Paket;
         $paket->nama = $request->nama;
-        $paket->id_ruangan = $request->id_ruangan;
         $paket->id_makanan = $request->id_makanan; // Store as array
         $paket->harga_total = $paket->hargaTotal();
         $paket->save();
@@ -24,7 +23,6 @@ class PaketController extends Controller
     {
         $paket = Paket::find($request->id_paket);
         $paket->nama = $request->nama;
-        $paket->id_ruangan = $request->id_ruangan;
         $paket->id_makanan = $request->id_makanan; // Store as array
         $paket->harga_total = $paket->hargaTotal();
         $paket->save();
@@ -75,11 +73,11 @@ class PaketController extends Controller
         }
 
         $ruangan = Ruangan::all();
-        $makanan = Makanan::whereIn('id_makanan', $paket->id_makanan)->get(); // Fetch only related makanan
-        $allMakanan = Makanan::all(); // All makanan for adding new items
+        $allMakanan = Makanan::all(); // Fetch all available makanan
 
-        return view('paket.edit', compact('paket', 'ruangan', 'makanan', 'allMakanan'));
+        return view('paket.edit', compact('paket', 'ruangan', 'allMakanan'));
     }
+
 
     public function destroy($id_paket)
     {
