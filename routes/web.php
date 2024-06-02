@@ -93,7 +93,7 @@ Route::get('/history', [historyController::class, 'index'])->name('admin.history
 Route::get('/admin/orders/available-sessions', [OrderController::class, 'getAvailableSessions']);
 
 //Rute dokumentasi
-Route::get('/dokumentasi', [dokumentasiController::class, 'index']);
+Route::get('/docs', [dokumentasiController::class, 'index']);
 Route::get('/admin/profile', [ProfileController::class, 'index'])->name('profile.index');
 Route::get('/admin/profile/edit-username', [ProfileController::class, 'editUsername'])->name('profile.edit-username');
 Route::post('/admin/profile/update-username', [ProfileController::class, 'updateUsername'])->name('profile.update-username');
