@@ -8,7 +8,7 @@ class Order extends Model
 {
     protected $table = 'order';
     protected $primaryKey = 'id_order';
-    protected $fillable = ['tanggal', 'id_paket', 'id_session', 'id_payment', 'nik', 'id_admin', 'status', 'dokumentasi'];
+    protected $fillable = ['tanggal', 'id_paket', 'id_session', 'id_payment', 'nik', 'id_admin', 'status', 'dokumentasi','id_ruangan'];
 
     public function paket()
     {
@@ -33,6 +33,11 @@ class Order extends Model
     public function admin()
     {
         return $this->belongsTo(Admin::class, 'id_admin');
+    }
+
+    public function ruangan()
+    {
+        return $this->belongsTo(Ruangan::class, 'id_ruangan');
     }
 
     public function checkout()

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Sessions extends Model
 {
     protected $primaryKey = 'id_session';
-    protected $fillable = ['waktu_mulai', 'waktu_selesai'];
+    protected $fillable = ['tanggal','waktu_mulai', 'waktu_selesai'];
 
 
     public function order(){
