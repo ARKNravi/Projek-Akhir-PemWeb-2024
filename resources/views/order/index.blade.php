@@ -22,22 +22,21 @@
     <div class="content p-3">
         <h1>Order Management</h1>
         <div id="sessions">
-            @foreach($sessions->groupBy('session_date') as $date => $dateSessions)
+            @foreach($sevenDays as $date => $dateSessions)
                 <div>
-                    <h2>{{ $tanggal }}</h2>
+                    <h2>{{ $date }}</h2>
                     @foreach($dateSessions as $session)
-                        <a href="{{ route('orders.create', $session->id) }}" class="session-box">
-                            {{ $session->start_time }} - {{ $session->end_time }}
-                            @foreach($session->orders as $order)
-                                <div>{{ $order->customer_name }}</div>
+                        <a href="{{ route('orders.create', $session->id_session) }}" class="session-box">
+                            {{ $session->waktu_mulai }} - {{ $session->waktu_selesai }}
+                            @foreach($session->order as $order)
+                                <div>{{ $order->pemesan->nama }}</div>
                             @endforeach
                         </a>
                     @endforeach
                 </div>
             @endforeach
         </div>
-        <a href="{{ route('orders.create') }}" class="btn btn-primary">Create New Order</a>
-    
+        <a href="{{ route('admin.order.create') }}" class="btn btn-primary">Create New Order</a>
     </div>
     @endsection
 </body>
