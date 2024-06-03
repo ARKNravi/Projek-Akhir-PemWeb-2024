@@ -431,11 +431,12 @@ public function update(Request $request, $id)
 public function cancel($id)
 {
     $order = Order::findOrFail($id);
-    if ($order->status == 'Reservasi') {
+    if ($order->status == 'Reservasi' || $order->status == 'Reservasi with DP' || $order->status == 'Reservasi with NO DP') {
         $order->status = 'Dibatalkan';
         $order->save();
     }
 
     return redirect()->route('admin.order')->with('message', 'Reservasi berhasil dibatalkan');
 }
+
 }
