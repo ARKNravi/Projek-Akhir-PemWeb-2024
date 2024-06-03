@@ -1,32 +1,24 @@
 @extends('template.index')
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tambah makanan</title>
-</head>
-<body>
-    @section('content')
-    <h1 class="mb-4">Tambah fasilitas</h1>
-    <a href="/makanan" class="btn btn-info">Kembali</a>
-    <form action="/makanan/tambah" method="post">
+
+@section('content')
+<div class="container mt-4">
+    <h1 class="mb-4">Tambah Makanan</h1>
+    <a href="/makanan" class="btn btn-info mb-3">Kembali</a>
+    <form action="/makanan/tambah" method="post" class="needs-validation" novalidate>
         {{ csrf_field() }}
         <div class="mb-3">
-            <label for="id_makanan">Id Makanan</label><br>
-            <input type="text" name="id_makanan" id="id_makanan">
+            <label for="id_makanan" class="form-label">ID Makanan:</label>
+            <input type="text" name="id_makanan" id="id_makanan" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label for="menu_makanan">Nama makanan</label><br>
-            <input type="text" name="menu_makanan" id="menu_makanan">
+            <label for="menu_makanan" class="form-label">Nama Makanan:</label>
+            <input type="text" name="menu_makanan" id="menu_makanan" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label for="harga">Harga</label><br>
-            <input type="text" name="harga_makanan" id="harga_makanan">
+            <label for="harga_makanan" class="form-label">Harga:</label>
+            <input type="number" name="harga_makanan" id="harga_makanan" class="form-control" required>
         </div>
-        <input type="submit" value="Tambah" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary">Tambah</button>
     </form>
-    @endsection
-</body>
-</html>
+</div>
+@endsection
