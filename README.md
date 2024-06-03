@@ -40,7 +40,13 @@ UB Guesthouse Banquet System adalah sebuah sistem manajemen pemesanan dan banque
   - ![Google Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)
 - **API Testing:**
   - ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
-
+- **Libraries :**
+  - ![Carbon](https://img.shields.io/badge/Carbon-A19092)
+  - ![DOM PDF](https://img.shields.io/badge/DOM-PDF-A19092)
+  - ![JCHART](https://img.shields.io/badge/jchart-A19092)
+  - ![Faker](https://img.shields.io/badge/Faker-A19092)
+- **ORM:**
+  - ![Eloquent](https://img.shields.io/badge/Eloquent-FF0027)
 
 
 
