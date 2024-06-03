@@ -15,15 +15,13 @@ class RuanganController extends Controller
         $sort = $request->input('sort', 'created_at');
         $search = $request->input('search');
         $query = Ruangan::orderBy($sort, 'desc');
+        
         if (!empty($search)) {
             $query->where('nama_ruangan', 'like', '%' . $search . '%');
         }
+        
         $ruangan = $query->get();
-        if ($ruangan->isEmpty()) {
-            $message = "Belum terdapat ruangan.";
-        } else {
-            $message = "";
-        }
+        $message = $ruangan->isEmpty() ? "Belum terdapat ruangan." : "";
 
         return view('ruangan.index', compact('ruangan', 'message'));
     }
@@ -41,9 +39,15 @@ class RuanganController extends Controller
 
     public function store(Request $request)
     {
-    
-        // Create a new Ruangan with the new Sesi's ID
-        $ruangan = Ruangan::create($request->all());
+        $session = Session::create([
+            'tanggal' => Carbon::now()->toDateString(),
+            'waktu_mulai' => Carbon::createFromTime(8, 0, 0),
+            'waktu_selesai' => Carbon::createFromTime(18, 0, 0),
+        ]);
+
+        // Create a new Ruangan with the new Session's ID
+        $ruangan = new Ruangan($request->all());
+        $ruangan->id_session = $session->id_session;
         $ruangan->save();
 
         return redirect()->route('admin.ruangan')->with('success', 'Ruangan berhasil ditambahkan');

@@ -7,38 +7,41 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Daftar Pesanan</title>
     <style>
-        .thumbnail {
-            max-width: 100px;
-            max-height: 100px;
-        }
-        .thumbnail img {
-            width: 100%;
-            height: auto;
+        .session-box {
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-decoration: none;
         }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
     @section('content')
     <div class="content p-3">
-        <h1>Order Management</h1>
+        <h1>Room Schedules</h1>
         @foreach($rooms as $room)
-            <h2>{{ $room->name }}</h2>
-            @foreach($room->sessions->groupBy('session_date') as $date => $dateSessions)
-                <div>
-                    <h3>{{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }}</h3>
-                    @foreach($dateSessions as $session)
-                        <a href="{{ route('orders.create', $session->id) }}" class="session-box {{ $session->orders->isEmpty() ? 'available' : 'booked' }}">
-                            {{ $session->start_time }} - {{ $session->end_time }}
-                            @foreach($session->orders as $order)
-                                <div>{{ $order->customer_name }}</div>
-                            @endforeach
-                        </a>
-                    @endforeach
-                </div>
-            @endforeach
+            <h3>{{ $room->nama_ruangan }}</h3>
+            @for ($day = 0; $day < 7; $day++)
+                @for ($hour = 8; $hour < 18; $hour++)
+                    @php
+                        $sessionTime = now()->startOfDay()->addDays($day)->addHours($hour);
+                        $order = $room->orders->first(function($order) use ($sessionTime) {
+                            return $order->session->waktu_mulai->equalTo($sessionTime);
+                        });
+                    @endphp
+    
+                    <div class="session-box {{ $order ? 'booked' : 'available' }}" onclick="location.href='{{ $order ? route('admin.order.edit', $order->id_order) : route('admin.order.create', ['room_id' => $room->id_ruangan, 'session_time' => $sessionTime]) }}'">
+                        {{ $sessionTime->format('H:i') }}
+                    </div>
+                @endfor
+            @endfor
         @endforeach
-        <a href="{{ route('orders.create') }}" class="btn btn-primary">Create New Order</a>
-       
+
+   
     </div>
     @endsection
 </body>

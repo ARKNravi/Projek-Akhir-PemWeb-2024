@@ -16,20 +16,13 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::all();
 
-        if ($orders->isEmpty()) {
-            $message = "Belum terdapat daftar pesanan.";
-        } else {
-            $message = "";
-        }
-        $rooms = Ruangan::with(['sessions.orders' => function ($query) {
-            $query->whereBetween('tanggal', [Carbon::today(), Carbon::today()->copy()->addDays(6)]);
-        }])->get();
-        
-        return view('order.index', compact('rooms','orders','message'));
+        $rooms = Ruangan::with(['orders.session'])->get();
+        // Kirim data ke view
+        return view('order.index', compact('rooms'));
+
     }
     public function create()
     {

@@ -13,25 +13,27 @@ class SessionSeeder extends Seeder
     public function run()
     {
 
-        $rooms = Ruangan::all();
-        $today = Carbon::today();
-        for ($day = 0; $day < 7; $day++) {
-            $sessionDate = $today->copy()->addDays($day);
-            $startTime = Carbon::createFromTime(8, 0, 0); // 8 AM
-            $endTime = Carbon::createFromTime(18, 0, 0); // 6 PM
+        $tanggal = Carbon::today();
 
-            while ($startTime->lt($endTime)) {
-                foreach ($rooms as $room) {
-                    Session::create([
-                        'id_ruangan' => $room->id_ruangan,
-                        'tanggal' => $sessionDate->toDateString(),
-                        'waktu_mulai' => $startTime->toDateTime(),
-                        'waktu_selesai' => $endTime->toDateTime(),
-                    ]);
-                }
-                $startTime->addHour();
-            }
+        // Jam mulai dan jam selesai
+        $jam_mulai = Carbon::parse('08:00');
+        $jam_selesai = Carbon::parse('18:00');
+
+        // Interval sesi (satu jam)
+        $interval = Carbon::parse('1 hour');
+
+        // Loop untuk membuat sesi dari jam 8 pagi sampai jam 6 sore
+        while ($jam_mulai <= $jam_selesai) {
+            // Simpan data sesi ke dalam tabel sessions
+            Session::create([
+                'tanggal' => $tanggal,
+                'waktu_mulai' => $jam_mulai,
+                'waktu_selesai' => $jam_mulai->copy()->addHour(), // Tambahkan satu jam ke waktu mulai untuk mendapatkan waktu selesai
+            ]);
+
+            // Pindahkan waktu mulai ke jam berikutnya
+            $jam_mulai->addHour();
         }
-       
+      
     }
 }

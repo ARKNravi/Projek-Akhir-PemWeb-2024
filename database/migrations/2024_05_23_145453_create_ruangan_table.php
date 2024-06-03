@@ -15,9 +15,11 @@ class CreateRuanganTable extends Migration
             $table->decimal('harga', 10, 2);
             $table->string('backdrop')->nullable();
             $table->unsignedBigInteger('id_layout');
+            $table->unsignedBigInteger('id_session');
             $table->timestamps();
 
             $table->foreign('id_layout')->references('id_layout')->on('layout')->onDelete('cascade');
+            $table->foreign('id_session')->references('id_session')->on('session')->onDelete('cascade');
         });
     }
 
