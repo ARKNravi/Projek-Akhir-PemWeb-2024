@@ -9,9 +9,8 @@
 </head>
 <body>
     @section('content')
-    <a href="/makanan">Kembali</a>
     <h1 class="mb-4">Tambah fasilitas</h1>
-    <a href="/layout" class="btn btn-info">Kembali</a>
+    <a href="/makanan" class="btn btn-info">Kembali</a>
     <form action="/makanan/tambah" method="post">
         {{ csrf_field() }}
         <div class="mb-3">

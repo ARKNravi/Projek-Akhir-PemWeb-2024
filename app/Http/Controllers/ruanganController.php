@@ -18,7 +18,7 @@ class RuanganController extends Controller
         if (!empty($search)) {
             $query->where('nama_ruangan', 'like', '%' . $search . '%');
         }
-        $ruangan = $query->get();
+        $ruangan = $query->paginate(5);
         if ($ruangan->isEmpty()) {
             $message = "Belum terdapat ruangan.";
         } else {

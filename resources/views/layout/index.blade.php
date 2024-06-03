@@ -1,82 +1,97 @@
 @extends('template.index')
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Layout</title>
-    <style type="text/css">
-		.pagination li{
-			float: left;
-			list-style-type: none;
-			margin: 5px;
-		}
-	</style>
+    <style>
+        .pagination li {
+            float: left;
+            list-style-type: none;
+            margin: 5px;
+        }
+
+        .form-container {
+            display: flex;
+            gap: 1rem;
+        }
+
+    </style>
 </head>
+
 <body>
     @section('content')
-    <h1 class="mb-4">Layout</h1>
-    <a href="/layout/tambah" class="btn btn-primary mb-4">Tambah layout</a>
-    @if (empty($layout))
-    <p>Tidak ada layout dalam data</p>
-    @else
-    <div class="forms d-flex flex-row gap-3 justify-content-start align-items-start">
-        <form action="/layout" method="GET" class="mb-3 d-flex flex-row gap-1 justify-content-center align-items-start">
-            <div class="input">
-                <label for="search">Search</label>
-                <input type="text" name="search" id="search">
-            </div>
-            <div class="submitButton">
-                <input type="submit" value="search" class="btn btn-secondary btn-sm px-4">
-            </div>
-        </form>
-        <form action="/layout" method="GET" class="mb-3 d-flex flex-row gap-1 justify-content-start align-items-stretch">
-            <div class="input">
-                <label for="sort">Sort by : </label>
-                <select name="sort" id="sort">
-                    <option value="id_layout">Id layout</option>
-                    <option value="nama_layout">Nama layout</option>
-                    <option value="harga">Harga</option>
-                    <option value="jumlahOrang">Kapasitas</option>
-                </select>
-            </div>
-            <div class="submitButton">
-                <input type="submit" value="sort"class="btn btn-secondary btn-sm px-4">
-            </div>
-        </form>
-    </div>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Layout</h1>
+        <div class="mb-4">
+            <a href="/layout/tambah" class="btn btn-primary">Tambah Layout</a>
+        </div>
+        <div class="form-container mb-4">
+            <form action="/layout" method="GET" class="d-flex gap-1">
+                <div class="flex-grow-1">
+                    <input type="text" name="search" id="search" class="form-control" placeholder="Cari layout...">
+                </div>
+                <button type="submit" class="btn btn-secondary">Search</button>
+            </form>
+            <form action="/layout" method="GET" class="d-flex gap-1">
+                <div class="flex-grow-1">
+                    <select name="sort" id="sort" class="form-select">
+                        <option value="id_layout">ID Layout</option>
+                        <option value="nama_layout">Nama Layout</option>
+                        <option value="harga">Harga</option>
+                        <option value="jumlahOrang">Kapasitas</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-secondary">Sort</button>
+            </form>
+        </div>
 
-    <table class="table table-striped">
-        <tr>
-            <th>id layout</th>
-            <th>Nama layout</th>
-            <th>Harga</th>
-            <th>Jumlah orang</th>
-            <th>Aksi</th>
-        </tr>
-        @foreach ($layout as $lyt)
-            <tr>
-                <td>{{$lyt->id_layout}}</td>
-                <td>{{$lyt->nama_layout}}</td>
-                <td>{{$lyt->harga}}</td>
-                <td>{{$lyt->jumlahOrang}}</td>
-                <td><a href="/layout/edit/{{$lyt->id_layout}}" class="btn btn-warning btn-sm">Edit</a>|
-                    <a href="/layout/hapus/{{$lyt->id_layout}}" class="btn btn-danger btn-sm">Hapus</a>
-                </td>
-            </tr>
-        @endforeach
-    </table>
-    @endif
-    <div class="pagination m-3 mt-5">
-        Halaman : {{$layout->currentPage()}} <br/>
-        Jumlah data : {{$layout->total()}} <br/>
-        Data per halaman : {{$layout->perPage()}}<br/>
-        
-    </div>
-    <div class="pagination">
-        {{$layout->links('pagination::bootstrap-5')}}
+        @if ($layout->isEmpty())
+            <div class="alert alert-warning text-center" role="alert">
+                Tidak ada layout dalam data
+            </div>
+        @else
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID Layout</th>
+                            <th>Nama Layout</th>
+                            <th>Harga</th>
+                            <th>Jumlah Orang</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($layout as $lyt)
+                            <tr>
+                                <td>{{ $lyt->id_layout }}</td>
+                                <td>{{ $lyt->nama_layout }}</td>
+                                <td>{{ $lyt->harga }}</td>
+                                <td>{{ $lyt->jumlahOrang }}</td>
+                                <td>
+                                    <a href="/layout/edit/{{ $lyt->id_layout }}" class="btn btn-warning btn-sm btn-oval">Edit</a>
+                                    <a href="/layout/hapus/{{ $lyt->id_layout }}" class="btn btn-danger btn-sm btn-oval">Hapus</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination mt-5">
+                Halaman: {{ $layout->currentPage() }} <br/>
+                Jumlah data: {{ $layout->total() }} <br/>
+                Data per halaman: {{ $layout->perPage() }} <br/>
+            </div>
+            <div class="d-flex">
+                {{ $layout->links('pagination::bootstrap-5') }}
+            </div>
+        @endif
     </div>
     @endsection
 </body>
+
 </html>

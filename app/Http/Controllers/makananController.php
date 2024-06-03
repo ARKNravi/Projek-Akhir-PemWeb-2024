@@ -14,8 +14,8 @@ class makananController extends Controller
         if (!empty($search)) {
             $query->where('menu_makanan', 'like', '%' . $search . '%');
         }
-        $makanan=$query->get();
-        return view('makanan.index',["makanan"=>$makanan]);
+        $makanan=$query->paginate(5);
+        return view('makanan.index',compact('makanan'));
     }
 
     public function create(){
@@ -57,4 +57,5 @@ class makananController extends Controller
         $makanan->delete();
         return redirect('/makanan');
     }
+    
 }

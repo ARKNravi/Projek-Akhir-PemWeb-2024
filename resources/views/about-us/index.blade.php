@@ -55,8 +55,7 @@
         <li>Ananda Ravi Kuntadi: <a href="mailto:anandaravik@student.ub.ac.id">anandaravik@student.ub.ac.id</a></li>
         <li>Salsa Zufar Radinka Akmal: <a href="mailto:salsa@example.com">salsa@example.com</a></li>
         <li>Muhammad Yasin Hakim: <a href="mailto:yasin@example.com">yasin@example.com</a></li>
-        <li>Davin Dalana Fidelio Fredra: <a href="mailto:davin@example.com">davin@example.com</a></li>
-    </ul>
+        <li>Davin Dalana Fidelio Fredra: <a href="mailto:davilana04@student.ub.ac.id">davilana04@student.ub.ac.id</a></li>
 
     <p>Terima kasih telah menggunakan UB Guesthouse Banquet System! Anda dapat menemukan kode sumber proyek ini di GitHub: <a href="https://github.com/ARKNravi/Projek-Akhir-PemWeb-2024/" target="_blank">Projek-Akhir-PemWeb-2024</a></p>
 </div>
