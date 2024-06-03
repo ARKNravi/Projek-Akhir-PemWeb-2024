@@ -50,6 +50,7 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>ID Pesanan</th>
+                                <th>Tanggal Pesanan</th>
                                 <th>Paket</th>
                                 <th>Ruangan</th>
                                 <th>Pemesan</th>
@@ -61,6 +62,7 @@
                             @foreach ($orders as $order)
                             <tr>
                                 <td>{{ $order->id_order }}</td>
+                                <td>{{ $order->tanggal }}</td>
                                 <td>
                                     <strong>{{ $order->paket->nama }}</strong><br>
                                     Harga: {{ number_format($order->paket->harga_total, 2) }}
