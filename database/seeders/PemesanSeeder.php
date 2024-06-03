@@ -4,17 +4,22 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Pemesan;
+use Faker\Factory as Faker;
 
 class PemesanSeeder extends Seeder
 {
     public function run()
     {
-        Pemesan::create([
-            'nik' => '1234567890123456',
-            'nama' => 'John Doe',
-            'nama_perusahaan' => 'Company A',
-            'nomor_telepon' => '081234567890',
-            'tipe' => 'Individual',
-        ]);
+        $faker = Faker::create();
+
+        for ($i = 0; $i < 50; $i++) {
+            Pemesan::create([
+                'nik' => $faker->numerify('###############'),
+                'nama' => $faker->name,
+                'nama_perusahaan' => $faker->company,
+                'nomor_telepon' => $faker->phoneNumber,
+                'tipe' => $faker->randomElement(['Internal', 'Eksternal']),
+            ]);
+        }
     }
 }
