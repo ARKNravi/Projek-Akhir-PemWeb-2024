@@ -82,7 +82,9 @@
                         <li><a href="#history">9. History</a></li>
                         <li><a href="#income">10. Income</a></li>
                         <li><a href="#logout">12. Logout</a></li>
-                        <li><a href="#faq">11. Frequently Asked Questions (FAQ)</a></li>
+                        <li><a href="#faq">13. Frequently Asked Questions (FAQ)</a></li>
+                        <li><a href="#how">14. How To Start</a></li>
+
                         
                     </ul>
                 </div>
@@ -303,6 +305,45 @@
                         <p class="text-justify">
                             Menu Logout digunakan untuk keluar dari sistem UB Guesthouse Banquet. Setelah menekan tombol Logout, admin akan 
                             dialihkan kembali ke halaman login dan sesi admin akan berakhir.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="how" class="section">
+                <div class="card">
+                    <div class="card-header">
+                        How To Start
+                    </div>
+                    <div class="card-body">
+                        <p class="text-justify">
+                            Berikut adalah langkah untuk menjalankan website secara local:
+                            <ul>
+                                <li><b>Lakukan penyalinan direktori dengan perintah "git clone https://github.com/ARKNravi/Projek-Akhir-PemWeb-2024"</b><br>
+                                </li>
+                                <li><b>Jalankan perintah "composer install"</b><br>
+                                </li>
+                                <li><b>Jalankan perintah "php artisan migrate"</b><br>
+                                </li>
+                                <li><b>Jalankan perintah "php artisan db:seed --clas=DatabaseSeeder"</b><br>
+                                </li>
+                                <li><b>Masukkan env yang akan diberikan</b><br>
+                                </li>
+                                <li><b>Jalankan perintah "php artisan serve"</b><br>
+                                </li>
+                            </ul>
+                        </p>
+
+                        <p class="text-justify">
+                            Berikut adalah langkah untuk menjalankan website secara on cloud:
+                            <ul>
+                                <li><b>Lakukan penyalinan direktori dengan perintah "git clone https://github.com/ARKNravi/Projek-Akhir-PemWeb-2024"</b><br>
+                                </li>
+                                <li><b>Gunakan VPN jika terdapat masalah dengan jaringan</b><br>
+                                </li>
+                                <li><b>Jalankan perintah "php artisan serve"</b><br>
+                                </li>
+                            </ul>
                         </p>
                     </div>
                 </div>
