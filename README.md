@@ -12,6 +12,24 @@
 
 UB Guesthouse Banquet System adalah sebuah sistem manajemen pemesanan dan banquet yang dirancang untuk memudahkan pengelolaan acara di UB Guesthouse. Sistem ini akan membantu dalam memfasilitasi pemesanan ruang, pengelolaan jadwal, serta manajemen layanan banquet secara efisien dan terintegrasi.
 
+## How to start the project
+- On local
+    - Git clone this repository
+    - Enter composer install on your terminal
+    - Enter php artisan migrate
+    - Enter php artisan db:seed --class=DatabaseSeeder
+    - Match your env file
+    - The Env file will be given during presentation
+    - Enter php artisan
+- On google cloud
+    - Git clone this repository
+    - Match your env file
+    - The Env file will be given during presentation
+    - If you have problem with the network, use vpn
+    - Enter php artisan serve on your project terminal
+ 
+  If you have any more problem, feel free to contact us
+
 ## Fitur Utama
 
 - **Profile:** Menampilkan informasi admin seperti username dan password. Admin juga dapat mengganti username atau password.
