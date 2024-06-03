@@ -1,7 +1,7 @@
 @extends('template.index')
 @section('content')
 <div class="container mt-4">
-    <h1 class="mb-4">Tambah Fasilitas</h1>
+    <h1 class="mb-4">Tambah Layout</h1>
     <a href="/layout" class="btn btn-info mb-3">Kembali</a>
     <form action="/layout/tambah" method="post" class="needs-validation" novalidate>
         {{ csrf_field() }}
