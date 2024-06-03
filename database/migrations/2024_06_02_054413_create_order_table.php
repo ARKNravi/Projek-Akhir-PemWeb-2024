@@ -17,10 +17,13 @@ class CreateOrderTable extends Migration
             $table->unsignedBigInteger('nik');
             $table->unsignedBigInteger('id_admin');
             $table->unsignedBigInteger('id_ruangan');
+            $table->unsignedBigInteger('id_session');
             $table->string('status');
+            $table->date('session_date');
             $table->foreign('id_paket')->references('id_paket')->on('paket')->onDelete('cascade');
             // Remove this line: $table->foreign('id_session')->references('id_session')->on('session')->onDelete('cascade');
             $table->foreign('id_payment')->references('id_payment')->on('payment')->onDelete('cascade');
+            $table->foreign('id_session')->references('id_session')->on('session');
             $table->foreign('nik')->references('nik')->on('pemesan')->onDelete('cascade');
             $table->foreign('id_admin')->references('id_admin')->on('admin')->onDelete('cascade');
             $table->foreign('id_ruangan')->references('id_ruangan')->on('ruangan')->onDelete('cascade');

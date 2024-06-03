@@ -7,7 +7,7 @@ class Order extends Model
 {
     protected $table = 'order';
     protected $primaryKey = 'id_order';
-    protected $fillable = ['tanggal', 'id_paket', 'id_payment', 'nik', 'id_admin', 'status', 'dokumentasi','id_ruangan'];
+    protected $fillable = ['tanggal', 'id_paket', 'id_payment', 'nik', 'id_admin', 'status', 'dokumentasi','id_ruangan','session_date'];
 
     public function paket()
     {
@@ -29,14 +29,14 @@ class Order extends Model
         return $this->belongsTo(Admin::class, 'id_admin');
     }
 
-    public function ruangan()
+    public function room()
     {
-        return $this->belongsTo(Ruangan::class, 'id_ruangan');
+        return $this->belongsTo(Ruangan::class);
     }
 
     public function session()
     {
-        return $this->ruangan->session();
+        return $this->belongsTo(Session::class);
     }
 
     public function checkout()

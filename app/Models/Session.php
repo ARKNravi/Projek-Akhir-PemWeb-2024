@@ -4,13 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Sessions extends Model
+class Session extends Model
 {
-    protected $primaryKey = 'id_session';
+    protected $primaryKey="id_session";
     protected $fillable = ['tanggal','waktu_mulai', 'waktu_selesai'];
 
+    protected $table = 'session';
 
-    public function order(){
-        return $this->hasMany(Order::class,'id_order');
+    public function room()
+    {
+        return $this->belongsTo(Ruangan::class);
     }
+
 }

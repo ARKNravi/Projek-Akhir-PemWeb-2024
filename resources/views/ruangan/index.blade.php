@@ -48,6 +48,35 @@
     @if($message)
         <div class="alert alert-info">{{ $message }}</div>
     @else
+<<<<<<< HEAD
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id Ruangan</th>
+                    <th>Nama Ruangan</th>
+                    <th>Kapasitas Ruangan</th>
+                    <th>Harga</th>
+                    <th>Backdrop</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($ruangan as $r)
+                    <tr>
+                        <td>{{$r->id_ruangan}}</td>
+                        <td>{{ $r->nama_ruangan }}</td>
+                        <td>{{ $r->kapasitas }}</td>
+                        <td>{{ $r->harga }}</td>
+                        <td>{{ $r->backdrop }}</td>
+                        <td>
+                            <a href="{{ route('admin.ruangan.edit', $r->id_ruangan) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form method="POST" action="{{ route('admin.ruangan.destroy', $r->id_ruangan) }}" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                            </form>
+                        </td>
+=======
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead class="table-dark">
@@ -61,6 +90,7 @@
                         <th>Waktu Mulai</th>
                         <th>Waktu Selesai</th>
                         <th>Aksi</th>
+>>>>>>> origin/main
                     </tr>
                 </thead>
                 <tbody>
