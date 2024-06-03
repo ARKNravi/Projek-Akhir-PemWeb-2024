@@ -78,7 +78,7 @@ Route::get("/layout",[layoutController::class,'index']);
 Route::get("/layout/tambah",[layoutController::class,'create']);
 Route::post("/layout/tambah",[layoutController::class,'store']);
 Route::get("/layout/edit/{id_layout}",[layoutController::class,'edit']);
-Route::post("/layout/edit",[layoutController::class,'update']);
+Route::put("/layout/edit",[layoutController::class,'update'])->name('layout.update');
 Route::get("/layout/hapus/{id_layout}",[layoutController::class,'destroy']);
 
 //Rute income
@@ -100,4 +100,7 @@ Route::post('/admin/profile/update-username', [ProfileController::class, 'update
 Route::get('/admin/profile/edit-password', [ProfileController::class, 'editPassword'])->name('profile.edit-password');
 Route::post('/admin/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
 
+Route::get('/about', function () {
+    return view('about-us.index');
+});
 });

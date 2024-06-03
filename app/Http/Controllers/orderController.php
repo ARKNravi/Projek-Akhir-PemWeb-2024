@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\Session;
+use App\Models\Sesi;
 use App\Models\Admin;
 use App\Models\Order;
 use App\Models\Paket;
@@ -16,13 +16,27 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
+        $orders = Order::all();
 
-        $rooms = Ruangan::with(['orders.session'])->get();
-        // Kirim data ke view
-        return view('order.index', compact('rooms'));
+        if ($orders->isEmpty()) {
+            $message = "Belum terdapat daftar pesanan.";
+        } else {
+            $message = "";
+        }
 
+        $today = Carbon::today();
+        $sevenDays = Sesi::whereBetween('tanggal', [$today, $today->copy()->addDays(6)])
+                            ->with('ruangans.orders')
+                            ->orderBy('tanggal')
+                            ->orderBy('waktu_mulai')
+                            ->get()
+                            ->groupBy(function ($date) {
+                                return Carbon::parse($date->session_date)->format('d F Y');
+                            });
+
+        return view('order.index', compact('sevenDays','orders','message'));
     }
     public function create()
     {
@@ -69,7 +83,7 @@ class OrderController extends Controller
             return redirect()->back()->withErrors(['error' => 'The selected room is already booked for the chosen time. Please select a different time.']);
         }
 
-        $session = Session::firstOrCreate([
+        $session = Sesi::firstOrCreate([
             'tanggal' => $tanggal,
             'waktu_mulai' => $waktuMulai,
             'waktu_selesai' => $waktuSelesai,
@@ -397,7 +411,7 @@ public function update(Request $request, $id)
             'waktu_selesai' => $waktuSelesai,
         ]);
     } else {
-        $session = Session::create([
+        $session = Sesi::create([
             'waktu_mulai' => $waktuMulai,
             'waktu_selesai' => $waktuSelesai,
         ]);

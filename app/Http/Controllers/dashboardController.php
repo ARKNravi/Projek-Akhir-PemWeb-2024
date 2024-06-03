@@ -12,6 +12,7 @@ use App\Models\Pemesan;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -49,9 +50,9 @@ class DashboardController extends Controller
 
 
         // Data for Chart.js (Pemesan)
-        $vipCount = Pemesan::where('tipe', 'VIP')->count();
-        $regularCount = Pemesan::where('tipe', 'Regular')->count();
-        $pemesanLabels = ['VIP', 'Regular'];
+        $vipCount = Pemesan::where('tipe', 'Internal')->count();
+        $regularCount = Pemesan::where('tipe', 'Eksternal')->count();
+        $pemesanLabels = ['Internal', 'Eksternal'];
         $pemesanData = [$vipCount, $regularCount];
 
         return view(

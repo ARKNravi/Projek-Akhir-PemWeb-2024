@@ -14,25 +14,34 @@ UB Guesthouse Banquet System adalah sebuah sistem manajemen pemesanan dan banque
 
 ## Fitur Utama
 
-- **Pemesanan Ruang:** Pengguna dapat memesan ruang banquet dengan mudah melalui antarmuka yang intuitif.
-- **Manajemen Jadwal:** Pengelola dapat mengatur dan melihat jadwal acara secara terperinci.
-- **Layanan Banquet:** Pengguna dapat memilih dan memesan layanan banquet yang diinginkan.
-- **Laporan dan Analitik:** Sistem menyediakan laporan terperinci untuk membantu dalam analisis data pemesanan dan penggunaan ruang.
+- **Profile:** Menampilkan informasi admin seperti username dan password. Admin juga dapat mengganti username atau password.
+- **Dashboard:** Menampilkan overview statistik pesanan per bulan, distribusi pemesan, dan berbagai informasi terkait jumlah orders, paket, ruangan, kategori makanan, dan layout ruangan yang tersedia.
+- **Orders:** Mengelola tabel orders dengan fitur perubahan status order, penambahan order baru, dan pengisian form tambahan untuk setiap status.
+- **Paket:** Menyediakan list paket dengan fitur pencarian, pengurutan, penambahan, pengubahan, dan penghapusan paket.
+- **Ruangan:** Menyediakan list ruangan dengan fitur pencarian, pengurutan, penambahan, pengubahan, dan penghapusan ruangan.
+- **Layout:** Menyediakan list layout ruangan dengan fitur pencarian, pengurutan, penambahan, pengubahan, dan penghapusan layout ruangan.
+- **Makanan:** Menyediakan list makanan dengan fitur pencarian, pengurutan, penambahan, pengubahan, dan penghapusan makanan.
+- **History:** Menampilkan list pemesanan yang statusnya sudah menjadi checkout atau selesai.
+- **Income:** Menampilkan tabel pemasukan dari pesanan yang telah selesai dengan fitur filter dan pencetakan laporan.
+- **FAQ:** Menyediakan jawaban untuk pertanyaan yang sering diajukan terkait sistem.
+- **Logout:** Menu untuk keluar dari sistem dan mengakhiri sesi admin.
 
 ## Tech Stack
 
 - **Frontend:** 
-  - HTML
-  - CSS
-  - Bootstrap
+  - ![HTML](https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+  - ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+  - ![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
 - **Backend:**
-  - Laravel
+  - ![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
 - **Database:**
-  - MySQL
+  - ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 - **Cloud Services:**
-  - Google Cloud
+  - ![Google Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)
 - **API Testing:**
-  - Postman
+  - ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
+
+
 
 
 

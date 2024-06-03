@@ -21,14 +21,12 @@ class Paket extends Model
 
     public function makanan()
     {
-        return $this->belongsToMany(Makanan::class, 'id_makanan');
+        return $this->hasMany(Makanan::class, 'id_makanan', 'id_makanan');
     }
 
     public function hargaTotal()
     {
         $totalHarga = 0;
-        $totalHarga += $this->ruangan->harga;
-        $totalHarga += $this->ruangan->layout->harga;
 
         $makananIds = is_array($this->id_makanan) ? $this->id_makanan : json_decode($this->id_makanan, true);
 

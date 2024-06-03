@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
-class historyController extends Controller
+class HistoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,9 @@ class historyController extends Controller
      */
     public function index()
     {
-        $orders = Order::with('paket.ruangan', 'pemesan', 'session', 'payment')
-        ->where('status', 'Check Out')
-        ->get();
+        $orders = Order::with('paket.ruangan.session', 'pemesan', 'payment')
+            ->where('status', 'Check Out')
+            ->get();
 
         return view('history.index', compact('orders'));
     }

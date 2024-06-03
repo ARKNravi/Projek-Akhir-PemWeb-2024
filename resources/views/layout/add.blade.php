@@ -1,36 +1,23 @@
 @extends('template.index')
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tambah layout</title>
-</head>
-<body>
-    @section('content')
-    <h1 class="mb-4">Tambah fasilitas</h1>
-    <a href="/layout" class="btn btn-info">Kembali</a>
-    <form action="/layout/tambah" method="post">
+@section('content')
+<div class="container mt-4">
+    <h1 class="mb-4">Tambah Fasilitas</h1>
+    <a href="/layout" class="btn btn-info mb-3">Kembali</a>
+    <form action="/layout/tambah" method="post" class="needs-validation" novalidate>
         {{ csrf_field() }}
         <div class="mb-3">
-            <label for="id_layout">Id layout</label><br>
-            <input type="text" name="id_layout" id="id_layout">
+            <label for="nama_layout" class="form-label">Nama Layout:</label>
+            <input type="text" name="nama_layout" id="nama_layout" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label for="nama_layout">Nama layout</label><br>
-            <input type="text" name="nama_layout" id="nama_layout">
+            <label for="harga" class="form-label">Harga:</label>
+            <input type="number" name="harga" id="harga" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label for="harga">Harga</label><br>
-            <input type="text" name="harga" id="harga">
+            <label for="jumlahOrang" class="form-label">Kapasitas:</label>
+            <input type="number" name="jumlahOrang" id="jumlahOrang" class="form-control" required>
         </div>
-        <div class="mb-3">
-            <label for="jumlahOrang">Kapasitas</label><br>
-            <input type="text" name="jumlahOrang" id="jumlahOrang">
-        </div>
-        <input type="submit" value="tambah" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary">Tambah</button>
     </form>
+</div>
 @endsection
-</body>
-</html>

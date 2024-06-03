@@ -63,8 +63,9 @@
         <thead>
             <tr>
                 <th>ID Pesanan</th>
+                <th>Tanggal Pesanan</th>
                 <th>Paket</th>
-                <th>Fasilitas</th>
+                <th>Ruangan</th>
                 <th>Pemesan</th>
                 <th>Admin</th>
                 <th>Total Harga</th>
@@ -74,19 +75,20 @@
             @foreach ($orders as $order)
             <tr class="no-break">
                 <td>{{ $order->id_order }}</td>
+                <td>{{ $order->tanggal }}</td>
                 <td>
                     <strong>{{ $order->paket->nama }}</strong><br>
                     Harga: {{ number_format($order->paket->harga_total, 2) }}
                 </td>
                 <td>
-                    @if($order->paket->fasilitas->ruangan)
-                        <strong>Ruangan:</strong> {{ $order->paket->fasilitas->ruangan->nama_ruangan }}<br>
+                    @if($order->ruangan)
+                        <strong>Ruangan:</strong> {{ $order->ruangan->nama_ruangan }}<br>
                     @endif
-                    @if($order->paket->fasilitas->kamar)
-                        <strong>Kamar:</strong> {{ $order->paket->fasilitas->kamar->tipe }} ({{ number_format($order->paket->fasilitas->kamar->harga, 2) }})<br>
-                    @endif
-                    @if($order->paket->fasilitas->makanan)
-                        <strong>Makanan:</strong> {{ $order->paket->fasilitas->makanan->nama_makanan }} ({{ number_format($order->paket->fasilitas->makanan->harga_makanan, 2) }})<br>
+                    @if($order->paket->makanan->isNotEmpty())
+                        <strong>Makanan:</strong>
+                        @foreach($order->paket->makanan as $makanan)
+                            {{ $makanan->menu_makanan }} ({{ number_format($makanan->harga_makanan, 2) }})<br>
+                        @endforeach
                     @endif
                 </td>
                 <td>{{ $order->pemesan->nama }}</td>

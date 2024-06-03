@@ -2,38 +2,33 @@
 
 namespace Database\Seeders;
 
+use App\Models\Sesi;
 use Illuminate\Database\Seeder;
-use App\Models\Session;
-use App\Models\Ruangan;
-use Carbon\Carbon;
-
+use Faker\Factory as Faker;
+use DateTime;
 
 class SessionSeeder extends Seeder
 {
     public function run()
     {
+        $faker = Faker::create();
 
-        $tanggal = Carbon::today();
+        for ($i = 0; $i < 50; $i++) {
+            // Random date within a specified range
+            $tanggal = $faker->dateTimeBetween('2024-01-01', '2024-12-31');
+            $waktu_mulai = $faker->dateTimeBetween($tanggal->format('Y-m-d') . ' 08:00:00', $tanggal->format('Y-m-d') . ' 16:00:00');
+            $waktu_selesai = (clone $waktu_mulai)->modify('+2 hours');
 
-        // Jam mulai dan jam selesai
-        $jam_mulai = Carbon::parse('08:00');
-        $jam_selesai = Carbon::parse('18:00');
+            // Ensure the end time does not go past 18:00:00
+            if ($waktu_selesai->format('H:i:s') > '18:00:00') {
+                $waktu_selesai = new DateTime($tanggal->format('Y-m-d') . ' 18:00:00');
+            }
 
-        // Interval sesi (satu jam)
-        $interval = Carbon::parse('1 hour');
-
-        // Loop untuk membuat sesi dari jam 8 pagi sampai jam 6 sore
-        while ($jam_mulai <= $jam_selesai) {
-            // Simpan data sesi ke dalam tabel sessions
-            Session::create([
-                'tanggal' => $tanggal,
-                'waktu_mulai' => $jam_mulai,
-                'waktu_selesai' => $jam_mulai->copy()->addHour(), // Tambahkan satu jam ke waktu mulai untuk mendapatkan waktu selesai
+            Sesi::create([
+                'tanggal' => $tanggal->format('Y-m-d'),
+                'waktu_mulai' => $waktu_mulai->format('Y-m-d H:i:s'),
+                'waktu_selesai' => $waktu_selesai->format('Y-m-d H:i:s'),
             ]);
-
-            // Pindahkan waktu mulai ke jam berikutnya
-            $jam_mulai->addHour();
         }
-      
     }
 }
